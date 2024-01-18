@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;800&display=swap');
+
+$pink-light: #FFFBF9;
+$pink-bright: #FFF1EC;
+$pink-spot: #F4C9C0;
+
+$green-spot: #A7B89E;
+$green-dark: #8A9982;
+
+$brown-spot: #816661;
+$brown-dark: #574542;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: nunito, arial;
+    text-decoration: none;
+}
+
+body {
+    background: $pink-spot;
+}
+
+h1 {
+    color: $brown-spot;
+    font-size: 30px;
+}
+
+h2 {
+    color: $brown-spot;
+}
+
+h3 {
+    font-size: 16px;
+    color: $brown-spot;
+}
+
+p {
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.logo {
+    width: 70px;
+}
+
+
+.button-brown {
+    display: inline-block;
+    padding: 10px 35px;
+    background: linear-gradient(to bottom, $brown-spot, $brown-dark);
+    border-radius: 25px;
+    color: $pink-spot;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+.button-green {
+    display: inline-block;
+    padding: 10px 35px;
+    background: linear-gradient(to bottom, $green-spot, $green-dark);
+    color: $pink-light;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+.button-outline {
+    padding: 10px 15px;
+    background: transparent;
+    border: 2px solid $green-dark;
+    border-radius: 25px;
+    color: $green-dark;
+    transition: 0.3s;
+
+    &:hover {
+        cursor: pointer;
+        background: $green-dark;
+        color: $pink-bright;
+    }
+}
+
+
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+    position: relative;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+}

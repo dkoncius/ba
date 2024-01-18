@@ -1,0 +1,100 @@
+@import "Base";
+
+.landing-header {
+    background: $pink-spot;
+
+    h1 {
+        max-width: 450px;
+        margin: 50px auto;
+    }
+    
+    h2 {
+        max-width: 350px;
+        margin: 50px auto;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+    }
+
+
+    .cover {
+        width: 100%;
+        max-width: 450px;
+        object-fit: cover;
+        margin-top: -300px;
+        margin-bottom: -10px;
+    }
+}
+
+.memories-options {
+    background: $pink-light;
+    padding-top: 50px;
+    position: relative;
+    z-index: 1;
+
+    h2 {
+        max-width: 450px;
+        margin: auto;
+    }
+    
+    .option {
+        border: 2px solid $pink-spot;
+        border-radius: 30px;
+        padding: 30px;
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        margin: 30px;
+        background: linear-gradient(to bottom, $pink-light, $pink-bright);
+        cursor: pointer;
+        max-width: 450px;
+        margin: 30px auto;
+
+        img {
+            width: 64px;
+            height: 50px;
+            object-fit: contain;
+            transition: 0.3s;
+        }
+
+        .option-content {
+            text-align: start;
+        }
+
+        &:nth-of-type(even) {
+            flex-direction: row-reverse;
+        }
+    }
+
+    .option:hover img {
+        transform: scale(1.1);
+    }
+}
+
+.memories-options-bottom {
+    text-align: center;
+    background: url("landing/cover-2.png");
+    padding: 30px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+
+    h2 {
+        max-width: 450px;
+        margin: 0;
+    }
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+    background: $pink-spot;
+}
