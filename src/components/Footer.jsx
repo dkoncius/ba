@@ -1,9 +1,11 @@
-import React from 'react'
+import { Link } from "react-router-dom"
 
 const Footer = () => {
   return (
     <footer>
-        <img className='logo' src="landing/logo.png" alt="logo" />
+        <Link to="/">
+          <img className='logo' src="landing/logo.png" alt="logo" />
+        </Link>
     </footer>
   )
 }

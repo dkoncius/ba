@@ -33,7 +33,9 @@ const Landing = () => {
         <div className="container">
           <div className="content">
             <nav>
-              <img className='logo' src="landing/logo.png" alt="logo" />
+              <Link to="/">
+                <img className='logo' src="landing/logo.png" alt="logo" />
+              </Link>
               <Link to="/login" className='button-outline'>Prisijungti</Link>
             </nav>
             <h1>Brangiausios akimirkos su vaiku - vienoje vietoje</h1>
