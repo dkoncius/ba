@@ -1,8 +1,14 @@
+import "./scss/app.scss"
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Landing from './pages/Landing';
-import NewUser from './pages/NewUser';
-import NewKid from './pages/NewKid';
-import Login from './pages/Login';
+import LandingPage from './pages/LandingPage';
+import NewUserPage from './pages/NewUserPage';
+import NewKidPage from './pages/NewKidPage';
+import LoginPage from './pages/LoginPage';
+import ContentPage from './pages/ContentPage';
+import GalleryPage from "./components/ContentPage/NestedPages/GalleryPage";
+import VideosPage from "./components/ContentPage/NestedPages/VideosPage";
+import DocumentsPage from "./components/ContentPage/NestedPages/DocumentsPage";
+import AudioPage from "./components/ContentPage/NestedPages/AudioPage";
 
 function App() {
 
@@ -10,10 +16,16 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Landing/>}/>
-          <Route path='/new-user' element={<NewUser/>}/>
-          <Route path='/new-kid' element={<NewKid/>}/>
-          <Route path='/login' element={<Login/>}/>
+          <Route index element={<LandingPage/>}/>
+          <Route path='new-user' element={<NewUserPage/>}/>
+          <Route path='new-kid' element={<NewKidPage/>}/>
+          <Route path='login' element={<LoginPage/>}/>
+          <Route path='content' element={<ContentPage/>}>
+              <Route path="gallery" element={<GalleryPage/>}/>
+              <Route path="video" element={<VideosPage/>}/>
+              <Route path="document" element={<DocumentsPage/>}/>
+              <Route path="audio" element={<AudioPage/>}/>
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

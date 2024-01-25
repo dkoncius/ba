@@ -18,10 +18,6 @@ $brown-dark: #574542;
     text-decoration: none;
 }
 
-body {
-    background: $pink-spot;
-}
-
 h1 {
     color: $brown-spot;
     font-size: 30px;
@@ -95,6 +91,7 @@ p {
 
 .container {
     max-width: 1200px;
+    width: 90%;
     margin: auto;
     text-align: center;
     position: relative;

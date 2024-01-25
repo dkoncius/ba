@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import Footer from "../components/Footer";
-import ImageUploader from "../components/ImageUploader";
-import "../scss/Registration.scss";
+import Footer from "../components/General/Footer";
+import ImageUploader from "../components/LandingPage/ImageUploader";
 
-const NewKid = () => {
+const NewKidPage = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [kidData, setKidData] = useState("");
   const navigate = useNavigate()
@@ -59,4 +58,4 @@ const NewKid = () => {
   );
 };
 
-export default NewKid;
+export default NewKidPage;

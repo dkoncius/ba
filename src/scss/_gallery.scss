@@ -1,0 +1,19 @@
+.gallery {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: start;
+    gap: 30px;
+
+    img {
+        width: 28%;
+        object-fit: contain;
+        box-shadow: 0 0 2px $green-spot;
+        transition: 0.3s;
+    }
+
+    img:hover {
+        cursor: pointer;
+        opacity: 0.5;
+    }
+}

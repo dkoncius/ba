@@ -1,0 +1,74 @@
+body {
+    background: $pink-light;
+}
+
+.content-header-top {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    max-width: 1200px;
+    margin: auto;
+
+    .stats-icon {
+        width: 20px;
+        cursor: pointer;
+    }
+
+    .profile-image {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50px;
+        border: 2px solid $green-spot;
+        cursor: pointer;
+    }
+}
+
+.content-options {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+
+    .content-option {
+        background: linear-gradient(to bottom, $pink-light, $pink-bright);
+        border: 2px solid $pink-spot;
+        border-radius: 30px;
+        padding: 25px 15px;
+        font-size: 2em;
+        display: flex;
+        align-items: center;
+        color: $pink-spot;
+        transition: 0.3s;
+        cursor: pointer;
+      }
+      
+      .content-option.selected {
+        background: linear-gradient(to bottom, $green-spot, $green-dark);
+        border-color: $green-spot;
+        color: $pink-light;
+        box-shadow: 0 2px 5px $pink-spot;
+      }
+}
+
+.content-filter {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 0;
+    .filter-icon {
+        border: 2px solid $pink-bright;
+        padding: 5px;
+        width: 40px;
+        height: 40px;
+        color: $pink-spot;
+        border-radius: 42px;
+        transition: 0.3s;
+        cursor: pointer;
+
+        &:hover {
+            border-color: $green-spot;
+            color: $pink-light;
+            background: $green-spot;
+            box-shadow: 0 2px 5px $pink-spot;
+        }
+    }
+}

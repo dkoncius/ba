@@ -1,37 +1,34 @@
 import { Link, useNavigate } from "react-router-dom";
-import "../scss/Registration.scss";
 
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import Footer from "../components/Footer";
+import Footer from "../components/General/Footer";
 
-const NewUser = () => {
-
+const LoginPage = () => {
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    navigate("/")
+    navigate("/content")
   }
 
   return (
-    <>
+    <div className="registration-page">
         <header className="registration-header">
             <Link to="/"><AiOutlineArrowLeft/></Link>
         </header>
         <main className="registration-main">
-            <h1>Registracija</h1>
+            <h1>Prisijungimas</h1>
             <form onSubmit={handleSubmit}>
-                <input type="text" placeholder="Įveskite savo vardą"/>
                 <input type="email" placeholder="Įveskite el. paštą"/>
-                <input type="text" placeholder="Sukurkite slaptažodį"/>
-                <input type="text" placeholder="Pakartokite slaptažodį" />
-                <button className="button-green">Registruotis</button>
+                <input type="text" placeholder="Slaptažodis"/>
+                <p className="forgot-psw">Pamiršai slaptažodį?</p>
+                <button className="button-green">Prisijungti</button>
             </form>
-            <p>Jau turite paskyrą? <Link>Prisijungti</Link></p>
+            <p>Neturi paskyros <Link to="/new-user">Užsiregistruok</Link></p>
         </main>
         <Footer/>
-    </>
+    </div>
   )
 }
 
-export default NewUser
+export default LoginPage

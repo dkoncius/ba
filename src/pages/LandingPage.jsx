@@ -1,7 +1,6 @@
-import "../scss/Landing.scss";
-import Option from '../components/Option';
+import Option from '../components/LandingPage/Option';
 import { Link } from "react-router-dom";
-import Footer from "../components/Footer";
+import Footer from "../components/General/Footer";
 
 const optionsData = [
     {
@@ -26,7 +25,7 @@ const optionsData = [
     },
   ];
 
-const Landing = () => {
+const LandingPage = () => {
   return (
     <>
        <header className="landing-header">
@@ -67,4 +66,4 @@ const Landing = () => {
   )
 }
 
-export default Landing
+export default LandingPage
