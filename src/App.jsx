@@ -9,6 +9,7 @@ import GalleryPage from "./components/ContentPage/NestedPages/GalleryPage";
 import VideosPage from "./components/ContentPage/NestedPages/VideosPage";
 import DocumentsPage from "./components/ContentPage/NestedPages/DocumentsPage";
 import AudioPage from "./components/ContentPage/NestedPages/AudioPage";
+import KidsPage from "./pages/KidsPage";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route path='new-user' element={<NewUserPage/>}/>
           <Route path='new-kid' element={<NewKidPage/>}/>
           <Route path='login' element={<LoginPage/>}/>
+          <Route path='kids' element={<KidsPage/>}/>
           <Route path='content' element={<ContentPage/>}>
               <Route path="gallery" element={<GalleryPage/>}/>
               <Route path="video" element={<VideosPage/>}/>

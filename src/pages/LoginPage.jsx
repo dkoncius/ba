@@ -8,7 +8,7 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    navigate("/content")
+    navigate("/content/gallery")
   }
 
   return (
