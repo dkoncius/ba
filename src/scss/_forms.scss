@@ -3,7 +3,7 @@
 }
 
 .registration-header {
-    background: url("registration/new-user-cover.png"), $pink-spot;
+    background: url("/forms/new-user-cover.png"), $pink-spot;
     height: 300px;
     width: 100%;
     max-width: 800px;
@@ -72,7 +72,7 @@ form {
 
 // New kid
 .new-kid {
-    background: url("registration/new-kid-cover.png");
+    background: url("/forms/new-kid-cover.png");
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -142,6 +142,13 @@ form {
 
 
 // Login
+.login-header {
+    background: url("/forms/login-cover.png"), transparent;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .forgot-psw {
     text-align: end;
     padding-right: 30px;

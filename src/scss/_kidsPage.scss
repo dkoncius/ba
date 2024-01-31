@@ -6,7 +6,6 @@
     max-width: 800px;
     width: 90%;
     margin: auto;
-    margin: 30px auto;
 
     .logout {
         cursor: pointer;
@@ -29,6 +28,11 @@
         }
     }
 
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .kids-container {
@@ -59,6 +63,8 @@
         transition: 0.3s;
 
         .edit {
+            cursor: crosshair;
+            color: $brown-dark;
             position: absolute;
             font-size: 20px;
             right: 30px;

@@ -4,7 +4,7 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import Footer from "../components/General/Footer";
 import ImageUploader from "../components/LandingPage/ImageUploader";
 
-const NewKidPage = () => {
+const EditKidPage = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [kidData, setKidData] = useState("");
   const navigate = useNavigate()
@@ -29,10 +29,10 @@ const NewKidPage = () => {
         <Link to="/"><AiOutlineArrowLeft/></Link>
       </header>
       <main className="registration-main new-kid-main">
-        <h1>Vaiko duomenys</h1>
+        <h1>Atnaujink vaiko duomenis</h1>
         <form onSubmit={handleSubmit}>
           <ImageUploader />
-          <input type="text" placeholder="Vardas" />
+          <input type="text" placeholder="Vardas" value="Petras" />
 
           <div className="flex">
             <input
@@ -41,13 +41,13 @@ const NewKidPage = () => {
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               onChange={handleInputChange}
-              value={kidData || ""}
+              value="2022-06-13"
               placeholder="Gimimo data"
               className="date-input"
             />
-            <input type="text" placeholder="Lytis" />
-            <input type="text" placeholder="Ūgis" />
-            <input type="text" placeholder="Svoris" />
+            <input type="text" placeholder="Lytis" value="vyras" />
+            <input type="text" placeholder="Ūgis" value="46" />
+            <input type="text" placeholder="Svoris" value="4.6" />
           </div>
           <button className="button-green">Išsaugoti</button>
         </form>
@@ -57,4 +57,4 @@ const NewKidPage = () => {
   );
 };
 
-export default NewKidPage;
+export default EditKidPage;

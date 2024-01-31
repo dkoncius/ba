@@ -13,7 +13,7 @@ const LoginPage = () => {
 
   return (
     <div className="registration-page">
-        <header className="registration-header">
+        <header className="registration-header login-header">
             <Link to="/"><AiOutlineArrowLeft/></Link>
         </header>
         <main className="registration-main">

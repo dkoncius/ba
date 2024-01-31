@@ -10,6 +10,8 @@ import VideosPage from "./components/ContentPage/NestedPages/VideosPage";
 import DocumentsPage from "./components/ContentPage/NestedPages/DocumentsPage";
 import AudioPage from "./components/ContentPage/NestedPages/AudioPage";
 import KidsPage from "./pages/KidsPage";
+import EditKidPage from "./pages/EditKidPage";
+import KidsProgressPage from "./pages/KidsProgressPage";
 
 function App() {
 
@@ -20,8 +22,10 @@ function App() {
           <Route index element={<LandingPage/>}/>
           <Route path='new-user' element={<NewUserPage/>}/>
           <Route path='new-kid' element={<NewKidPage/>}/>
+          <Route path=':id/edit-kid' element={<EditKidPage/>}/>
           <Route path='login' element={<LoginPage/>}/>
           <Route path='kids' element={<KidsPage/>}/>
+          <Route path='progress' element={<KidsProgressPage/>}/>
           <Route path='content' element={<ContentPage/>}>
               <Route path="gallery" element={<GalleryPage/>}/>
               <Route path="video" element={<VideosPage/>}/>

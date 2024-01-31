@@ -10,7 +10,7 @@ const ImageUploader = () => {
           placeholder="Profilio nuotrauka"
         />
         <label className='file-container' htmlFor="file">
-            <img className="profile-image-preview" src="kids/kid-1.jpg" alt="Selected profile" />
+            <img className="profile-image-preview" src="/kids/kid-1.jpg" alt="Selected profile" />
             <AiFillPlusCircle className='icon'/>
         </label>
     </>

@@ -2,7 +2,6 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 
 
 const SelectedImage = ({imgSrc, alt, weight,height, mood, selectedImage, setSelectedImage, id, totalImages}) => {
-    console.log(selectedImage)
   return (
     <div 
         className={selectedImage === id ? "selected-image" : "none"}>

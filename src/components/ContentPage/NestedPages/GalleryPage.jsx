@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import SelectedImage from '../../GalleryPage/SelectedImage';
+import { BiFilterAlt } from "react-icons/bi";
+import Gallery from '../../GalleryPage/Gallery';
+import Filtering from '../Filtering';
 
 const imagesData = [
   {id: 1, imgSrc: '../kids/kid-1.jpg', alt: 'kid-1', height: 51, mood: ":)", weight: 5.1},
@@ -11,41 +13,25 @@ const imagesData = [
 const GalleryPage = () => {
   const [selectedImage, setSelectedImage] = useState(null)
   const [data, setData] = useState([])
+  const [isFiltering, setIsFiltering] = useState(false)
 
   useEffect(() => {
     setData(imagesData)
   }, [])
 
   return (
-    <div className="gallery">
-      {data && data.map((data) => (
-          <img
-          className='image'
-            key={data.id}
-            src={data.imgSrc}
-            alt={data.alt}
-            onClick={() => setSelectedImage(data.id)}
-          />
-      ))}
-
-
-      {/* Selected image */}
-    {imagesData.map((data) => (
-        <SelectedImage 
-        key={data.id} 
-        id={data.id} 
-        imgSrc={data.imgSrc}
-        alt={data.alt}
-        weight={data.weight}
-        height={data.height}
-        mood={data.mood}
-        selectedImage={selectedImage} 
-        setSelectedImage={setSelectedImage} 
-        totalImages={imagesData.length} 
-        />
-      ))}
-
+    <>
+    <div className="content-filter">
+        <BiFilterAlt className="filter-icon" onClick={() => setIsFiltering(!isFiltering)} />
+        <button className="button-green ">Pridėti nuotrauką +</button>
     </div>
+
+    {isFiltering ? 
+    <Filtering setIsFiltering={setIsFiltering}/> : 
+    <Gallery data={data} imagesData={imagesData} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>}
+
+    
+    </>
   );
 };
 

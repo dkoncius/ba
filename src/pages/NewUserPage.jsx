@@ -26,7 +26,7 @@ const NewUserPage = () => {
               <input type="text" placeholder="Pakartokite slaptažodį" />
               <button className="button-green">Registruotis</button>
           </form>
-          <p>Jau turite paskyrą? <Link>Prisijungti</Link></p>
+          <p>Jau turite paskyrą? <Link to="/login">Prisijungti</Link></p>
       </main>
       <Footer/>
     </div>

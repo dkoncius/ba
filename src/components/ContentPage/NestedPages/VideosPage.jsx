@@ -1,8 +1,19 @@
-import React from 'react'
+import {  useState } from 'react';
+import { BiFilterAlt } from "react-icons/bi";
+import Filtering from '../Filtering';
 
 const VideosPage = () => {
+  const [isFiltering, setIsFiltering] = useState(false)
+
   return (
-    <h1>VideosPage</h1>
+    <>
+       <div className="content-filter">
+        <BiFilterAlt className="filter-icon" onClick={() => setIsFiltering(!isFiltering)} />
+        <button className="button-green ">Pridėti video +</button>
+       </div>
+       {isFiltering ? 
+        <Filtering setIsFiltering={setIsFiltering}/> : <h1>Video page</h1>}
+    </>
   )
 }
 

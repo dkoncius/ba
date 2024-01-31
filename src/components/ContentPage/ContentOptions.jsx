@@ -4,7 +4,6 @@ import { BsCameraVideo } from "react-icons/bs";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { IoMicOutline } from "react-icons/io5";
 import { Link, Outlet } from "react-router-dom";
-import FilterSection from "./FilterSection";
 
 const optionsData = [
   {
@@ -61,7 +60,6 @@ const ContentOptions = () => {
         </Link>
       ))}
     </nav>
-    <FilterSection/>
     <Outlet/>
     </>
   );

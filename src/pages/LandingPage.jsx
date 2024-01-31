@@ -7,21 +7,25 @@ const optionsData = [
       iconSrc: 'landing/image-icon.png',
       title: 'Nuotraukos',
       description: 'Įsiamžinkite nuostabiausias vaiko akimirkas',
+      link: "/content/gallery"
     },
     {
       iconSrc: 'landing/video-icon.png',
       title: 'Video',
       description: 'Įsiamžinkite nuostabiausias vaiko akimirkas',
+      link: "/content/video"
     },
     {
       iconSrc: 'landing/text-icon.png',
       title: 'Tekstas',
       description: 'Įsiamžinkite nuostabiausias vaiko akimirkas',
+      link: "/content/document"
     },
     {
       iconSrc: 'landing/mic-icon.png',
       title: 'Garso įrašas',
       description: 'Įsiamžinkite nuostabiausias vaiko akimirkas',
+      link: "/content/audio"
     },
   ];
 

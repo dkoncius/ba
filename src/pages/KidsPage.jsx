@@ -32,6 +32,8 @@ const handleAddKid = () => {
       </div>
     </nav>
 
+    <h1>Pasirink savo vaikutį</h1>
+
     <section className='kids-container'>
       {kidsData.map((kid) => (
         <Kid key={kid.id} kid={kid} />
