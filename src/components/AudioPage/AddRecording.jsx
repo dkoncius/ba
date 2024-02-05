@@ -5,22 +5,28 @@ import { GoDotFill } from "react-icons/go";
 
 const AddRecording = ({ setRecordingPage }) => {
   const [isRecording, setIsRecording] = useState(false);
+  const [elapsedTime, setElapsedTime] = useState(0); // Time in seconds
   const [recordingProgress, setRecordingProgress] = useState(0);
   const [lineHeights, setLineHeights] = useState([]);
+
+  const maxDuration = 10; // 5 minutes in seconds
 
   useEffect(() => {
     let interval;
     if (isRecording) {
       interval = setInterval(() => {
-        setRecordingProgress((prevProgress) => {
-          if (prevProgress < 100) {
-            return prevProgress + 0.3; // Increment progress
+        setElapsedTime((prevTime) => {
+          const nextTime = prevTime + 1;
+          if (nextTime <= maxDuration) {
+            setRecordingProgress((nextTime / maxDuration) * 100);
+            return nextTime;
           } else {
+            setIsRecording(false);
             clearInterval(interval);
-            return prevProgress;
+            return prevTime;
           }
         });
-      }, 300); // Update progress every second
+      }, 1000);
     } else {
       clearInterval(interval);
     }
@@ -28,12 +34,12 @@ const AddRecording = ({ setRecordingPage }) => {
   }, [isRecording]);
 
   useEffect(() => {
-    const numberOfLines = recordingProgress * 2; // example: 2 lines per second
+    // Assuming each second corresponds to a certain number of vertical lines
+    const numberOfLines = Math.floor(recordingProgress * 2); // example: 2 lines per second
     if (lineHeights.length < numberOfLines) {
       setLineHeights((prevHeights) => {
         const newHeights = [...prevHeights];
         for (let i = prevHeights.length; i < numberOfLines; i++) {
-          // Use sine function to create wave effect
           const waveHeight = 50 + Math.sin(i / 10) * 25; // Adjust the wave frequency and amplitude
           newHeights.push(waveHeight);
         }
@@ -43,7 +49,7 @@ const AddRecording = ({ setRecordingPage }) => {
   }, [recordingProgress, lineHeights.length]);
 
   const renderVerticalLines = () => {
-    return lineHeights.map((height, i) => (
+    return lineHeights.slice(0, Math.floor(recordingProgress)).map((height, i) => (
       <div
         key={i}
         className="vertical-line"
@@ -55,6 +61,12 @@ const AddRecording = ({ setRecordingPage }) => {
     ));
   };
 
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
+
   return (
     <div className="add-recording">
       <button className="close" onClick={() => setRecordingPage(false)}>
@@ -62,11 +74,10 @@ const AddRecording = ({ setRecordingPage }) => {
       </button>
       <div className="progress">
         {renderVerticalLines()}
-        {/* Render red line after vertical lines so it naturally appears on top */}
-        <div className="red-line" style={{ left: `${recordingProgress * 2}%` }}></div>
+        <div className="red-line" style={{ left: `${recordingProgress}%` }}></div>
       </div>
 
-      <div className="progress-time">00:00:24</div>
+      <div className="progress-time">{formatTime(elapsedTime)}</div>
 
       <button className="recording-button" onClick={() => setIsRecording(!isRecording)}>
         {isRecording ? <FaPause /> : <GoDotFill />}
