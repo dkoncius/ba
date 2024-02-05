@@ -9,7 +9,7 @@ const AddRecording = ({ setRecordingPage }) => {
   const [recordingProgress, setRecordingProgress] = useState(0);
   const [lineHeights, setLineHeights] = useState([]);
 
-  const maxDuration = 10; // 5 minutes in seconds
+  const maxDuration = 60; // 5 minutes in seconds
 
   useEffect(() => {
     let interval;
@@ -69,9 +69,11 @@ const AddRecording = ({ setRecordingPage }) => {
 
   return (
     <div className="add-recording">
+     
       <button className="close" onClick={() => setRecordingPage(false)}>
         <RxCross1 />
       </button>
+      <h1>Juokas</h1>
       <div className="progress">
         {renderVerticalLines()}
         <div className="red-line" style={{ left: `${recordingProgress}%` }}></div>

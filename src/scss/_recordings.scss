@@ -96,11 +96,13 @@
         border: none;
         color: $brown-spot;
         font-size: 1.5em;
-        height: 15%
+        height: 15%;
+        cursor: pointer;
     }
 
     .progress {
         width: 100%;
+        max-width: 500px;
         height: 250px;
         background: $pink-light;
         border-radius: 30px;
