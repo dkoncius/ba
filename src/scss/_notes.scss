@@ -1,0 +1,92 @@
+.notes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    .note {
+        background: linear-gradient(to bottom, $pink-bright, $pink-spot);
+        border: 2px solid $pink-spot;
+        border-radius: 20px;
+        padding: 20px;
+        text-align: start;
+        cursor: pointer;
+        width: 31%;
+        min-width: 200px;
+
+        .note-text {
+            opacity: 0.5;
+        }
+    }
+}
+
+
+.selected-note {
+    position: fixed;
+    top: 0;
+    bottom:0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: $pink-spot;
+    text-align: start;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+
+    .selected-note-date {
+        opacity: 0.5;
+        font-size: 0.8em;
+        margin: 15px 0;
+    }
+
+    .selected-note-text {
+        line-height: 25px;
+    }
+}
+
+.selected-note .header {
+    height: 20%;
+    text-align: start;
+
+    button {
+        font-size: 2em;
+        color: $brown-spot;
+        cursor: pointer;
+        background: none;
+        border: none;
+        outline: none;
+    }
+}
+
+.selected-note nav {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    align-items: end;
+
+    button {
+        width: 50px;
+        height: 50px;
+        background: $pink-spot;
+        border: none;
+        box-shadow: 0 0 5px 2px $brown-spot;
+        border-radius: 50px;
+        font-size: 2em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $brown-spot;
+        cursor: pointer;
+    }
+
+    button.hidden {
+        visibility: hidden;
+    }
+}
+
+@media (max-width: 426px){
+    .notes .note {
+        width: 100%;
+    }
+}

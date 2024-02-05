@@ -19,7 +19,7 @@ const optionsData = [
   {
     id: 3,
     icon: <IoDocumentTextOutline />,
-    to: "document"
+    to: "notes"
   },
   {
     id: 4,

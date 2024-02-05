@@ -7,6 +7,7 @@ $pink-spot: #F4C9C0;
 $green-spot: #A7B89E;
 $green-dark: #8A9982;
 
+$brown-light: #C7ABA6;
 $brown-spot: #816661;
 $brown-dark: #574542;
 
@@ -91,8 +92,8 @@ p {
 
 .container {
     max-width: 1200px;
-    width: 90%;
     margin: auto;
+    padding: 30px;
     text-align: center;
     position: relative;
     overflow: hidden;
