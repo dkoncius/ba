@@ -1,4 +1,4 @@
-import { useState } from 'react'; // Import useState
+import { useState } from 'react';
 import { RxCross1 } from "react-icons/rx";
 
 const facesData = [
@@ -11,7 +11,6 @@ const facesData = [
 ];
 
 const AddImage = ({ setImagePage }) => {
-  // State for managing selected faces
   const [selectedMood, setSelectedMood] = useState(facesData[0].mood);
   const [height, setHeight] = useState(0);
   const [weight, setWeight] = useState(0);
@@ -22,20 +21,31 @@ const AddImage = ({ setImagePage }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    const limitedValue = Math.min(value, 500);
-
-    switch (name) {
-      case 'height':
-        setHeight(limitedValue);
-        break;
-      case 'weight':
-        setWeight(limitedValue.toFixed(1));
-        break;
-      default:
-        break;
+  
+    if (value === '') {
+      name === 'height' ? setHeight(value) : setWeight(value);
+    } else {
+      const numValue = parseFloat(value);
+      const limitedValue = Math.max(0, Math.min(numValue, 500));
+  
+      if (name === 'height') {
+        setHeight(String(limitedValue));
+      } else if (name === 'weight') {
+        setWeight(String(limitedValue));
+      }
     }
   };
 
+  const handleInputBlur = (e) => { // Corrected the function name to handleInputBlur
+    const { name, value } = e.target;
+  
+    if (name === 'weight') {
+      const numValue = parseFloat(value);
+      const limitedValue = Math.max(0, Math.min(numValue, 500));
+      setWeight(String(limitedValue.toFixed(1))); // Apply .toFixed(1) formatting after blur
+    }
+  };
+  
   return (
     <div className="add-image">
       <button className="close" onClick={() => setImagePage(false)}>
@@ -45,8 +55,8 @@ const AddImage = ({ setImagePage }) => {
 
       <div className="image-data">
         <div className="height">
-            <p className="title">Ūgis (CM)</p>
-            <input 
+          <p className="title">Ūgis<br /> (CM)</p>
+          <input 
             className="units" 
             type="number" 
             step={1} 
@@ -55,22 +65,22 @@ const AddImage = ({ setImagePage }) => {
             name="height"
             value={height}
             onChange={handleInputChange} 
-            />
+          />
         </div>
         <div className="image-mood">
-            {facesData.map((face, index) => (
-                <img
-                  className={selectedMood === face.mood ? "face selected" : " face"}
-                  src={face.src}
-                  alt={face.emotion}
-                  key={index}
-                  onClick={() => handleSelectMood(face.mood)} // Attach the click event handler
-                />
-            ))}
+          {facesData.map((face, index) => (
+            <img
+              className={selectedMood === face.mood ? "face selected" : " face"}
+              src={face.src}
+              alt={face.emotion}
+              key={index}
+              onClick={() => handleSelectMood(face.mood)} 
+            />
+          ))}
         </div>
         <div className="weight">
-            <p className="title">Svoris (KG)</p>
-            <input 
+          <p className="title">Svoris <br /> (KG)</p>
+          <input 
             className="units" 
             type="number" 
             step={0.1} 
@@ -78,8 +88,9 @@ const AddImage = ({ setImagePage }) => {
             max="500"
             name="weight"
             value={weight}
-            onChange={handleInputChange} 
-            />
+            onChange={handleInputChange}
+            onBlur={handleInputBlur} // Add onBlur event here
+          />
         </div>
       </div>
   

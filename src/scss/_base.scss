@@ -21,6 +21,12 @@ $purple-spot: #695672;
     text-decoration: none;
 }
 
+body {
+    background: $pink-bright;
+}
+
+
+
 h1 {
     color: $brown-spot;
     font-size: 30px;
@@ -97,7 +103,6 @@ p {
     padding: 30px;
     text-align: center;
     position: relative;
-    overflow: hidden;
 }
 
 .content {

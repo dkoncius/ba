@@ -54,6 +54,10 @@
         margin: auto;
         background: linear-gradient(to bottom, $pink-bright, $pink-spot);
 
+        img {
+            width: 100%;
+        }
+
         .units {
             font-size: 1.5em;
         }

@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+import { AiOutlineArrowLeft } from 'react-icons/ai';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 
 const facesData = [
@@ -11,71 +16,73 @@ const facesData = [
     {src: "/faces/wow.svg", mood: "wow"}
   ];
 
-  const defaultFace = ""; // Add a default face image
+  const defaultFace = "";
 
-
-const SelectedImage = ({imgSrc, alt, weight,height, mood, selectedImage, setSelectedImage, id, totalImages}) => {
+  const SelectedImage = ({ imageData, setSelectedImage, totalImages }) => {
     const [moodImage, setMoodImage] = useState(defaultFace); // Initialize with default face
+    const [animate, setAnimate] = useState(false); // Initialize animate state
 
     useEffect(() => {
-        const face = facesData.find(face => face.mood === mood);
-        if (face) {
-            setMoodImage(face.src); // If face is found, set the moodImage to its src
-        } else {
-            setMoodImage(defaultFace); // If not found, revert to default face image
+        if (imageData) {
+            const face = facesData.find(face => face.mood === imageData.mood);
+            if (face) {
+                setMoodImage(face.src);
+            } else {
+                setMoodImage(defaultFace); 
+            }
         }
-    }, [mood]); // Add mood to the dependency array
+    }, [imageData && imageData.mood]); 
 
-  return (
-    <div 
-        className={selectedImage === id ? "selected-image" : "none"}>
-        <header className="header">
-            <AiOutlineArrowLeft onClick={() => setSelectedImage(null)}/>
-        </header>
+    if (!imageData) {
+        return null;
+    }
 
-        <div className="image">         
-            <img
-                key={id}
-                src={imgSrc}
-                alt={alt}
-            />
+    return (
+        <div className="selected-image">
+            <header className="header">
+                <AiOutlineArrowLeft onClick={() => setSelectedImage(null)}/>
+            </header>
 
-            <div className="navigation">
-                <button
-                className="previous-button"
-                onClick={() => setSelectedImage(prev => prev - 1)} // Go to the previous image
-                disabled={id === 0} // Disable if already at the first image
-                >
-                <AiOutlineArrowLeft className='icon' />
-                </button>
-                <button
-                    className="next-button"
-                    onClick={() => setSelectedImage(prev => prev + 1)} // Go to the next image
-                    disabled={id === totalImages - 1} // Disable if already at the last image
-                    >
-                    <AiOutlineArrowRight className='icon' />
-                </button>
-            </div>
+            <Swiper
+                modules={[Navigation, Pagination]}
+                navigation
+                onSlideChange={(swiper) => {
+                    setSelectedImage(swiper.activeIndex);
+                    setAnimate(false);
+                    setTimeout(() => setAnimate(true), 10); // Reset animation
+                }}
+                initialSlide={imageData.id}
+                spaceBetween={50}
+                slidesPerView={1}
+            >
+                {Array.from({ length: totalImages }, (_, index) => (
+                    <SwiperSlide key={index}>
+                        {index === imageData.id && (
+                            <div className="image">
+                                <img src={imageData.imgSrc} alt={imageData.alt} />
+
+                                <div className={animate ? 'content content-animate' : 'content'}>
+                                    <div className="height">
+                                        <p>ŪGIS</p>
+                                        <h2>{imageData.height}</h2>
+                                    </div>
+
+                                    <div className="mood">
+                                        <img src={moodImage} alt={imageData.mood} className="face" />
+                                    </div>
+
+                                    <div className="weight">
+                                        <p>SVORIS</p>
+                                        <h2>{imageData.weight}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </SwiperSlide>
+                ))}
+            </Swiper>
         </div>
-        <div className="content">
-            <div className="height">
-                <p>ŪGIS</p>
-                <h2>{height}</h2>
-            </div>
+    );
+};
 
-            <div className="mood">
-                <img src={moodImage} alt={mood} className="face" />
-            </div>
-
-            <div className="weight">
-                <p>SVORIS</p>
-                <h2>{weight}</h2>
-            </div>
-        </div>
-
-      
-    </div>
-  )
-}
-
-export default SelectedImage
+export default SelectedImage;

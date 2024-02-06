@@ -15,21 +15,13 @@ const Gallery = ({data, imagesData, selectedImage, setSelectedImage}) => {
 
 
       {/* Selected image */}
-    {imagesData.map((data) => (
+      {selectedImage !== null && (
         <SelectedImage
-        key={data.id} 
-        id={data.id} 
-        imgSrc={data.imgSrc}
-        alt={data.alt}
-        weight={data.weight}
-        height={data.height}
-        mood={data.mood}
-        selectedImage={selectedImage} 
-        setSelectedImage={setSelectedImage} 
-        totalImages={imagesData.length} 
+          imageData={imagesData.find(data => data.id === selectedImage)}
+          setSelectedImage={setSelectedImage}
+          totalImages={imagesData.length}
         />
-      ))}
-
+      )}
     </div>
   )
 }
