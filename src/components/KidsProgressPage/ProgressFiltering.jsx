@@ -22,7 +22,7 @@ const ProgressFiltering = ({setIsFiltering}) => {
   
     return (
       <>
-    <p>Rodyti datą:</p>
+      <p className="show-date">Rodyti datą:</p>
       <form onSubmit={handleSubmit}>
         <input
               type={isFocused || fromDate ? "date" : "text"}

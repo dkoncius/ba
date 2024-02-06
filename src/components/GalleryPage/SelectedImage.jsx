@@ -1,7 +1,31 @@
+import { useEffect, useState } from 'react';
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 
 
+const facesData = [
+    {src: "/faces/angry.svg", mood: "angry"},
+    {src: "/faces/cry.svg", mood: "cry"},
+    {src: "/faces/laugh.svg", mood: "laugh"},
+    {src: "/faces/love.svg", mood: "love"},
+    {src: "/faces/peace.svg", mood: "peace"},
+    {src: "/faces/wow.svg", mood: "wow"}
+  ];
+
+  const defaultFace = ""; // Add a default face image
+
+
 const SelectedImage = ({imgSrc, alt, weight,height, mood, selectedImage, setSelectedImage, id, totalImages}) => {
+    const [moodImage, setMoodImage] = useState(defaultFace); // Initialize with default face
+
+    useEffect(() => {
+        const face = facesData.find(face => face.mood === mood);
+        if (face) {
+            setMoodImage(face.src); // If face is found, set the moodImage to its src
+        } else {
+            setMoodImage(defaultFace); // If not found, revert to default face image
+        }
+    }, [mood]); // Add mood to the dependency array
+
   return (
     <div 
         className={selectedImage === id ? "selected-image" : "none"}>
@@ -40,7 +64,7 @@ const SelectedImage = ({imgSrc, alt, weight,height, mood, selectedImage, setSele
             </div>
 
             <div className="mood">
-                <h2>{mood}</h2>
+                <img src={moodImage} alt={mood} className="face" />
             </div>
 
             <div className="weight">

@@ -1,0 +1,76 @@
+.add-image {
+    position: absolute;
+    top: 0;
+    bottom:0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    background-color: $pink-spot;
+    text-align: start;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .image-data {
+        display: flex;
+        margin-bottom: 30px;
+    }
+
+    .image {
+        width: 300px;
+        margin-bottom: 30px;
+        border-radius: 30px;
+    }
+
+    .image-mood {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        width: 100px;
+        margin: 0 10px;
+        .face {
+            width: 45%;
+            border-radius: 100px;
+            cursor: pointer;
+        }
+
+        .face.selected {
+            border: 2px solid $brown-spot;
+        }
+    }
+
+    .weight, .height {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: $brown-spot;
+
+        .title {
+            opacity: 0.7;
+            text-transform: uppercase;
+        }
+
+        .units {
+            font-size: 2em;
+            background: none;
+            width: 150px;
+            text-align: center;
+            border: none;
+            text-indent: 15px;
+            color: $brown-spot;
+            font-weight: bold;
+        }
+    }
+    
+    
+    .close {
+        align-self: end;
+        background: none;
+        border: none;
+        color: $brown-spot;
+        font-size: 1.5em;
+        height: 15%;
+        cursor: pointer;
+    }
+}

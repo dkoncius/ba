@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="344.297" height="59.222" viewBox="0 0 344.297 59.222">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #8a9982;
+        stroke-width: 2px;
+      }
+
+      .cls-2 {
+        fill: #8a9982;
+      }
+
+      .cls-3 {
+        filter: url(#Path_874);
+      }
+    </style>
+    <filter id="Path_874" x="0" y="0" width="344.297" height="59.222" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-color="#816661" flood-opacity="0.639"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_952" data-name="Group 952" transform="translate(7.047 7.785)">
+    <g class="cls-3" transform="matrix(1, 0, 0, 1, -7.05, -7.78)">
+      <path id="Path_874-2" data-name="Path 874" class="cls-1" d="M53.318,488.894s37.265,1.737,67.958-5.858,62.945-25.632,97.279-31.486,72.31,5.38,103.522,5.538a232.6,232.6,0,0,0,57.222-7.12" transform="translate(-44.27 -439.87)"/>
+    </g>
+    <circle id="Ellipse_383" data-name="Ellipse 383" class="cls-2" cx="2" cy="2" r="2" transform="translate(0 39)"/>
+    <circle id="Ellipse_384" data-name="Ellipse 384" class="cls-2" cx="2" cy="2" r="2" transform="translate(326)"/>
+  </g>
+</svg>
