@@ -3,7 +3,7 @@ import { RxCross1 } from "react-icons/rx";
 import { FaPause } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 
-const AddRecording = ({ setRecordingPage }) => {
+const AddAudio = ({ setAudioPage }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0); // Time in seconds
   const [recordingProgress, setRecordingProgress] = useState(0);
@@ -70,7 +70,7 @@ const AddRecording = ({ setRecordingPage }) => {
   return (
     <div className="add-recording">
      
-      <button className="close" onClick={() => setRecordingPage(false)}>
+      <button className="close" onClick={() => setAudioPage(false)}>
         <RxCross1 />
       </button>
       <h1>Juokas</h1>
@@ -85,9 +85,9 @@ const AddRecording = ({ setRecordingPage }) => {
         {isRecording ? <FaPause /> : <GoDotFill />}
       </button>
 
-      <div className="button-green" onClick={() => setRecordingPage(false)}>Išsaugoti</div>
+      <div className="button-green" onClick={() => setAudioPage(false)}>Išsaugoti</div>
     </div>
   );
 };
 
-export default AddRecording;
+export default AddAudio;

@@ -78,11 +78,10 @@
 .add-recording {
     position: fixed;
     top: 0;
-    bottom:0;
     left: 0;
     right: 0;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background-color: $pink-spot;
     text-align: start;
     padding: 30px;
@@ -103,7 +102,7 @@
     .progress {
         width: 100%;
         max-width: 500px;
-        height: 250px;
+        height: 150px;
         background: $pink-light;
         border-radius: 30px;
         margin-bottom: 15px;

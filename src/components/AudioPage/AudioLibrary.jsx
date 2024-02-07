@@ -6,7 +6,7 @@ const recordingsData = [
     { id: 3, timeStamp: "1707131932", title: "Pirmieji žodžiai", src: '/sounds/sound-3.mp3' },
 ]
 
-const Recordings = () => {
+const AudioLibrary = () => {
   const [currentPlaying, setCurrentPlaying] = useState(null);
   const audioRefs = useRef(recordingsData.reduce((acc, value) => {
     acc[value.id] = new Audio(value.src);
@@ -107,4 +107,4 @@ const Recordings = () => {
   )
 }
 
-export default Recordings
+export default AudioLibrary
