@@ -20,27 +20,30 @@ const AddNote = ({ setNotePage }) => {
 
   return (
     <div className="add-note">
-      <div className="header">
-        <button onClick={() => setNotePage(false)}>
-          <AiOutlineArrowLeft />
-        </button>
-      </div>
+      <div className="container">
+        <div className="header">
+          <button onClick={() => setNotePage(false)}>
+            <AiOutlineArrowLeft />
+          </button>
+        </div>
 
-      <textarea
-        name='title'
-        className='note-title'
-        placeholder='Pavadinimas'
-        onKeyDown={handleTitleKeyDown}
-        onChange={adjustTextAreaHeight} // Optional: If you want the title to expand vertically as well
-      />
-      <p className='note-date'>{formattedDate}</p>
-      <textarea
-        name='text'
-        className='note-text'
-        placeholder='Sukurkite įrašą...'
-        onChange={adjustTextAreaHeight}
-        style={{ minHeight: '100px' }} // Set a minimum height
-      />
+        <textarea
+          name='title'
+          className='note-title'
+          placeholder='Pavadinimas'
+          onKeyDown={handleTitleKeyDown}
+          onChange={adjustTextAreaHeight} // Optional: If you want the title to expand vertically as well
+        />
+        <p className='note-date'>{formattedDate}</p>
+        <textarea
+          name='text'
+          className='note-text'
+          placeholder='Sukurkite įrašą...'
+          onChange={adjustTextAreaHeight}
+          style={{ minHeight: '100px' }} // Set a minimum height
+        />
+        <button onClick={() => setNotePage(false)} className='button-green'>Išsaugoti</button>
+        </div>
     </div>
   );
 }

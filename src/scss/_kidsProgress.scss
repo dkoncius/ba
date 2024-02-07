@@ -1,5 +1,4 @@
 .kids-progress {
-    padding-top: 50px;
     min-height: 100vh;
     color: $brown-spot;
 
@@ -9,6 +8,8 @@
     
     .icon {
         position: absolute;
+        top: 25px;
+        right: 25px;
         padding: 15px;
         padding-bottom: 5px;
         font-size: 25px;

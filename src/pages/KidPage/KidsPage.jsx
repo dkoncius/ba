@@ -22,7 +22,8 @@ const handleAddKid = () => {
   };
 
   return (
-    <>
+    <div className="container">
+
      <nav className='kids-nav'>
       <p className='logout' onClick={handleSignOut}>
         Log Out
@@ -40,7 +41,7 @@ const handleAddKid = () => {
         ))}
       <button className='button-green' onClick={handleAddKid}>Pridėti vaiką +</button>
     </section>
-    </>
+    </div>
   )
 }
 

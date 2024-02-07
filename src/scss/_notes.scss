@@ -29,9 +29,14 @@
     min-height: 100vh;
     background-color: $pink-spot;
     text-align: start;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
+    overflow-y: auto; /* Allow vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+
 
     .note-title {
         color: $brown-spot;
@@ -41,9 +46,8 @@
         outline: none;
         font-weight: 500;
         resize: none;
-        max-width: 600px;
         min-height: 50px;
-        min-height: 100px;
+        width: 100%;
     }
 
     .note-date {
@@ -61,8 +65,9 @@
         border: none;
         outline: none;
         resize: none;
-        max-width: 600px;
         min-height: 100px;
+        margin-bottom: 30px;
+        width: 100%;
     }
 }
 
@@ -84,7 +89,7 @@
     display: flex;
     justify-content: space-between;
     flex: 1;
-    align-items: end;
+    align-items: start;
 
     button {
         width: 50px;
