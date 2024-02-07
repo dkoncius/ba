@@ -23,21 +23,21 @@ const VideoPage = () => {
   }, [])
 
   return (
-    <>
-    <div className="content-filter">
-        <BiFilterAlt className="filter-icon" onClick={() => setIsFiltering(!isFiltering)} />
-        <button 
-        className="button-green"
-        onClick={() => setVideoPage(true)}
-        >Pridėti video +</button>
+    <div className="container">
+      <div className="content-filter">
+          <BiFilterAlt className="filter-icon" onClick={() => setIsFiltering(!isFiltering)} />
+          <button 
+          className="button-green"
+          onClick={() => setVideoPage(true)}
+          >Pridėti video +</button>
+      </div>
+  
+      {isFiltering ? 
+      <ContentFiltering setIsFiltering={setIsFiltering}/> : 
+      <VideoGallery data={data} videosData={videosData} selectedVideo={selectedVideo} setSelectedVideo={setSelectedVideo}/>}
+  
+      {videoPage && <AddVideo setVideoPage={setVideoPage}/>}
     </div>
-
-    {isFiltering ? 
-    <ContentFiltering setIsFiltering={setIsFiltering}/> : 
-    <VideoGallery data={data} videosData={videosData} selectedVideo={selectedVideo} setSelectedVideo={setSelectedVideo}/>}
-
-    {videoPage && <AddVideo setVideoPage={setVideoPage}/>}
-    </>
   )
 }
 

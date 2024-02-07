@@ -22,21 +22,22 @@ const ImagePage = () => {
   }, [])
 
   return (
-    <>
-    <div className="content-filter">
-        <BiFilterAlt className="filter-icon" onClick={() => setIsFiltering(!isFiltering)} />
-        <button 
-        className="button-green"
-        onClick={() => setImagePage(true)}
-        >Pridėti nuotrauką +</button>
+    <div className="container">
+      <div className="content-filter">
+          <BiFilterAlt className="filter-icon" onClick={() => setIsFiltering(!isFiltering)} />
+          <button 
+          className="button-green"
+          onClick={() => setImagePage(true)}
+          >Pridėti nuotrauką +</button>
+      </div>
+  
+      {isFiltering ? 
+      <ContentFiltering setIsFiltering={setIsFiltering}/> : 
+      <ImageGallery data={data} imagesData={imagesData} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>}
+  
+      {imagePage && <AddImage setImagePage={setImagePage}/>}
+
     </div>
-
-    {isFiltering ? 
-    <ContentFiltering setIsFiltering={setIsFiltering}/> : 
-    <ImageGallery data={data} imagesData={imagesData} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>}
-
-    {imagePage && <AddImage setImagePage={setImagePage}/>}
-    </>
   );
 };
 

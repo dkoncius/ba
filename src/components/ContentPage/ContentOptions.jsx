@@ -46,20 +46,23 @@ const ContentOptions = () => {
   };
 
   return (
-    <>
-    <nav className="content-options">
-      {optionsData.map((option) => (
-        <Link
-          to={option.to}
-          key={option.id}
-          className={`content-option ${selectedOption === option.id ? 'selected' : ''}`}
-          onClick={() => handleOptionClick(option.id)}
-        >
-          {option.icon}
-          <span>{option.label}</span>
-        </Link>
-      ))}
-    </nav>
+    <> 
+    <div className="container">
+      <nav className="content-options">
+        {optionsData.map((option) => (
+          <Link
+            to={option.to}
+            key={option.id}
+            className={`content-option ${selectedOption === option.id ? 'selected' : ''}`}
+            onClick={() => handleOptionClick(option.id)}
+          >
+            {option.icon}
+            <span>{option.label}</span>
+          </Link>
+        ))}
+      </nav>
+    </div>
+    
     <Outlet/>
     </>
   );

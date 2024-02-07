@@ -4,10 +4,10 @@ import ContentOptions from "../../components/ContentPage/ContentOptions";
 const ContentPage = () => {
 
   return (
-    <div className="container">
-        <ContentHeader/>
-        <ContentOptions/>
-    </div>
+    <>
+    <ContentHeader/>
+    <ContentOptions/>
+    </>
   )
 }
 

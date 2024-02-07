@@ -18,7 +18,8 @@ const Notes = () => {
   };
 
   return (
-    <div className="notes">
+    <>  
+    <div className="notes container">
       {notesData.map((note) => (
         <Note
           note={note}
@@ -28,8 +29,9 @@ const Notes = () => {
       ))}
 
       {/* Display the clicked note */}
-      {selectedNote && <SelectedNote selectedNote={selectedNote} setSelectedNote={setSelectedNote} notesData={notesData}/>}
     </div>
+    {selectedNote && <SelectedNote selectedNote={selectedNote} setSelectedNote={setSelectedNote} notesData={notesData}/>}
+    </>
   );
 };
 

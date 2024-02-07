@@ -11,6 +11,19 @@ const SelectedNote = ({ selectedNote, setSelectedNote, notesData }) => {
     }
   };
 
+  const adjustTextAreaHeight = (e) => {
+    // Temporarily shrink the textarea to 'auto' to let it adjust based on content
+    e.target.style.height = 'auto';
+    // Then set the height to the scrollHeight plus a little extra space to avoid scroll bar appearance
+    e.target.style.height = `${e.target.scrollHeight}px`;
+  };
+
+  const handleTitleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevents adding a new line
+    }
+  };
+
   return (
     <div className="selected-note">
       <div className="header">
@@ -19,9 +32,22 @@ const SelectedNote = ({ selectedNote, setSelectedNote, notesData }) => {
         </button>
       </div>
 
-      <h2>{selectedNote.noteTitle}</h2>
-      <p className='selected-note-date'>{selectedNote.noteDate}</p>
-      <p className='selected-note-text'>{selectedNote.noteText}</p>
+      <textarea
+        name='title'
+        className='note-title'
+        placeholder='Pavadinimas'
+        onKeyDown={handleTitleKeyDown}
+        onChange={adjustTextAreaHeight} // Optional: If you want the title to expand vertically as well
+        value={selectedNote.noteTitle}
+      />
+      <p className='note-date'>{selectedNote.noteDate}</p>
+      <textarea
+        name='text'
+        className='note-text'
+        placeholder='Sukurkite įrašą...'
+        onChange={adjustTextAreaHeight}
+        value={selectedNote.noteText}
+      />
 
       <nav>
         <button

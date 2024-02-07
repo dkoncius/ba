@@ -19,34 +19,55 @@
     }
 }
 
-
-.selected-note {
+.selected-note, .add-note {
     position: fixed;
     top: 0;
-    bottom:0;
     left: 0;
     right: 0;
+    bottom: 0;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background-color: $pink-spot;
     text-align: start;
     padding: 30px;
     display: flex;
     flex-direction: column;
 
-    .selected-note-date {
+    .note-title {
+        color: $brown-spot;
+        font-size: 1.5em;
+        background: none;
+        border: none;
+        outline: none;
+        font-weight: 500;
+        resize: none;
+        max-width: 600px;
+        min-height: 50px;
+        min-height: 100px;
+    }
+
+    .note-date {
         opacity: 0.5;
         font-size: 0.8em;
         margin: 15px 0;
+        background: none;
+        border: none;
+        outline: none;
     }
 
-    .selected-note-text {
+    .note-text {
         line-height: 25px;
+        background: none;
+        border: none;
+        outline: none;
+        resize: none;
+        max-width: 600px;
+        min-height: 100px;
     }
 }
 
-.selected-note .header {
-    height: 20%;
+.selected-note .header, .add-note .header {
+    height: 100px;
     text-align: start;
 
     button {
@@ -85,7 +106,8 @@
     }
 }
 
-@media (max-width: 426px){
+
+@media (max-width: 500px){
     .notes .note {
         width: 100%;
     }

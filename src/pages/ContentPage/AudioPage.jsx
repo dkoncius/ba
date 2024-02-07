@@ -9,18 +9,18 @@ const AudioPage = () => {
   const [audioPage, setAudioPage] = useState(false);
 
   return (
-    <>
-        <div className="content-filter">
-        <BiFilterAlt className="filter-icon" onClick={() => setIsFiltering(!isFiltering)} />
-        <button className="button-green" onClick={() => setAudioPage(true)}>Pridėti garso įrašą +</button>
-        </div>
-        {isFiltering ? 
-        <ContentFiltering setIsFiltering={setIsFiltering}/> : 
-          <AudioLibrary/>
-        }
+    <div className="container">
+      <div className="content-filter">
+      <BiFilterAlt className="filter-icon" onClick={() => setIsFiltering(!isFiltering)} />
+      <button className="button-green" onClick={() => setAudioPage(true)}>Pridėti garso įrašą +</button>
+      </div>
+      {isFiltering ? 
+      <ContentFiltering setIsFiltering={setIsFiltering}/> : 
+        <AudioLibrary/>
+      }
 
-        {audioPage && <AddAudio setAudioPage={setAudioPage}/>}
-    </>
+      {audioPage && <AddAudio setAudioPage={setAudioPage}/>}
+  </div>
   )
 }
 
