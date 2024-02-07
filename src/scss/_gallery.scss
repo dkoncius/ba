@@ -7,7 +7,7 @@
 
     .image, .video {
         width: 28%;
-        height: 500px;
+        height: 350px;
         object-fit: cover;
         box-shadow: 0 0 2px $green-spot;
         transition: 0.3s;
@@ -110,4 +110,16 @@
     .none {
         display: none;
     }
+}
+
+@media (max-width: 426px){
+    .gallery {
+        .image, .video {
+            height: 250px;
+            width: 45%;
+        }
+    }
+   
+    
+        
 }

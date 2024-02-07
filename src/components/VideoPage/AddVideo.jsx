@@ -47,11 +47,11 @@ const AddVideo = ({ setVideoPage }) => {
   };
   
   return (
-    <div className="add-image">
+    <div className="add-video">
       <button className="close" onClick={() => setVideoPage(false)}>
         <RxCross1 />
       </button>
-      <img className="image" src="/kids/kid-1.jpg" alt="kid-1" />
+      <video className="video" src="/kids-videos/video-1.mp4" alt="video-1" controls/>
 
       <div className="image-data">
         <div className="height">
