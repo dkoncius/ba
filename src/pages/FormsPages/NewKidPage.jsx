@@ -12,7 +12,7 @@ const NewKidPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    navigate("/")
+    navigate("/kids")
   }
 
   const handleInputChange = (e) => {
