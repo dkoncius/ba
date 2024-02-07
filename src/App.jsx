@@ -5,13 +5,13 @@ import NewUserPage from './pages/FormsPages/NewUserPage';
 import NewKidPage from './pages/FormsPages/NewKidPage';
 import LoginPage from './pages/FormsPages/LoginPage';
 import ContentPage from './pages/ContentPage/ContentPage';
-import GalleryPage from "./pages/ContentPage/GalleryPage";
-import VideosPage from "./pages/ContentPage/VideosPage";
 import NotesPage from "./pages/ContentPage/NotesPage";
 import AudioPage from "./pages/ContentPage/AudioPage";
 import KidsPage from "./pages/KidPage/KidsPage";
 import EditKidPage from "./pages/KidPage/EditKidPage";
 import KidsProgressPage from "./pages/ContentPage/KidsProgressPage";
+import ImagePage from "./pages/ContentPage/ImagePage";
+import VideoPage from "./pages/ContentPage/VideosPage";
 
 
 function App() {
@@ -28,8 +28,8 @@ function App() {
           <Route path='kids' element={<KidsPage/>}/>
           <Route path='progress' element={<KidsProgressPage/>}/>
           <Route path='content' element={<ContentPage/>}>
-              <Route path="gallery" element={<GalleryPage/>}/>
-              <Route path="video" element={<VideosPage/>}/>
+              <Route path="gallery" element={<ImagePage/>}/>
+              <Route path="video" element={<VideoPage/>}/>
               <Route path="notes" element={<NotesPage/>}/>
               <Route path="audio" element={<AudioPage/>}/>
           </Route>
