@@ -68,6 +68,11 @@
     .moods {
         flex-direction: row;
         flex-wrap: wrap;
+
+        .mood {
+            text-align: center;
+        }
+        
         .no-face, .face {
             display: inline-block;
             background: $green-spot;
@@ -77,4 +82,13 @@
             border-radius: 30px;
         }
     }
+}
+
+
+@media (max-width: 426px) {
+    
+    .progress .stats {
+        padding: 15px;
+    }
+
 }

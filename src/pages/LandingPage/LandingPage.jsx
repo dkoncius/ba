@@ -1,6 +1,8 @@
-import Option from '../../components/LandingPage/Option';
+import { easeIn, motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import Option from '../../components/LandingPage/Option';
 import Footer from "../../components/General/Footer";
+import { useRef } from "react";
 
 const optionsData = [
     {
@@ -30,38 +32,86 @@ const optionsData = [
   ];
 
 const LandingPage = () => {
+  const scrollRef = useRef(null)
+  
+  const headingsVariants = {
+    offscreen: {
+      opacity: 0, scale: 0.5
+    },
+    onscreen: {
+      opacity: 1, scale: 1,
+      transition: {
+        type: "spring",
+        duration: 0.8
+      }
+    }
+  };
+
   return (
     <>
        <header className="landing-header">
         <div className="container">
           <div className="content">
-            <nav>
+            <motion.nav
+                initial={{ opacity: 0, y: -30}}
+                animate={{ opacity: 1, y: 0}}
+                transition={{
+                  duration: 1,
+                  delay: 0.5,
+                  ease: [0, 0.71, 0.2, 1.01]
+                }}
+            >
               <Link to="/">
                 <img className='logo' src="landing/logo.png" alt="logo" />
               </Link>
               <Link to="/login" className='button-outline'>Prisijungti</Link>
-            </nav>
-            <h1>Brangiausios akimirkos su vaiku - vienoje vietoje</h1>
-            <Link to="/new-user" className="button-brown">Registruotis</Link>
+            </motion.nav>
+
+            <motion.div
+               initial={{ opacity: 0, scale: 0.5 }}
+               animate={{ opacity: 1, scale: 1 }}
+               transition={{
+                 duration: 0.5,
+                 ease: easeIn
+               }}
+            >
+              <h1>Brangiausios akimirkos su vaiku - vienoje vietoje</h1>
+              <Link to="/new-user" className="button-brown">Registruotis</Link>
+            </motion.div>
           </div>
-          <img className='cover' src="landing/cover.png" alt="cover" />
+          <motion.img 
+            initial={{ opacity: 0, y: -30}}
+            animate={{ opacity: 1, y: 0}}
+            transition={{
+              duration: 1,
+              delay: 0.5,
+              ease: [0, 0.71, 0.2, 1.01]
+            }}
+          className='cover' src="landing/cover.png" alt="cover" />
         </div>
       </header>
 
       <section className="memories-options">
         <div className="container">
-          <h2>Prisiminimai keturiais skirtingais būdais</h2>
+          <motion.h2
+            initial="offscreen"
+            whileInView="onscreen"
+            variants={headingsVariants}
+            viewport={{ once: true }}
+          >Prisiminimai keturiais skirtingais būdais</motion.h2>
 
           <div className="options">
             {optionsData.map((option, index) => (
-            <Option iconSrc={option.iconSrc} title={option.title} description={option.description} key={index}/>
+            <Option iconSrc={option.iconSrc} title={option.title} description={option.description} key={index} motion={motion}/>
             ))}
           </div>
 
         </div>
-          <div className="memories-options-bottom">    
-            <h2>Įsiamžinkite svarbiausias savo vaiko akimirkas dabar</h2>
-            <Link to="/new-user" className="button-green">Registruotis</Link>
+          <div className="memories-options-bottom">
+            <motion.div>   
+              <h2>Įsiamžinkite svarbiausias savo vaiko akimirkas dabar</h2>
+              <Link to="/new-user" className="button-green">Registruotis</Link>
+            </motion.div>  
           </div>
       </section>
 

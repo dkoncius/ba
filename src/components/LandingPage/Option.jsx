@@ -1,14 +1,35 @@
 import React from 'react'
 
-const Option = ({iconSrc, title, description}) => {
+const Option = ({iconSrc, title, description, motion, scrollRef}) => {
+  
+
+  const cardVariants = {
+    offscreen: {
+      x: 300
+    },
+    onscreen: {
+      x: 0,
+      transition: {
+        type: "spring",
+        duration: 0.8,
+        delay: 0.1
+      }
+    }
+  };
+
   return (
-    <div className="option">
+    <motion.div
+    initial="offscreen"
+    whileInView="onscreen"
+    variants={cardVariants}
+      viewport={{ once: true, amount: 0.9 }}
+    className="option">
     <img src={iconSrc} alt={title} />
     <div className="option-content">
       <h3>{title}</h3>
       <p>{description}</p>
     </div>
-  </div>
+  </motion.div>
   )
 }
 
