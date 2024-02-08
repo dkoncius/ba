@@ -11,8 +11,7 @@ const Option = ({iconSrc, title, description, motion, scrollRef}) => {
       x: 0,
       transition: {
         type: "spring",
-        duration: 0.8,
-        delay: 0.1
+        duration: 0.8
       }
     }
   };
@@ -22,7 +21,7 @@ const Option = ({iconSrc, title, description, motion, scrollRef}) => {
     initial="offscreen"
     whileInView="onscreen"
     variants={cardVariants}
-      viewport={{ once: true, amount: 0.9 }}
+      viewport={{ once: true, amount: 0.5 }}
     className="option">
     <img src={iconSrc} alt={title} />
     <div className="option-content">
