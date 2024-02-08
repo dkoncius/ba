@@ -8,25 +8,25 @@ const optionsData = [
     {
       iconSrc: 'landing/image-icon.png',
       title: 'Nuotraukos',
-      description: 'Įsiamžinkite nuostabiausias vaiko akimirkas',
+      description: 'Įamžinkite gražiausias ir įsimintiniausias vaiko gyvenimo akimirkas',
       link: "/content/gallery"
     },
     {
       iconSrc: 'landing/video-icon.png',
-      title: 'Video',
-      description: 'Įsiamžinkite nuostabiausias vaiko akimirkas',
+      title: 'Vaizdo įrašai',
+      description: 'Išsaugokite gražiausius vaiko gyvenimo momentus',
       link: "/content/video"
     },
     {
       iconSrc: 'landing/text-icon.png',
-      title: 'Tekstas',
-      description: 'Įsiamžinkite nuostabiausias vaiko akimirkas',
+      title: 'Dienoraštis',
+      description: 'Aprašykite vaiko raidą, pirmus žodžius bei vaiko ir savo emocijas, išreikškite meilę parašydami laišką savo vaikui',
       link: "/content/document"
     },
     {
       iconSrc: 'landing/mic-icon.png',
-      title: 'Garso įrašas',
-      description: 'Įsiamžinkite nuostabiausias vaiko akimirkas',
+      title: 'Garso įrašai',
+      description: 'Įrašykite pirmąjį vaiko juoką, krykštavimus bei ištartą pirmąjį žodį',
       link: "/content/audio"
     },
   ];
