@@ -25,6 +25,8 @@
         object-fit: cover;
         margin-top: -230px;
         margin-bottom: -30px;
+        opacity: 0;
+        transform: translateY(-300px);
     }
 
     .container {
