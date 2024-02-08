@@ -108,7 +108,12 @@ const LandingPage = () => {
 
         </div>
           <div className="memories-options-bottom">
-            <motion.div>   
+            <motion.div
+                initial="offscreen"
+                whileInView="onscreen"
+                variants={headingsVariants}
+                viewport={{ once: true }}
+            >   
               <h2>Įsiamžinkite svarbiausias savo vaiko akimirkas dabar</h2>
               <Link to="/new-user" className="button-green">Registruotis</Link>
             </motion.div>  
