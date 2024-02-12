@@ -1,4 +1,4 @@
-import { motion  } from "framer-motion"
+import { motion } from "framer-motion"
 import React, { useState } from 'react';
 import Note from './Note';
 import SelectedNote from './SelectedNote';

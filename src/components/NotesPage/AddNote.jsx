@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 
 const AddNote = ({ setNotePage }) => {
