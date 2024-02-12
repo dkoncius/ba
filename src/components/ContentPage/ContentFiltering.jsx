@@ -21,10 +21,10 @@ const ContentFiltering = ({setIsFiltering}) => {
     }
   
     return (
-      <>
+      <div className="content-filtering">
         <h2>Filtras</h2>
         <p>Rodyti datą:</p>
-      <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
         <input
               type={isFocused || fromDate ? "date" : "text"}
               name="from"
@@ -48,7 +48,7 @@ const ContentFiltering = ({setIsFiltering}) => {
           />
           <button className="button-green">Išsaugoti</button>
       </form>
-      </>
+    </div>
     )
   }
 

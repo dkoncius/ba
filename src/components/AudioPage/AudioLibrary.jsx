@@ -1,3 +1,4 @@
+import { motion  } from "framer-motion"
 import React, { useState, useRef, useEffect } from 'react'
 
 const recordingsData = [
@@ -80,8 +81,23 @@ const AudioLibrary = () => {
     };
   }, []);
 
+  const animation = { 
+    hidden: {opacity: 0, y: 30},
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 1,
+        type: "spring",
+        staggerChildren: 0.3
+      }
+    }
+  }
+
   return (
-    <div className="recordings">
+    <motion.div 
+    variants={animation} initial="hidden" animate="visible" 
+    className="recordings">
       {recordingsData.map(({ id, timeStamp, title }) => (
         <div className="track" key={id}>
           <div className="icon" onClick={() => togglePlay(id)}>
@@ -103,7 +119,7 @@ const AudioLibrary = () => {
           </div>
         </div>
       ))}
-    </div>
+    </motion.div>
   )
 }
 

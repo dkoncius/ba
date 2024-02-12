@@ -1,3 +1,4 @@
+import { motion  } from "framer-motion"
 import React, { useState } from 'react';
 import Note from './Note';
 import SelectedNote from './SelectedNote';
@@ -17,9 +18,24 @@ const Notes = () => {
     setSelectedNote(selectedNoteData);
   };
 
+  const animation = { 
+    hidden: {opacity: 0, y: 30},
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 1,
+        type: "spring",
+        staggerChildren: 0.3
+      }
+    }
+  }
+
   return (
     <>  
-    <div className="notes container">
+    <motion.div 
+      variants={animation} initial="hidden" animate="visible" 
+      className="notes container">
       {notesData.map((note) => (
         <Note
           note={note}
@@ -29,7 +45,7 @@ const Notes = () => {
       ))}
 
       {/* Display the clicked note */}
-    </div>
+    </motion.div>
     {selectedNote && <SelectedNote selectedNote={selectedNote} setSelectedNote={setSelectedNote} notesData={notesData}/>}
     </>
   );

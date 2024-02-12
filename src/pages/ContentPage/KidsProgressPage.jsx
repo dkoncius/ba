@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useState } from 'react';
 import ProgressFiltering from '../../components/KidsProgressPage/ProgressFiltering';
 import { RxCross1 } from "react-icons/rx";
@@ -37,11 +38,20 @@ const KidsProgressPage = () => {
 
   return (
     <div className="container">
-      <div className="kids-progress">
-          <div className="icon" onClick={goBackToFeed}>
-            <RxCross1/>
+      <motion.div 
+         initial={{ opacity: 0, x: -30}}
+         animate={{ opacity: 1, x: 0}}
+         transition={{
+           duration: 1,
+           ease: [0, 0.71, 0.2, 1.01]
+         }}
+      className="kids-progress">
+          <div className="kids-progress-header">
+            <h2>Pokyčiai</h2>
+            <div className="icon" onClick={goBackToFeed}>
+              <RxCross1/>
+            </div>
           </div>
-          <h2>Pokyčiai</h2>
           <ProgressFiltering setIsFiltering={setIsFiltering}/>
           
           <div className="progress">
@@ -77,7 +87,7 @@ const KidsProgressPage = () => {
               ))}
             </div>
           </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

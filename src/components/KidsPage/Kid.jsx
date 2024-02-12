@@ -4,7 +4,7 @@ import { BsFillPencilFill } from "react-icons/bs";
 import { Link, useNavigate } from 'react-router-dom';
 import { useCallback } from "react";
 
-export const Kid = ({kid}) => {
+export const Kid = ({kid, motion, itemAnimation}) => {
   const navigate = useNavigate();
 
 //   const calculateAge = useCallback((birthDate) => {
@@ -20,7 +20,7 @@ const handleChangeKid = () => {
 };
 
   return (
-    <div className='kid' key={kid.id} role="button" tabIndex={0} onClick={handleChangeKid}>
+    <motion.div className='kid' key={kid.id} role="button" tabIndex={0} onClick={handleChangeKid}  variants={itemAnimation} layout="position">
       <Link to={`/${kid.id}/edit-kid`} className='edit'>
         <BsFillPencilFill aria-hidden="true"/>
       </Link>
@@ -40,6 +40,6 @@ const handleChangeKid = () => {
           {kid.birthDate}
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 };

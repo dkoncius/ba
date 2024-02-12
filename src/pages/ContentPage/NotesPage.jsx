@@ -8,6 +8,7 @@ const NotesPage = () => {
   const [isFiltering, setIsFiltering] = useState(false)
   const [notePage, setNotePage] = useState(false);
 
+
   return (
     <>
     <div className="container">

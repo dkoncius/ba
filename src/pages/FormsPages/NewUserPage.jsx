@@ -1,5 +1,5 @@
+import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import Footer from "../../components/General/Footer";
 
@@ -9,7 +9,7 @@ const NewUserPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    navigate("/")
+    navigate("/login")
   }
 
   return (
@@ -17,7 +17,14 @@ const NewUserPage = () => {
       <header className="registration-header">
           <Link to="/"><AiOutlineArrowLeft/></Link>
       </header>
-      <main className="registration-main">
+      <motion.main 
+         initial={{ opacity: 0, y: 30}}
+         animate={{ opacity: 1, y: 0}}
+         transition={{
+           duration: 1,
+           ease: [0, 0.71, 0.2, 1.01]
+         }}
+       className="registration-main">
           <h1>Registracija</h1>
           <form onSubmit={handleSubmit}>
               <input type="text" placeholder="Įveskite savo vardą"/>
@@ -27,7 +34,7 @@ const NewUserPage = () => {
               <button className="button-green">Registruotis</button>
           </form>
           <p>Jau turite paskyrą? <Link to="/login">Prisijungti</Link></p>
-      </main>
+      </motion.main>
       <Footer/>
     </div>
       

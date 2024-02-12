@@ -2,7 +2,6 @@ import { easeIn, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Option from '../../components/LandingPage/Option';
 import Footer from "../../components/General/Footer";
-import { useRef } from "react";
 
 const optionsData = [
     {
@@ -32,7 +31,6 @@ const optionsData = [
   ];
 
 const LandingPage = () => {
-  const scrollRef = useRef(null)
   
   const headingsVariants = {
     offscreen: {

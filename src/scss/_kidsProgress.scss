@@ -2,18 +2,20 @@
     min-height: 100vh;
     color: $brown-spot;
 
+    .kids-progress-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
     .show-date {
         margin-top: 30px;
     }
     
     .icon {
-        position: absolute;
-        top: 25px;
-        right: 25px;
         padding: 15px;
         padding-bottom: 5px;
         font-size: 25px;
-        justify-self: flex-end;
         transform: rotate(180deg);
 
         &:hover {

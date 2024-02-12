@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
@@ -28,7 +29,14 @@ const NewKidPage = () => {
       <header className="registration-header new-kid">
         <Link to="/"><AiOutlineArrowLeft/></Link>
       </header>
-      <main className="registration-main new-kid-main">
+      <motion.main 
+         initial={{ opacity: 0, y: 30}}
+         animate={{ opacity: 1, y: 0}}
+         transition={{
+           duration: 1,
+           ease: [0, 0.71, 0.2, 1.01]
+         }}
+      className="registration-main new-kid-main">
         <h1>Vaiko duomenys</h1>
         <form onSubmit={handleSubmit}>
           <ImageUploader />
@@ -51,7 +59,7 @@ const NewKidPage = () => {
           </div>
           <button className="button-green">Išsaugoti</button>
         </form>
-      </main>
+      </motion.main>
       <Footer />
     </>
   );

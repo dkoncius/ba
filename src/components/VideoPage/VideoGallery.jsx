@@ -1,3 +1,4 @@
+import { motion  } from "framer-motion"
 import React, { useState } from 'react';
 import { FaPlay } from "react-icons/fa";
 
@@ -11,8 +12,23 @@ const VideoGallery = ({data}) => {
     setPlayingVideoIndex(index === playingVideoIndex ? null : index);
   }
 
+  const animation = { 
+    hidden: {opacity: 0, y: 30},
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 1,
+        type: "spring",
+        staggerChildren: 0.3
+      }
+      }
+  }
+
   return (
-    <div className="gallery">
+    <motion.div 
+    variants={animation} initial="hidden" animate="visible" 
+    className="gallery">
       {data && data.map((data, index) => (
         <div className="video-container" onClick={() => handleClick(index)} key={index}>
           <video
@@ -31,7 +47,7 @@ const VideoGallery = ({data}) => {
           )}
         </div>
       ))}
-    </div>
+    </motion.div>
   );
 }
 
