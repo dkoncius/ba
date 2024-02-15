@@ -1,3 +1,70 @@
+// General
+.userNotFound {
+    background: $pink-spot;
+    width: 100%;
+    padding: 5px;
+    margin-bottom: -1px;
+    
+    a:hover {
+        cursor: pointer;
+        color: white;
+    }
+}
+
+.passwordReset {
+    background: $pink-spot;
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+.success {
+font-weight: bold;
+letter-spacing: 2px;
+background: transparent;
+color: black;
+}
+
+form {
+max-width: 600px;
+margin: auto;
+input {
+    display: block;
+    width: 90%;
+    max-width: 100%;
+    margin: 15px auto;
+    padding: 15px;
+    border-radius: 30px;
+    outline: none;
+    border: none;
+    color: $brown-dark;
+    cursor: pointer;
+    border: 2px solid $pink-spot;
+    background: linear-gradient(to bottom, $pink-light, $pink-bright);
+    transition: 0.3s;
+
+    &::placeholder {
+        color: $pink-spot;
+    }
+
+    &:focus {
+        transform: scale(0.99); /* slightly shrink the element to enhance the pressed effect */
+        color: $brown-dark;
+        box-shadow: inset 3px 3px 5px $pink-spot; /* inner shadow to create the pressed effect */
+    
+        &::placeholder {
+            color: black;
+        }
+        }
+}
+
+button {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+}
+
+
+//   Registration
 .registration-page {
     background: $pink-spot;
 }
@@ -29,46 +96,6 @@
     margin: auto;
     margin-top: -30px;
 }
-
-form {
-    max-width: 600px;
-    margin: auto;
-    input {
-        display: block;
-        width: 90%;
-        max-width: 100%;
-        margin: 15px auto;
-        padding: 15px;
-        border-radius: 30px;
-        outline: none;
-        border: none;
-        color: $brown-dark;
-        cursor: pointer;
-        border: 2px solid $pink-spot;
-        background: linear-gradient(to bottom, $pink-light, $pink-bright);
-        transition: 0.3s;
-
-        &::placeholder {
-            color: $pink-spot;
-        }
-
-        &:focus {
-            transform: scale(0.99); /* slightly shrink the element to enhance the pressed effect */
-            color: $brown-dark;
-            box-shadow: inset 3px 3px 5px $pink-spot; /* inner shadow to create the pressed effect */
-        
-            &::placeholder {
-              color: black;
-            }
-          }
-    }
-
-    button {
-        margin-top: 15px;
-        margin-bottom: 30px;
-    }
-}
-
 
 // New kid
 .new-kid {
@@ -149,9 +176,6 @@ form {
     background-repeat: no-repeat;
 }
 
-.forgot-psw {
-    text-align: end;
-    padding-right: 30px;
-    font-size: 0.8em;
-    color: $brown-spot;
+.new-user {
+    margin-top: 10px;
 }

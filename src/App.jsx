@@ -1,5 +1,4 @@
 import "./scss/app.scss"
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LandingPage from './pages/LandingPage/LandingPage';
 import NewUserPage from './pages/FormsPages/NewUserPage';
 import NewKidPage from './pages/FormsPages/NewKidPage';
@@ -13,8 +12,43 @@ import KidsProgressPage from "./pages/ContentPage/KidsProgressPage";
 import ImagePage from "./pages/ContentPage/ImagePage";
 import VideoPage from "./pages/ContentPage/VideosPage";
 
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { doc, collection, query, getDocs } from 'firebase/firestore';
+import { auth, db } from './firebase/firebase-config';
+import { useEffect, useState } from "react";
+
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [hasKids, setHasKids] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      setUser(user);
+      if (user) {
+        const hasKidsStatus = await checkIfUserHasKids(user.uid);
+        setHasKids(hasKidsStatus);
+      }
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const checkIfUserHasKids = async (userId) => {
+    try {
+      const userDocRef = doc(db, 'users', userId);
+      const kidsCollection = collection(userDocRef, 'kids');
+      const q = query(kidsCollection);
+      const querySnapshot = await getDocs(q);
+      
+      return !querySnapshot.empty;
+    } catch (error) {
+      console.error('Error checking if user has kids:', error);
+      return false;
+    }
+  }; 
 
   return (
     <>
@@ -24,7 +58,7 @@ function App() {
           <Route path='new-user' element={<NewUserPage/>}/>
           <Route path='new-kid' element={<NewKidPage/>}/>
           <Route path=':id/edit-kid' element={<EditKidPage/>}/>
-          <Route path='login' element={<LoginPage/>}/>
+          <Route path="login" element={<LoginPage setUser={setUser} />} />
           <Route path='kids' element={<KidsPage/>}/>
           <Route path='progress' element={<KidsProgressPage/>}/>
           <Route path='content' element={<ContentPage/>}>
