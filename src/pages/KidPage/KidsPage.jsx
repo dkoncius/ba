@@ -1,38 +1,82 @@
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion  } from "framer-motion"
-import { useNavigate } from 'react-router-dom';
 import { RxCross1 } from "react-icons/rx";
 import { Kid } from '../../components/KidsPage/Kid';
+import { collection, getDocs, doc, getFirestore, query } from 'firebase/firestore';
+import { signOutUser } from '../../firebase/auth';
+import { useEffect, useState } from 'react';
 
-const kidsData = [
-    {id: 1, name: "Tomas", birthDate: "2022-01-26", image: "/kids/kid-1.jpg"},
-    {id: 2, name: "Deividas", birthDate: "2022-01-26", image: "/kids/kid-2.jpg"},
-    {id: 3, name: "Dominykas", birthDate: "2022-01-26", image: "/kids/kid-3.jpg"},
-]
 
-const KidsPage = () => {
-    const navigate = useNavigate()
+const KidsPage = ({user}) => {
+  const location = useLocation();
+  const [loading, setLoading] = useState(true);
+  const [kids, setKids] = useState([]);
+  const [kidData, setKidData] = useState(null);
+  const [error, setError] = useState(null);
 
-const handleSignOut = async () => {
-    navigate('/login');
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const fetchKids = async () => {
+      try {
+        if (!user) {
+          return;
+        }
+
+        const db = getFirestore();
+        const kidsRef = collection(doc(db, 'users', user.uid), 'kids'); // We'll use the provided 'user' prop directly here.
+        const kidsQuery = query(kidsRef);
+        const kidDocs = await getDocs(kidsQuery);
+
+        const kidsData = kidDocs.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setKids(kidsData);
+      } catch (error) {
+        console.error('Error fetching kids:', error);
+        setError('Failed to fetch kids data, please try again later.');
+      } finally {
+        setLoading(false);
+      }
     };
 
-const goBackToFeed = () => {
-    return navigate('/content/gallery');
-}
+    fetchKids();
+  }, [user]);
 
-const handleAddKid = () => {
-    navigate('/new-kid');
+  useEffect(() => {
+    if (location.state) {
+      setKidData(location.state.selectedKid);
+    } else {
+      console.log("Kids component");
+    }
+  }, [location.state]);
+
+  const handleSignOut = async () => {
+    try {
+      await signOutUser();
+    } catch (error) {
+      console.error('Error signing out: ', error);
+    } finally {
+      navigate('/login');
+    }
   };
 
-  const listAnimation = { 
-    hidden: {opacity: 0},
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3
+  const goBackToFeed = () => {
+    return navigate('/content/gallery', { state: { kidToFeed: kidData} });
+  }
+
+  const handleAddKid = () => {
+    navigate('/new-kid');
+  };
+  
+
+    const listAnimation = { 
+      hidden: {opacity: 0},
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: 0.3
+        }
       }
     }
-  }
   
   const itemAnimation = {
     hidden: { opacity: 0 },
@@ -51,7 +95,7 @@ const handleAddKid = () => {
       visible: {
         opacity: 1,
         transition: {
-          delay: kidsData.length * 0.3, // Assumes each child will start after 0.3s of the previous one
+          delay: kids.length * 0.3, // Assumes each child will start after 0.3s of the previous one
           duration: 0.5
         }
       }
@@ -74,7 +118,7 @@ const handleAddKid = () => {
     <motion.section 
     variants={listAnimation} initial="hidden" animate="visible" 
     className='kids-container'>
-      {kidsData.map((kid) => (
+      {kids.map((kid) => (
         <Kid 
          key={kid.id}
          kid={kid} 

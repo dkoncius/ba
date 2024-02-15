@@ -7,23 +7,26 @@ import { useCallback } from "react";
 export const Kid = ({kid, motion, itemAnimation}) => {
   const navigate = useNavigate();
 
-//   const calculateAge = useCallback((birthDate) => {
-//     const birthdate = parseISO(birthDate);
-//     const years = differenceInYears(new Date(), birthdate);
-//     const months = differenceInMonths(new Date(), birthdate) % 12;
-//     const days = differenceInDays(new Date(), birthdate) % 30; // Approximation
-//     return `${years} years, ${months} months, ${days} days`;
-//   }, []);
+  const calculateAge = useCallback((birthDate) => {
+    const birthdate = parseISO(birthDate);
+    const years = differenceInYears(new Date(), birthdate);
+    const months = differenceInMonths(new Date(), birthdate) % 12;
+    const days = differenceInDays(new Date(), birthdate) % 30; // Approximation
+    return `${years} years, ${months} months, ${days} days`;
+  }, []);
 
-const handleChangeKid = () => {
-    console.log("change kid")
-};
+  const handleEdit = (event) => {
+  event.stopPropagation();
+  navigate('/edit-kid', { state: { kidToEdit: kid } });
+  };
+
+  const handleChangeKid = () => {
+  navigate('/content/gallery', { state: { kidToFeed: kid } });
+  };
 
   return (
     <motion.div className='kid' key={kid.id} role="button" tabIndex={0} onClick={handleChangeKid}  variants={itemAnimation} layout="position">
-      <Link to={`/${kid.id}/edit-kid`} className='edit'>
-        <BsFillPencilFill aria-hidden="true"/>
-      </Link>
+      <BsFillPencilFill className='edit' aria-hidden="true" onClick={(event) => handleEdit(event)}/>
       <img 
         className='kid-image' 
         src={kid.image || '/assets/profile-1.jpg'} 

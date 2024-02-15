@@ -50,16 +50,28 @@ function App() {
     }
   }; 
 
+  function ProtectedRouteWrapper({ component: Component, redirectTo, ...props }) {
+    if (isLoading) {
+        return null; // or return a loading spinner/component
+    }
+
+    return (
+        user 
+            ? (hasKids ? <Component {...props} /> : <Navigate to="/new-kid" replace />)
+            : <Navigate to={redirectTo} replace />
+    );
+}
+
   return (
     <>
       <BrowserRouter>
         <Routes>
           <Route index element={<LandingPage/>}/>
           <Route path='new-user' element={<NewUserPage/>}/>
-          <Route path='new-kid' element={<NewKidPage/>}/>
-          <Route path=':id/edit-kid' element={<EditKidPage/>}/>
+          <Route path='new-kid' element={<NewKidPage user={user}/>}/>
+          <Route path='edit-kid' element={<EditKidPage user={user}/>}/>
           <Route path="login" element={<LoginPage setUser={setUser} />} />
-          <Route path='kids' element={<KidsPage/>}/>
+          <Route path='kids' element={<KidsPage user={user}/>}/>
           <Route path='progress' element={<KidsProgressPage/>}/>
           <Route path='content' element={<ContentPage/>}>
               <Route path="gallery" element={<ImagePage/>}/>
