@@ -29,7 +29,7 @@ const LoginPage = ({setUser}) => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user && user.emailVerified) {
         setUser(user);
-        navigate('/');
+        navigate('/content/gallery');
       }
     });
     return unsubscribe;
@@ -46,7 +46,7 @@ const LoginPage = ({setUser}) => {
       setError('Prašome patvirtinti paštą prieš prisijungiant.');
       signOutUser();
     } else {
-      navigate('/'); 
+      navigate('/content/gallery');
     }
   };
 
