@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const ContentHeader = () => {
+const ContentHeader = ({kidData}) => {
   return (
     <div className="container">
       <header className="content-header">
@@ -9,7 +9,7 @@ const ContentHeader = () => {
                 <img className="stats-icon" src="/content/stats-icon.svg" alt="stats icon" />
               </Link>
               <Link to="/kids">
-                <img className="profile-image" src="/kids/kid-1.jpg" alt="kid-1" />
+              <img className="profile-image" src={kidData.image} alt={kidData.name}/>
               </Link>
           </div>
       </header>

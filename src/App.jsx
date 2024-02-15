@@ -73,7 +73,7 @@ function App() {
           <Route path="login" element={<LoginPage setUser={setUser} />} />
           <Route path='kids' element={<KidsPage user={user}/>}/>
           <Route path='progress' element={<KidsProgressPage/>}/>
-          <Route path='content' element={<ContentPage/>}>
+          <Route path='content' element={<ContentPage user={user}/>}>
               <Route path="gallery" element={<ImagePage/>}/>
               <Route path="video" element={<VideoPage/>}/>
               <Route path="notes" element={<NotesPage/>}/>
