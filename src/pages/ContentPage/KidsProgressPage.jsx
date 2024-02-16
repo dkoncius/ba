@@ -33,7 +33,7 @@ const KidsProgressPage = () => {
     });
 
     const goBackToFeed = () => {
-      return navigate('/content/gallery');
+      return navigate('/content/images');
   }
 
   return (

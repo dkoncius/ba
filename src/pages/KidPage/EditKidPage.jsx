@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import Footer from "../../components/General/Footer";
@@ -9,8 +9,10 @@ import { getStorage, ref, deleteObject, listAll } from "firebase/storage";
 import { getFirestore, doc, collection, query, getDocs, limit, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebase-config';
 import { getAuth } from 'firebase/auth';
+import UserContext from "../../contexts/UserContext";
 
-const EditKidPage = ({user}) => {
+const EditKidPage = () => {
+  const {user} = useContext(UserContext)
   const [isFocused, setIsFocused] = useState(false)
   const [kidData, setKidData] = useState({
     name: '',
@@ -142,7 +144,7 @@ const EditKidPage = ({user}) => {
   const handleDelete = () => {
     if(window.confirm(`Ar tikrai norite ištrinti ${kidData.name}?`)) {
       deleteKid(kidData.id);
-      goBackToKids();
+      navigate("/kids")
     }
   };
 
@@ -199,9 +201,8 @@ const EditKidPage = ({user}) => {
             onChange={handleInputChange}
             required
           />
-          <button className="button-green">
-            IŠSAUGOTI
-          </button>
+          <button className="button-green">IŠSAUGOTI</button>
+          <button type="button" className='button-red' onClick={handleDelete}>IŠTRINTI</button>
         </form>
       </motion.main>
       <Footer />

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import Footer from "../../components/General/Footer";
@@ -11,8 +11,10 @@ import { db } from '../../firebase/firebase-config';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useLocalStorage } from '../../utils/localStorage';
 import { collection } from 'firebase/firestore';
+import UserContext from "../../contexts/UserContext";
 
-const NewKidPage = ({user}) => {
+const NewKidPage = () => {
+  const {user} = useContext(UserContext)
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);

@@ -2,9 +2,11 @@ import { FaBirthdayCake } from "react-icons/fa";
 import { GiSandsOfTime } from "react-icons/gi";
 import { BsFillPencilFill } from "react-icons/bs";
 import { Link, useNavigate } from 'react-router-dom';
-import { useCallback } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import KidContext from "../../contexts/KidContext";
 
 export const Kid = ({kid, motion, itemAnimation}) => {
+  const {selectedKidData, setSelectedKidData} = useContext(KidContext);
   const navigate = useNavigate();
 
   const calculateAge = useCallback((birthDate) => {
@@ -17,30 +19,35 @@ export const Kid = ({kid, motion, itemAnimation}) => {
 
   const handleEdit = (event) => {
   event.stopPropagation();
-  navigate('/edit-kid', { state: { kidToEdit: kid } });
+  navigate('/edit-kid');
   };
 
   const handleChangeKid = () => {
-  navigate('/content/gallery', { state: { kidToFeed: kid } });
+  navigate('/content/images');
   };
 
+
+  useEffect(() => {
+    setSelectedKidData(kid)
+  }, [])
+
   return (
-    <motion.div className='kid' key={kid.id} role="button" tabIndex={0} onClick={handleChangeKid}  variants={itemAnimation} layout="position">
+    <motion.div className='kid' key={selectedKidData.id} role="button" tabIndex={0} onClick={handleChangeKid}  variants={itemAnimation} layout="position">
       <BsFillPencilFill className='edit' aria-hidden="true" onClick={(event) => handleEdit(event)}/>
       <img 
         className='kid-image' 
-        src={kid.image || '/assets/profile-1.jpg'} 
-        alt={`profile of ${kid.name}`} 
+        src={selectedKidData.image || '/assets/profile-1.jpg'} 
+        alt={`profile of ${selectedKidData.name}`} 
       />
       <div className='kid-data'>
-        <h2 className='kid-name'>{kid.name}</h2>
+        <h2 className='kid-name'>{selectedKidData.name}</h2>
         <p className='kid-birthday'>
           <FaBirthdayCake aria-hidden="true"/> 
-          {kid.birthDate}
+          {selectedKidData.birthDate}
         </p>
         <p className='kid-age'>
           <GiSandsOfTime aria-hidden="true"/> 
-          {kid.birthDate}
+          {selectedKidData.birthDate}
         </p>
       </div>
     </motion.div>

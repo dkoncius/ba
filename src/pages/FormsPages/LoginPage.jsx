@@ -4,9 +4,11 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import Footer from "../../components/General/Footer";
 import { auth } from '../../firebase/firebase-config';
 import { signOutUser, signInWithEmail, resetPassword } from '../../firebase/auth';
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../../contexts/UserContext";
 
-const LoginPage = ({setUser}) => {
+const LoginPage = () => {
+  const {setUser} = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -29,7 +31,7 @@ const LoginPage = ({setUser}) => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user && user.emailVerified) {
         setUser(user);
-        navigate('/content/gallery');
+        navigate('/content/images');
       }
     });
     return unsubscribe;
@@ -40,13 +42,12 @@ const LoginPage = ({setUser}) => {
     const response = await signInWithEmail(email, password);
     if (response.error) {
       setError(getErrorMessage(response.error));
-      console.log(getErrorMessage(response.error))
       signOutUser();
     } else if (!auth.currentUser.emailVerified) {
       setError('Prašome patvirtinti paštą prieš prisijungiant.');
       signOutUser();
     } else {
-      navigate('/content/gallery');
+      navigate('/content/images');
     }
   };
 

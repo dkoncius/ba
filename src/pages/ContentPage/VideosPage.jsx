@@ -1,8 +1,8 @@
 import {  useEffect, useState } from 'react';
 import { BiFilterAlt } from "react-icons/bi";
 import ContentFiltering from '../../components/ContentPage/ContentFiltering';
-import VideoGallery from '../../components/VideoPage/VideoGallery';
-import AddVideo from '../../components/VideoPage/AddVideo';
+import VideoGallery from '../../components/VideosPage/VideoGallery';
+import AddVideo from '../../components/VideosPage/AddVideo';
 
 const videosData = [
   {id: 0, src: '/kids-videos/video-1.mp4', alt: 'video-1', height: 51, mood: "angry", weight: 5.1},
@@ -12,7 +12,7 @@ const videosData = [
   {id: 3, src: '/kids-videos/video-5.mp4', alt: 'video-5', height: 44, mood: "cry", weight: 4.4}
 ];
 
-const VideoPage = () => {
+const VideosPage = () => {
   const [selectedVideo, setSelectedVideo] = useState(null)
   const [data, setData] = useState([])
   const [isFiltering, setIsFiltering] = useState(false)
@@ -42,4 +42,4 @@ const VideoPage = () => {
   )
 }
 
-export default VideoPage
+export default VideosPage

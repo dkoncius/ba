@@ -13,6 +13,9 @@ $brown-dark: #574542;
 
 $purple-spot: #695672;
 
+$red-bright: orangered;
+$red-spot: crimson;
+
 * {
     margin: 0;
     padding: 0;
@@ -82,6 +85,25 @@ p {
         transform: scale(1.1);
     }
 }
+
+.button-red {
+    display: block;
+    padding: 10px 35px;
+    background: linear-gradient(to bottom, $red-bright, $red-spot);
+    color: $pink-light;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    margin: auto;
+    margin-top: -20px;
+    padding: 10px 40px;
+    transition: 0.3s;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
 
 .button-outline {
     padding: 10px 15px;

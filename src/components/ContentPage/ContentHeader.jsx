@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 const ContentHeader = ({kidData}) => {
+
   return (
     <div className="container">
       <header className="content-header">

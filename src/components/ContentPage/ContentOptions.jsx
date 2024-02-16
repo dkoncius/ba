@@ -9,12 +9,12 @@ const optionsData = [
   {
     id: 1,
     icon: <LuMountain />,
-    to: "gallery"
+    to: "images"
   },
   {
     id: 2,
     icon: <BsCameraVideo />,
-    to: "video"
+    to: "videos"
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ const optionsData = [
   {
     id: 4,
     icon: <IoMicOutline />,
-    to: "audio"
+    to: "recordings"
   }
 ];
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { BiFilterAlt } from "react-icons/bi";
 import ContentFiltering from '../../components/ContentPage/ContentFiltering';
-import AddImage from '../../components/GalleryPage/AddImage';
-import ImageGallery from '../../components/GalleryPage/ImageGallery';
+import AddImage from '../../components/ImagesPage/AddImage';
+import ImageGallery from '../../components/ImagesPage/ImageGallery';
 
 const imagesData = [
   {id: 0, imgSrc: '../kids/kid-1.jpg', alt: 'kid-1', height: 51, mood: "angry", weight: 5.1},
@@ -11,7 +11,7 @@ const imagesData = [
   {id: 3, imgSrc: '../kids/kid-4.jpg', alt: 'kid-4', height: 48, mood: "peace", weight: 4.8},
 ];
 
-const ImagePage = () => {
+const ImagesPage = () => {
   const [selectedImage, setSelectedImage] = useState(null)
   const [data, setData] = useState([])
   const [isFiltering, setIsFiltering] = useState(false)
@@ -41,4 +41,4 @@ const ImagePage = () => {
   );
 };
 
-export default ImagePage;
+export default ImagesPage;

@@ -4,10 +4,12 @@ import { RxCross1 } from "react-icons/rx";
 import { Kid } from '../../components/KidsPage/Kid';
 import { collection, getDocs, doc, getFirestore, query } from 'firebase/firestore';
 import { signOutUser } from '../../firebase/auth';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import UserContext from '../../contexts/UserContext';
 
 
-const KidsPage = ({user}) => {
+const KidsPage = () => {
+  const {user} = useContext(UserContext);
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [kids, setKids] = useState([]);
@@ -60,14 +62,13 @@ const KidsPage = ({user}) => {
   };
 
   const goBackToFeed = () => {
-    return navigate('/content/gallery', { state: { kidToFeed: kidData} });
+    return navigate('/content/images', { state: { kidToFeed: kidData} });
   }
 
   const handleAddKid = () => {
     navigate('/new-kid');
   };
   
-
     const listAnimation = { 
       hidden: {opacity: 0},
       visible: {
@@ -119,7 +120,7 @@ const KidsPage = ({user}) => {
     variants={listAnimation} initial="hidden" animate="visible" 
     className='kids-container'>
       {kids.map((kid) => (
-        <Kid 
+        <Kid
          key={kid.id}
          kid={kid} 
          itemAnimation={itemAnimation}

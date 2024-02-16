@@ -4,9 +4,11 @@ import ContentOptions from "../../components/ContentPage/ContentOptions";
 
 import { getFirestore, doc, collection, query, getDocs, limit } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../../contexts/UserContext";
 
-const ContentPage = ({user}) => {
+const ContentPage = () => {
+  const {user} = useContext(UserContext);
   const [memories, setMemories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [kidData, setKidData] = useState(null);
@@ -30,29 +32,29 @@ const ContentPage = ({user}) => {
   //   }
   // };
 
-  const fetchFirstKid = async () => {
-    try {
-      if (!user) return;
-      const db = getFirestore();
-      const currentUser = getAuth().currentUser;
-      const userRef = doc(db, 'users', currentUser.uid);
-      const kidsRef = collection(userRef, 'kids');
-      const kidsQuery = query(kidsRef, limit(1));
-      const kidDocs = await getDocs(kidsQuery);
+  // const fetchFirstKid = async () => {
+  //   try {
+  //     if (!user) return;
+  //     const db = getFirestore();
+  //     const currentUser = getAuth().currentUser;
+  //     const userRef = doc(db, 'users', currentUser.uid);
+  //     const kidsRef = collection(userRef, 'kids');
+  //     const kidsQuery = query(kidsRef, limit(1));
+  //     const kidDocs = await getDocs(kidsQuery);
 
-      if (!kidDocs.empty) {
-        const firstKidData = { id: kidDocs.docs[0].id, ...kidDocs.docs[0].data() };
-        setKidData(firstKidData);
-        // fetchMemories(firstKidData.id);
-      } else {
-        console.log('No kids data found');
-      }
-    } catch (error) {
-      console.error('Error fetching first kid: ', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     if (!kidDocs.empty) {
+  //       const firstKidData = { id: kidDocs.docs[0].id, ...kidDocs.docs[0].data() };
+  //       setKidData(firstKidData);
+  //       // fetchMemories(firstKidData.id);
+  //     } else {
+  //       console.log('No kids data found');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching first kid: ', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   useEffect(() => {
     // Attempt to load kidData from location.state or localStorage
