@@ -9,7 +9,6 @@ import KidsContext from '../../contexts/KidsContext';
 
 const KidsPage = () => {
   const {kidsData} = useContext(KidsContext);
-  const [kidData, setKidData] = useState(null);
 
   const navigate = useNavigate()
 
@@ -25,7 +24,8 @@ const KidsPage = () => {
   };
 
   const goBackToFeed = () => {
-    return navigate(`/${kidsData[0].id}/content/images`);
+    if(!kidsData.length) return 
+    navigate(`/${kidsData[0].id}/content/images`);
   }
 
   const handleAddKid = () => {

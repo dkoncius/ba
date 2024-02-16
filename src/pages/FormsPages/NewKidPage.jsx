@@ -195,7 +195,6 @@ const NewKidPage = () => {
       className="registration-main new-kid-main">
         <h1>Vaiko duomenys</h1>
         <form className="new-kid-form" onSubmit={handleSubmit}>
-          <h1>Vaiko duomenys</h1>
           {/* Use the ImageUploader component here */}
           <ImageUploader previewUrl={previewUrl} handleImageChange={handleImageChange} />
           <input
