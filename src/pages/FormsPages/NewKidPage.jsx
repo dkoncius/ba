@@ -12,9 +12,11 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useLocalStorage } from '../../utils/localStorage';
 import { collection } from 'firebase/firestore';
 import UserContext from "../../contexts/UserContext";
+import KidsContext from "../../contexts/KidsContext";
 
 const NewKidPage = () => {
   const {user} = useContext(UserContext)
+  const {setKidsData} = useContext(KidsContext)
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -104,6 +106,11 @@ const NewKidPage = () => {
         
       // Update the kid's Firestore document with the image URL
       await updateDoc(kidDocRef, { image: newKidData.image });
+      // This is where you integrate the new kid data into your KidsContext
+        setKidsData((prevKidsData) => [
+          ...prevKidsData,
+          { ...newKidData, id: kidId }, // Make sure to include the Firestore-generated ID
+        ]);
       }
    
       await setDoc(
@@ -125,7 +132,7 @@ const NewKidPage = () => {
       localStorage.removeItem('kidData');
       localStorage.removeItem('profileImage');
 
-      navigate('/kids', { state: { kidToFeed: newKidData, refresh: true } });
+      navigate('/kids');
       setIsSubmitting(false); 
 
     } catch (error) {
@@ -161,10 +168,6 @@ const NewKidPage = () => {
     }
   };
 
-  const goBackToFeed = () => {
-    navigate('/content/gallery');
-  };
-
   useEffect(() => {
     const localKidData = JSON.parse(localStorage.getItem('kidData'));
     const localProfileImage = localStorage.getItem('profileImage');
@@ -180,7 +183,7 @@ const NewKidPage = () => {
   return (
     <>
       <header className="registration-header new-kid">
-        <Link to="/"><AiOutlineArrowLeft/></Link>
+        <Link to="/kids"><AiOutlineArrowLeft/></Link>
       </header>
       <motion.main 
          initial={{ opacity: 0, y: 30}}

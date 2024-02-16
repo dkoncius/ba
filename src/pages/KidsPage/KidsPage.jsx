@@ -1,55 +1,18 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion  } from "framer-motion"
 import { RxCross1 } from "react-icons/rx";
 import { Kid } from '../../components/KidsPage/Kid';
-import { collection, getDocs, doc, getFirestore, query } from 'firebase/firestore';
 import { signOutUser } from '../../firebase/auth';
-import { useContext, useEffect, useState } from 'react';
-import UserContext from '../../contexts/UserContext';
+import { useContext, useState } from 'react';
+import KidsContext from '../../contexts/KidsContext';
 
 
 const KidsPage = () => {
-  const {user} = useContext(UserContext);
-  const location = useLocation();
-  const [loading, setLoading] = useState(true);
-  const [kids, setKids] = useState([]);
+  const {kidsData} = useContext(KidsContext);
   const [kidData, setKidData] = useState(null);
-  const [error, setError] = useState(null);
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const fetchKids = async () => {
-      try {
-        if (!user) {
-          return;
-        }
-
-        const db = getFirestore();
-        const kidsRef = collection(doc(db, 'users', user.uid), 'kids'); // We'll use the provided 'user' prop directly here.
-        const kidsQuery = query(kidsRef);
-        const kidDocs = await getDocs(kidsQuery);
-
-        const kidsData = kidDocs.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        setKids(kidsData);
-      } catch (error) {
-        console.error('Error fetching kids:', error);
-        setError('Failed to fetch kids data, please try again later.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchKids();
-  }, [user]);
-
-  useEffect(() => {
-    if (location.state) {
-      setKidData(location.state.selectedKid);
-    } else {
-      console.log("Kids component");
-    }
-  }, [location.state]);
 
   const handleSignOut = async () => {
     try {
@@ -62,7 +25,7 @@ const KidsPage = () => {
   };
 
   const goBackToFeed = () => {
-    return navigate('/content/images', { state: { kidToFeed: kidData} });
+    return navigate(`/${kidsData[0].id}/content/images`);
   }
 
   const handleAddKid = () => {
@@ -96,7 +59,7 @@ const KidsPage = () => {
       visible: {
         opacity: 1,
         transition: {
-          delay: kids.length * 0.3, // Assumes each child will start after 0.3s of the previous one
+          delay: kidsData.length * 0.3, // Assumes each child will start after 0.3s of the previous one
           duration: 0.5
         }
       }
@@ -119,7 +82,7 @@ const KidsPage = () => {
     <motion.section 
     variants={listAnimation} initial="hidden" animate="visible" 
     className='kids-container'>
-      {kids.map((kid) => (
+      {kidsData && kidsData.map((kid) => (
         <Kid
          key={kid.id}
          kid={kid} 
