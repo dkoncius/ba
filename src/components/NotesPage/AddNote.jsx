@@ -1,20 +1,46 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
+import { db } from '../../firebase/firebase-config';
+import { collection, addDoc } from 'firebase/firestore';
+import UserContext from '../../contexts/UserContext';
+import { useParams } from 'react-router-dom';
 
 const AddNote = ({ setNotePage }) => {
+  const {kidId} = useParams();
+  const {user} = useContext(UserContext);
+  const [title, setTitle] = useState('');
+  const [text, setText] = useState('');
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString('lt-LT');
 
   const adjustTextAreaHeight = (e) => {
-    // Temporarily shrink the textarea to 'auto' to let it adjust based on content
     e.target.style.height = 'auto';
-    // Then set the height to the scrollHeight plus a little extra space to avoid scroll bar appearance
     e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
   const handleTitleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // Prevents adding a new line
+      e.preventDefault();
+    }
+  };
+
+  const handleSaveNote = async () => {
+    if (!title.trim() && !text.trim()) {
+      alert('Note is empty!');
+      return;
+    }
+    try {
+      await addDoc(collection(db, `users/${user.uid}/notes`), {
+        kidId: kidId,
+        title: title,
+        text: text,
+        date: formattedDate
+      });
+      alert('Note saved successfully');
+      setNotePage(false); // Close the note page or redirect as needed
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      alert('Error saving note');
     }
   };
 
@@ -32,18 +58,26 @@ const AddNote = ({ setNotePage }) => {
           className='note-title'
           placeholder='Pavadinimas'
           onKeyDown={handleTitleKeyDown}
-          onChange={adjustTextAreaHeight} // Optional: If you want the title to expand vertically as well
+          onChange={(e) => {
+            adjustTextAreaHeight(e);
+            setTitle(e.target.value);
+          }}
+          value={title}
         />
         <p className='note-date'>{formattedDate}</p>
         <textarea
           name='text'
           className='note-text'
           placeholder='Sukurkite įrašą...'
-          onChange={adjustTextAreaHeight}
-          style={{ minHeight: '100px' }} // Set a minimum height
+          onChange={(e) => {
+            adjustTextAreaHeight(e);
+            setText(e.target.value);
+          }}
+          value={text}
+          style={{ minHeight: '100px' }}
         />
-        <button onClick={() => setNotePage(false)} className='button-green'>Išsaugoti</button>
-        </div>
+        <button onClick={handleSaveNote} className='button-green'>Išsaugoti</button>
+      </div>
     </div>
   );
 }

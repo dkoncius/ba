@@ -2,15 +2,17 @@ import { motion } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import Footer from "../../components/General/Footer";
 
-import ImageUploader from "../../components/LandingPage/ImageUploader";
 import { readAndCompressImage } from 'browser-image-resizer';
 import { doc, setDoc, addDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebase-config';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { useLocalStorage } from '../../utils/localStorage';
 import { collection } from 'firebase/firestore';
+
+import Footer from "../../components/General/Footer";
+import ImageUploader from "../../components/LandingPage/ImageUploader";
+import { useLocalStorage } from '../../utils/localStorage';
+
 import UserContext from "../../contexts/UserContext";
 import KidsContext from "../../contexts/KidsContext";
 
@@ -58,7 +60,7 @@ const NewKidPage = () => {
       birthDate: kidData.birthDate,
       height: kidData.height,
       weight: kidData.weight,
-      image: '', // No temporary placeholder
+      image: '', // Placeholder for the image URL
     };
   
     const imageConfig = {
@@ -70,11 +72,12 @@ const NewKidPage = () => {
     };
   
     const userId = user.uid;
-    // Add the kid to Firestore first
-    const kidDocRef = await addDoc(collection(db, 'users', userId, 'kids'), newKidData);
-    const kidId = kidDocRef.id; // This is the auto-generated unique ID for the kid by Firestore
-
+  
     try {
+      // Add the kid to Firestore first without the kidId
+      const kidDocRef = await addDoc(collection(db, 'users', userId, 'kids'), newKidData);
+      const kidId = kidDocRef.id; // This is the auto-generated unique ID for the kid by Firestore
+  
       if (file || previewUrl) {
         let uploadFile;
   
@@ -82,41 +85,25 @@ const NewKidPage = () => {
           uploadFile = file;
         } else if (previewUrl) {
           const imageBlob = await urlToBlob(previewUrl);
-          if (imageBlob) {
-            uploadFile = new File([imageBlob], 'filename.jpg', {
-              type: imageBlob.type,
-            });
-          } else {
-            throw new Error('Image blob is null'); // Throw an error with a specific message
-          }
+          if (!imageBlob) throw new Error('Image blob is null');
+          uploadFile = new File([imageBlob], 'filename.jpg', { type: imageBlob.type });
         }
   
-        const resizedImage = await readAndCompressImage(
-          uploadFile,
-          imageConfig
-        );
-  
-        const storage = getStorage();
-        const filePath = `users/${userId}/kids/${kidId}/profile-image/${uploadFile.name}`;
-        const storageRef = ref(storage, filePath);
-  
+        const resizedImage = await readAndCompressImage(uploadFile, imageConfig);
+        const storageRef = ref(getStorage(), `users/${userId}/kids/${kidId}/profile-image/${uploadFile.name}`);
         await uploadBytes(storageRef, resizedImage);
-  
         newKidData.image = await getDownloadURL(storageRef);
-        
-      // Update the kid's Firestore document with the image URL
-      await updateDoc(kidDocRef, { image: newKidData.image });
-      // This is where you integrate the new kid data into your KidsContext
-        setKidsData((prevKidsData) => [
-          ...prevKidsData,
-          { ...newKidData, id: kidId }, // Make sure to include the Firestore-generated ID
-        ]);
       }
-   
-      await setDoc(
-        doc(db, 'users', userId, 'kids', kidId),
-        newKidData
-      );
+  
+      // Update the kid's Firestore document with the image URL and include kidId
+      await updateDoc(kidDocRef, {
+        ...newKidData,
+        kidId: kidId // Including the kidId in the document data
+      });
+  
+      // Update local state to reflect the new data including the kidId
+      setKidsData((prevKidsData) => [...prevKidsData, { ...newKidData, id: kidId }]);
+  
       console.log('Data and image saved successfully.');
   
       // Clear form data and local storage
@@ -131,16 +118,16 @@ const NewKidPage = () => {
       setPreviewUrl(null);
       localStorage.removeItem('kidData');
       localStorage.removeItem('profileImage');
-
+  
       navigate('/kids');
-      setIsSubmitting(false); 
-
     } catch (error) {
       console.error('Error saving data or uploading image:', error);
-      // Optionally, you can provide a user-friendly error message here
-      // to inform the user about the issue.
+      // Handle errors appropriately
+    } finally {
+      setIsSubmitting(false);
     }
   };
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

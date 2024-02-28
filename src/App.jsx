@@ -37,7 +37,6 @@ function App() {
           return;
         }
 
-        const db = getFirestore();
         const kidsRef = collection(doc(db, 'users', user.uid), 'kids'); // We'll use the provided 'user' prop directly here.
         const kidsQuery = query(kidsRef);
         const kidDocs = await getDocs(kidsQuery);
