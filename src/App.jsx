@@ -137,25 +137,25 @@ function App() {
 
   return (
     <>
-    <UserContext.Provider  value={{user, setUser}}>
+    <UserContext.Provider value={{user, setUser}}>
       <KidsContext.Provider value={{kidsData, setKidsData}}>
-          <BrowserRouter>
-            <Routes>
-              <Route index element={<LandingPage/>}/>
-              <Route path='new-user' element={<NewUserPage/>}/>
-              <Route path='new-kid' element={<NewKidPage/>}/>
-              <Route path='kids/:kidId/edit-kid' element={<EditKidPage/>}/>
-              <Route path="login" element={<LoginPage/>} />
-              <Route path='kids' element={<KidsPage/>}/>
-              <Route path='progress' element={<KidsProgressPage/>}/>
-              <Route path='/:kidId/content' element={<ContentPage/>}>
-                  <Route path="images" element={<ImagesPage/>}/>
-                  <Route path="videos" element={<VideosPage/>}/>
-                  <Route path="notes" element={<NotesPage/>}/>
-                  <Route path="recordings" element={<AudioPage/>}/>
-              </Route>
-            </Routes>
-          </BrowserRouter>
+        <BrowserRouter>
+          <Routes>
+            <Route index element={<LandingPage/>}/>
+            <Route path='new-user' element={<NewUserPage/>}/>
+            <Route path='new-kid' element={<NewKidPage/>}/>
+            <Route path='kids/:kidId/edit-kid' element={<EditKidPage/>}/>
+            <Route path="login" element={<LoginPage/>} />
+            <Route path='kids' element={<KidsPage/>}/>
+            <Route path='progress' element={<KidsProgressPage/>}/>
+            <Route path='/:kidId/content' element={<ContentPage/>}>
+              <Route path="images" element={<ImagesPage/>}/>
+              <Route path="videos" element={<VideosPage/>}/>
+              <Route path="notes" element={<NotesPage/>}/>
+              <Route path="recordings" element={<AudioPage/>}/>
+            </Route>
+          </Routes>
+        </BrowserRouter>
       </KidsContext.Provider>
     </UserContext.Provider>
     </>
