@@ -15,6 +15,8 @@ const NotesPage = () => {
   const [notePage, setNotePage] = useState(false);
   const [notesData, setNotesData] = useState([]);
 
+  let notesRef
+
   useEffect(() => {
     const fetchNotesData = async () => {
       if (!user) {
@@ -22,7 +24,7 @@ const NotesPage = () => {
       }
 
       try {
-        const notesRef = collection(doc(db, 'users', user.uid), 'notes');
+        notesRef = collection(doc(db, 'users', user.uid), 'notes');
         const notesQuery = query(notesRef, where("kidId", "==", kidId));
         const notesDoc = await getDocs(notesQuery);
         const notesData = notesDoc.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -33,7 +35,11 @@ const NotesPage = () => {
     };
 
     fetchNotesData();
-  }, [user, kidId, notesData]);
+  }, [user, kidId]);
+
+  const handleAddNewNote = (newNote) => {
+    setNotesData(prevNotes => [...prevNotes, newNote]);
+  };
 
   return (
     <>
@@ -47,9 +53,9 @@ const NotesPage = () => {
         </div>
       </div>
       {isFiltering ? 
-        <ContentFiltering setIsFiltering={setIsFiltering}/> : <Notes notesData={notesData}/>
+        <ContentFiltering setIsFiltering={setIsFiltering}/> : <Notes notesData={notesData} setNotesData={setNotesData}/>
       }
-      {notePage && <AddNote setNotePage={setNotePage}/>}
+      {notePage && <AddNote setNotePage={setNotePage} onAddNewNote={handleAddNewNote}/>}
     </>
   );
 };

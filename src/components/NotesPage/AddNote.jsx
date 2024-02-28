@@ -5,7 +5,7 @@ import { collection, addDoc } from 'firebase/firestore';
 import UserContext from '../../contexts/UserContext';
 import { useParams } from 'react-router-dom';
 
-const AddNote = ({ setNotePage }) => {
+const AddNote = ({ setNotePage, onAddNewNote }) => {
   const {kidId} = useParams();
   const {user} = useContext(UserContext);
   const [title, setTitle] = useState('');
@@ -30,14 +30,24 @@ const AddNote = ({ setNotePage }) => {
       return;
     }
     try {
-      await addDoc(collection(db, `users/${user.uid}/notes`), {
-        kidId: kidId,
-        title: title,
-        text: text,
-        date: formattedDate
+      const docRef = await addDoc(collection(db, `users/${user.uid}/notes`), {
+        kidId,
+        title,
+        text,
+        date: formattedDate,
       });
-      alert('Note saved successfully');
-      setNotePage(false); // Close the note page or redirect as needed
+      // Construct the new note object including the Firestore document ID
+      const newNote = {
+        id: docRef.id,
+        kidId,
+        title,
+        text,
+        date: formattedDate,
+      };
+      
+      // Update notesData in NotesPage
+      onAddNewNote(newNote);
+      setNotePage(false); // Close the add note page
     } catch (error) {
       console.error("Error adding document: ", error);
       alert('Error saving note');

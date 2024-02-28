@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import Note from './Note';
 import SelectedNote from './SelectedNote';
 
-const Notes = ({notesData}) => {
+const Notes = ({notesData, setNotesData}) => {
   const [selectedNote, setSelectedNote] = useState(null);
+
 
   const handleNoteClick = (noteId) => {
     const selectedNoteData = notesData.find(note => note.id === noteId);
@@ -39,7 +40,7 @@ const Notes = ({notesData}) => {
 
       {/* Display the clicked note */}
     </motion.div>
-    {selectedNote && <SelectedNote selectedNote={selectedNote} setSelectedNote={setSelectedNote} notesData={notesData}/>}
+    {selectedNote && <SelectedNote selectedNote={selectedNote} setSelectedNote={setSelectedNote} notesData={notesData} setNotesData={setNotesData}/>}
     </>
   );
 };

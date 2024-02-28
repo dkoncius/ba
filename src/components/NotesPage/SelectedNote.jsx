@@ -1,50 +1,97 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { MdKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { db } from '../../firebase/firebase-config';
+import { updateDoc, doc, deleteDoc } from 'firebase/firestore';
+import UserContext from '../../contexts/UserContext';
 
-const SelectedNote = ({ selectedNote, setSelectedNote, notesData }) => {
+const SelectedNote = ({ selectedNote, setSelectedNote, notesData, setNotesData }) => {
+  const {user} = useContext(UserContext)
+  const [note, setNote] = useState(selectedNote); // Local state to track changes
   const currentIndex = notesData.findIndex(note => note.id === selectedNote.id);
 
-  // Use useRef to create references for the title and text textareas
   const titleRef = useRef(null);
   const textRef = useRef(null);
+
+  useEffect(() => {
+    setNote(selectedNote); // Update local state when selectedNote changes
+  }, [selectedNote]);
 
   const navigate = (direction) => {
     const newIndex = currentIndex + direction;
     if (newIndex >= 0 && newIndex < notesData.length) {
-      setSelectedNote(notesData[newIndex]);
+      const newSelectedNote = notesData[newIndex];
+      setNote(newSelectedNote); // Update local state
+      setSelectedNote(newSelectedNote); // Update parent state
     }
   };
 
-  // Adjusts the height of the textarea referenced by the ref argument
   const adjustTextAreaHeight = (ref) => {
     if (ref && ref.current) {
       const element = ref.current;
-      element.style.height = 'auto'; // Reset height to recalculate
-      element.style.height = `${element.scrollHeight}px`; // Set to scroll height
+      element.style.height = 'auto';
+      element.style.height = `${element.scrollHeight}px`;
     }
   };
 
   useEffect(() => {
-    // Adjust heights when selectedNote changes
     adjustTextAreaHeight(titleRef);
     adjustTextAreaHeight(textRef);
-  }, [selectedNote]); // Dependency array includes selectedNote to trigger effect when it changes
+  }, [note]); // Re-adjust when note changes
 
   const handleTitleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // Prevents adding a new line
+      e.preventDefault();
     }
   };
 
-  const handleChange = (ref) => (e) => {
-    adjustTextAreaHeight(ref); // Adjust height on change
+  const handleChange = (field) => (e) => {
+    const { value } = e.target;
+    const updatedNote = { ...note, [field]: value };
+    setNote(updatedNote); // Update local state
+    adjustTextAreaHeight(field === 'title' ? titleRef : textRef);
   };
+  
+  const updateNotesData = () => {
+    const updatedNotes = notesData.map(n => n.id === note.id ? { ...note } : n);
+    setNotesData(updatedNotes); // Update the local state
+  
+    // Update the note in Firebase
+    updateFirebaseNote(note);
+  };
+  
+  const updateFirebaseNote = async (note) => {
+    // Assuming `db` is your Firestore instance and `user.uid` is available
+    const noteDocRef = doc(db, 'users', user.uid, 'notes', note.id);
+  
+    try {
+      await updateDoc(noteDocRef, note);
+      console.log("Note updated in Firebase");
+    } catch (error) {
+      console.error("Error updating note in Firebase:", error);
+    }
+  };
+
+  const deleteNote = async () => {
+    // Remove the note from the local state
+    const updatedNotes = notesData.filter(n => n.id !== note.id);
+    setNotesData(updatedNotes); // Update the local state
+  
+    // Delete the note from Firebase
+    const noteDocRef = doc(db, 'users', user.uid, 'notes', note.id);
+    try {
+      await deleteDoc(noteDocRef);
+      console.log("Note deleted from Firebase");
+      setSelectedNote(null); // Optionally reset the selected note to null
+    } catch (error) {
+      console.error("Error deleting note from Firebase:", error);
+    }
+  };
+
 
   return (
     <div className="selected-note">
       <div className="container">
-      
         <div className="header">
           <button onClick={() => setSelectedNote(null)}>
             <AiOutlineArrowLeft />
@@ -56,31 +103,36 @@ const SelectedNote = ({ selectedNote, setSelectedNote, notesData }) => {
           className='note-title'
           placeholder='Pavadinimas'
           onKeyDown={handleTitleKeyDown}
-          onChange={handleChange(titleRef)} // Adjust height on change, passing the ref
-          ref={titleRef} // Attach the ref to the element
-          value={selectedNote.title}
+          onChange={handleChange('title')}
+          onBlur={() => {setSelectedNote(note); updateNotesData();}} // Update parent and global state when focus leaves the title field
+          ref={titleRef}
+          value={note.title}
         />
-        <p className='note-date'>{selectedNote.date}</p>
+        <p className='note-date'>{note.date}</p>
         <textarea
           name='text'
           className='note-text'
           placeholder='Sukurkite įrašą...'
-          onChange={handleChange(textRef)} // Adjust height on change, passing the ref
-          ref={textRef} // Attach the ref to the element
-          value={selectedNote.text}
+          onChange={handleChange('text')}
+          onBlur={() => {setSelectedNote(note); updateNotesData();}} // Update parent and global state when focus leaves the text field
+          ref={textRef}
+          value={note.text}
         />
 
         <nav>
           <button
             onClick={() => navigate(-1)}
-            className={currentIndex === 0 ? "hidden" : ""}
+            className={currentIndex === 0 ? "nav-btn hidden" : "nav-btn"}
           >
             <MdKeyboardArrowLeft />
           </button>
 
+          <button onClick={deleteNote} className="delete-btn">
+            Delete Note
+          </button>
           <button
             onClick={() => navigate(1)}
-            className={currentIndex === notesData.length - 1 ? "hidden" : ""}
+            className={currentIndex === notesData.length - 1 ? "nav-btn hidden" : "nav-btn"}
           >
             <MdOutlineKeyboardArrowRight />
           </button>
