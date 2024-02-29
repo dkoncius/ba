@@ -43,11 +43,15 @@ const facesData = [
           initialSlide={data.id}
           spaceBetween={50}
           slidesPerView={1}
+          onSlideChange={(swiper) => {
+            // Assuming `data` is the full list of images available to this component
+            console.log(data)
+            // const newSelectedId = data[swiper.activeIndex].id;
+            // setSelectedImage(newSelectedId); // Update the selected image in the parent component
+        }}
         >
           {Array.from({ length: totalImages }, (_, index) => (
             <SwiperSlide key={index}>
-              {/* Assuming you want to display something specific for each slide based on the index */}
-              {/* For simplicity, let's assume you want to show the same selected image on each slide */}
               <div className="image">
                 <img src={data.url} alt="Selected" />
                 <div className={animate ? 'content content-animate' : 'content'}>
