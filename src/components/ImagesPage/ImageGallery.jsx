@@ -1,8 +1,7 @@
 import { motion  } from "framer-motion"
 import SelectedImage from './SelectedImage';
 
-const ImageGallery = ({data, imagesData, selectedImage, setSelectedImage}) => {
-
+const ImageGallery = ({data,selectedImage, setSelectedImage}) => {
   const animation = { 
     hidden: {opacity: 0, y: 30},
     visible: {
@@ -21,26 +20,26 @@ const ImageGallery = ({data, imagesData, selectedImage, setSelectedImage}) => {
     <motion.div 
     variants={animation} initial="hidden" animate="visible" 
     className="gallery">
-      {data && data.map((data) => (
-          <img
-            className='image'
-            key={data.id}
-            src={data.imgSrc}
-            alt={data.alt}
-            onClick={() => setSelectedImage(data.id)}
-          />
-      ))}
+     {data && data.map((data) => (
+        <img
+          className='image'
+          key={data.id}
+          src={data.url}
+          alt={data.alt}
+          onClick={() => setSelectedImage(data.id)}
+        />
+    ))}
 
 
       {/* Selected image */}
       {selectedImage !== null && (
-        <SelectedImage
-          imageData={imagesData.find(data => data.id === selectedImage)}
+      <SelectedImage
+          data={data.find(data => data.id === selectedImage)}
           setSelectedImage={setSelectedImage}
-          totalImages={imagesData.length}
-        />
-      )}
-    </motion.div>
+          totalImages={data.length}
+          />
+        )}
+      </motion.div>
   )
 }
 

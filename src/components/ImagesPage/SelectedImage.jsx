@@ -18,71 +18,59 @@ const facesData = [
 
   const defaultFace = "";
 
-  const SelectedImage = ({ imageData, setSelectedImage, totalImages }) => {
-    const [moodImage, setMoodImage] = useState(defaultFace); // Initialize with default face
-    const [animate, setAnimate] = useState(false); // Initialize animate state
-
+  const SelectedImage = ({ data, setSelectedImage, totalImages }) => {
+    const [moodImage, setMoodImage] = useState(defaultFace);
+    const [animate, setAnimate] = useState(false);
+  
     useEffect(() => {
-        if (imageData) {
-            const face = facesData.find(face => face.mood === imageData.mood);
-            if (face) {
-                setMoodImage(face.src);
-            } else {
-                setMoodImage(defaultFace); 
-            }
-        }
-    }, [imageData && imageData.mood]); 
-
-    if (!imageData) {
-        return null;
+      const face = facesData.find(face => face.mood === data.mood);
+      setMoodImage(face ? face.src : defaultFace);
+    }, [data]);
+  
+    if (!data) {
+      return null;
     }
-
+  
     return (
-        <div className="selected-image">
-            <header className="header">
-                <AiOutlineArrowLeft onClick={() => setSelectedImage(null)}/>
-            </header>
-
-            <Swiper
-                modules={[Navigation, Pagination]}
-                navigation
-                onSlideChange={(swiper) => {
-                    setSelectedImage(swiper.activeIndex);
-                    setAnimate(false);
-                    setTimeout(() => setAnimate(true), 10); // Reset animation
-                }}
-                initialSlide={imageData.id}
-                spaceBetween={50}
-                slidesPerView={1}
-            >
-                {Array.from({ length: totalImages }, (_, index) => (
-                    <SwiperSlide key={index}>
-                        {index === imageData.id && (
-                            <div className="image">
-                                <img src={imageData.imgSrc} alt={imageData.alt} />
-
-                                <div className={animate ? 'content content-animate' : 'content'}>
-                                    <div className="height">
-                                        <p>ŪGIS</p>
-                                        <h2>{imageData.height}</h2>
-                                    </div>
-
-                                    <div className="mood">
-                                        <img src={moodImage} alt={imageData.mood} className="face" />
-                                    </div>
-
-                                    <div className="weight">
-                                        <p>SVORIS</p>
-                                        <h2>{imageData.weight}</h2>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-        </div>
+      <div className="selected-image">
+        <header className="header">
+          <AiOutlineArrowLeft onClick={() => setSelectedImage(null)}/>
+        </header>
+  
+        <Swiper
+          navigation
+          pagination={{ clickable: true }}
+          initialSlide={data.id}
+          spaceBetween={50}
+          slidesPerView={1}
+        >
+          {Array.from({ length: totalImages }, (_, index) => (
+            <SwiperSlide key={index}>
+              {/* Assuming you want to display something specific for each slide based on the index */}
+              {/* For simplicity, let's assume you want to show the same selected image on each slide */}
+              <div className="image">
+                <img src={data.url} alt="Selected" />
+                <div className={animate ? 'content content-animate' : 'content'}>
+                  <div className="height">
+                    <p>ŪGIS</p>
+                    <h2>{data.height} CM</h2>
+                  </div>
+  
+                  <div className="mood">
+                    <img src={moodImage} alt={data.mood} className="face" />
+                  </div>
+  
+                  <div className="weight">
+                    <p>SVORIS</p>
+                    <h2>{data.weight} KG</h2>
+                  </div>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
     );
-};
-
-export default SelectedImage;
+  };
+  
+  export default SelectedImage;
