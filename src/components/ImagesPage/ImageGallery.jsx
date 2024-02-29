@@ -2,6 +2,7 @@ import { motion  } from "framer-motion"
 import SelectedImage from './SelectedImage';
 
 const ImageGallery = ({data,selectedImage, setSelectedImage}) => {
+  console.log(data)
   const animation = { 
     hidden: {opacity: 0, y: 30},
     visible: {
