@@ -26,8 +26,8 @@ const ImagesPage = () => {
         const imagesQuery = query(imagesRef, where("kidId", "==", kidId));
         const imagesSnapshot = await getDocs(imagesQuery);
         const imagesList = imagesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        console.log(imagesList)
         setImagesData(imagesList);
+        setData(imagesList)
       } catch (error) {
         console.error("Error fetching images: ", error);
       }

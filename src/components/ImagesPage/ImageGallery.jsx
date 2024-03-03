@@ -3,16 +3,14 @@ import SelectedImage from './SelectedImage';
 import { useState } from "react";
 
 const ImageGallery = ({ imagesData, setData, data, selectedImage, setSelectedImage}) => {
-  const [currentIndex, setCurrentIndex] = useState(0); // Add state to track the current index
+  console.log(data)
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleImageClick = (imageId) => {
-    console.log("Clicked image ID:", imageId); // Check if this logs correctly when an image is clicked
     const index = imagesData.findIndex(image => image.id === imageId);
-    console.log("Found index:", index); // Verify the index is found correctly
     if (index !== -1) {
       setSelectedImage(imagesData[index]);
       setCurrentIndex(index);
-      console.log("Selected image set to:", imagesData[index]); // Verify the selected image imageData looks correct
     }
   };
 

@@ -49,7 +49,7 @@ const facesData = [
         // Delete the image from Firebase
         const imageDocRef = doc(db, 'users', user.uid, 'images', selectedImage.id);
         try {
-          await deleteDoc(imageDocRef);
+          await deleteDoc(imageDocRef)
           console.log("Image deleted from Firebase");
           setSelectedImage(null); // Optionally reset the selected image to null
         } catch (error) {
@@ -75,11 +75,9 @@ const facesData = [
           spaceBetween={50}
           slidesPerView={1}
           onSlideChange={(swiper) => {
-            // Assuming `data` is the full list of images available to this component
-            console.log(selectedImage)
             const newSelectedImage = data[swiper.activeIndex];
-            setSelectedImage(newSelectedImage); // Update the selected image in the parent component
-        }}
+            setSelectedImage(newSelectedImage); // Update the selected image based on the active index
+          }}
         >
           {Array.from({ length: totalImages }, (_, index) => (
             <SwiperSlide key={index}>
