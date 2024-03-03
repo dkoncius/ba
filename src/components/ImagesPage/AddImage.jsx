@@ -83,30 +83,45 @@ const AddImage = ({ setImagePage }) => {
   };
 
   const saveImageData = async () => {
+    // Basic validation checks
     if (!file) {
-      alert('Please select an image.');
-      return;
+        alert('Please select an image.');
+        return;
     }
-  
+
+    // Validate height and weight
+    const numericHeight = parseFloat(height);
+    const numericWeight = parseFloat(weight);
+    if (isNaN(numericHeight) || numericHeight <= 0 || numericHeight > 500) {
+        alert('Please enter a valid height between 0 and 500 cm.');
+        return;
+    }
+    if (isNaN(numericWeight) || numericWeight <= 0 || numericWeight > 500) {
+        alert('Please enter a valid weight between 0 and 500 kg.');
+        return;
+    }
+
     try {
-      const resizedImage = await readAndCompressImage(file, imageConfig);
-      const storageRef = ref(storage, `images/${file.name}`);
-      const uploadTaskSnapshot = await uploadBytes(storageRef, resizedImage);
-      const downloadURL = await getDownloadURL(uploadTaskSnapshot.ref);
-      
-      const docRef = await addDoc(collection(db, `users/${user.uid}/images`), {
-        url: downloadURL,
-        mood: selectedMood,
-        height: height,
-        weight: weight,
-        kidId: kidId
-      });
-  
-      console.log("Document written with ID: ", docRef.id);
+        const resizedImage = await readAndCompressImage(file, imageConfig);
+        const storageRef = ref(storage, `images/${file.name}`);
+        const uploadTaskSnapshot = await uploadBytes(storageRef, resizedImage);
+        const downloadURL = await getDownloadURL(uploadTaskSnapshot.ref);
+        
+        await addDoc(collection(db, `users/${user.uid}/images`), {
+            url: downloadURL,
+            mood: selectedMood,
+            height: numericHeight.toString(), // Ensure stored as string if necessary
+            weight: numericWeight.toString(), // Ensure stored as string if necessary
+            kidId: kidId,
+        });
+
+        console.log("Image successfully uploaded and document created.");
+        setImagePage(false); // Navigate back to the ImageGallery
     } catch (error) {
-      console.error("Error uploading file or saving data:", error);
+        console.error("Error uploading file or saving data:", error);
     }
-  };
+};
+
 
   const handleImageChange = (e) => {
     const selectedFile = e.target.files[0];

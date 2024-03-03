@@ -121,6 +121,10 @@
                 object-fit: cover;
                 margin-bottom: 30px;
             }
+
+            .delete-btn {
+                margin: 50px auto;
+            }
         }
 
       
@@ -129,6 +133,10 @@
             display: flex;
             justify-content: center;
             gap: 15px;
+
+            .height, .weight {
+                text-align: center;
+            }
         }
 
         .content .mood img {
