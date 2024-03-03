@@ -50,7 +50,6 @@ const facesData = [
         const imageDocRef = doc(db, 'users', user.uid, 'images', selectedImage.id);
         try {
           await deleteDoc(imageDocRef)
-          console.log("Image deleted from Firebase");
           setSelectedImage(null); // Optionally reset the selected image to null
         } catch (error) {
           console.error("Error deleting image from Firebase:", error);

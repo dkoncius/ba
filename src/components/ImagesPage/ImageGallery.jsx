@@ -3,7 +3,6 @@ import SelectedImage from './SelectedImage';
 import { useState } from "react";
 
 const ImageGallery = ({ imagesData, setData, data, selectedImage, setSelectedImage}) => {
-  console.log(data)
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleImageClick = (imageId) => {
