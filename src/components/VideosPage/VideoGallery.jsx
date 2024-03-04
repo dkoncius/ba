@@ -2,9 +2,11 @@ import { motion  } from "framer-motion"
 import React, { useState } from 'react';
 import { FaPlay } from "react-icons/fa";
 
-const VideoGallery = ({data}) => {
+const VideoGallery = ({videosData}) => {
   // State to track the index of the currently playing video
   const [playingVideoIndex, setPlayingVideoIndex] = useState(null);
+
+  console.log(videosData)
 
   const handleClick = (index) => {
     // Update the state to the index of the clicked video
@@ -29,13 +31,13 @@ const VideoGallery = ({data}) => {
     <motion.div 
     variants={animation} initial="hidden" animate="visible" 
     className="gallery">
-      {data && data.map((data, index) => (
+      {videosData && videosData.map((data, index) => (
         <div className="video-container" onClick={() => handleClick(index)} key={index}>
           <video
             key={data.id}
-            src={data.src}
-            alt={data.alt}
-            controls={playingVideoIndex === index} // Show controls if this video is playing
+            src={data.url}
+            alt={data.id}
+            controls={playingVideoIndex === index}
           />
           {/* Conditionally render the overlay based on playingVideoIndex */}
           {playingVideoIndex !== index && (

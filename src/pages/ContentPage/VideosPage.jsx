@@ -1,8 +1,14 @@
-import {  useEffect, useState } from 'react';
+import {  useContext, useEffect, useState } from 'react';
 import { BiFilterAlt } from "react-icons/bi";
 import ContentFiltering from '../../components/ContentPage/ContentFiltering';
 import VideoGallery from '../../components/VideosPage/VideoGallery';
 import AddVideo from '../../components/VideosPage/AddVideo';
+
+// Firestore
+import { db } from '../../firebase/firebase-config';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import UserContext from '../../contexts/UserContext';
+import { useParams } from 'react-router-dom';
 
 const videosData = [
   {id: 0, src: '/kids-videos/video-1.mp4', alt: 'video-1', height: 51, mood: "angry", weight: 5.1},
@@ -13,14 +19,31 @@ const videosData = [
 ];
 
 const VideosPage = () => {
-  const [selectedVideo, setSelectedVideo] = useState(null)
-  const [data, setData] = useState([])
-  const [isFiltering, setIsFiltering] = useState(false)
+  const { user } = useContext(UserContext);
+  const { kidId } = useParams();
+  const [videosData, setVideosData] = useState([]);
   const [videoPage, setVideoPage] = useState(false);
+  const [isFiltering, setIsFiltering] = useState(false);
+
 
   useEffect(() => {
-    setData(videosData)
-  }, [])
+    const fetchVideos = async () => {
+      if (!user || !kidId) return;
+
+      try {
+        const videosRef = collection(db, `users/${user.uid}/videos`);
+        const videosQuery = query(videosRef, where("kidId", "==", kidId));
+        const videosSnapshot = await getDocs(videosQuery);
+        const videosList = videosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        console.log(videosList)
+        setVideosData(videosList);
+      } catch (error) {
+        console.error("Error fetching images: ", error);
+      }
+    };
+
+    fetchVideos();
+  }, [user, kidId, videoPage]);
 
 
   return (
@@ -35,7 +58,7 @@ const VideosPage = () => {
   
       {isFiltering ? 
       <ContentFiltering setIsFiltering={setIsFiltering}/> : 
-      <VideoGallery data={data} videosData={videosData} selectedVideo={selectedVideo} setSelectedVideo={setSelectedVideo}/>}
+      <VideoGallery videosData={videosData}/>}
   
       {videoPage && <AddVideo setVideoPage={setVideoPage}/>}
     </div>
