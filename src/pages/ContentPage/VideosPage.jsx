@@ -8,7 +8,7 @@ import UserContext from '../../contexts/UserContext';
 
 // Firestore
 import { db } from '../../firebase/firebase-config';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 
 
 const VideosPage = () => {
@@ -25,7 +25,7 @@ const VideosPage = () => {
 
       try {
         const videosRef = collection(db, `users/${user.uid}/videos`);
-        const videosQuery = query(videosRef, where("kidId", "==", kidId));
+        const videosQuery = query(videosRef, where("kidId", "==", kidId), orderBy("createdAt", "desc"));
         const videosSnapshot = await getDocs(videosQuery);
         const videosList = videosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         console.log(videosList)

@@ -2,7 +2,7 @@ import { useContext, useState, useRef } from 'react';
 import { RxCross1 } from "react-icons/rx";
 import { AiOutlineUpload } from 'react-icons/ai'; // Only upload icon is needed now
 import { storage, db } from '../../firebase/firebase-config';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useParams } from 'react-router-dom';
 import UserContext from '../../contexts/UserContext';
@@ -33,18 +33,19 @@ const AddVideo = ({ setVideoPage }) => {
       alert('Please select a video.');
       return;
     }
-
+  
     try {
       const videoRef = ref(storage, `users/${user.uid}/videos/${file.name}`);
       const uploadTaskSnapshot = await uploadBytes(videoRef, file);
       const downloadURL = await getDownloadURL(uploadTaskSnapshot.ref);
-
+  
       await addDoc(collection(db, `users/${user.uid}/videos`), {
         url: downloadURL,
         kidId: kidId,
-        fileName: file.name
+        fileName: file.name, // Ensure you're capturing the file name if needed for deletion or reference
+        createdAt: serverTimestamp() // Include a timestamp for when the video is uploaded
       });
-
+  
       alert("Video successfully uploaded.");
       setVideoPage(false); // Navigate back to the video gallery
     } catch (error) {
