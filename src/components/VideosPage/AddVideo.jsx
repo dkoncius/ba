@@ -1,100 +1,82 @@
-import { useState } from 'react';
+import { useContext, useState, useRef } from 'react';
 import { RxCross1 } from "react-icons/rx";
-
-const facesData = [
-  {src: "/faces/angry.svg", mood: "angry"},
-  {src: "/faces/cry.svg", mood: "cry"},
-  {src: "/faces/laugh.svg", mood: "laugh"},
-  {src: "/faces/love.svg", mood: "love"},
-  {src: "/faces/peace.svg", mood: "peace"},
-  {src: "/faces/wow.svg", mood: "wow"},
-];
+import { AiOutlineUpload } from 'react-icons/ai'; // Only upload icon is needed now
+import { storage, db } from '../../firebase/firebase-config';
+import { collection, addDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { useParams } from 'react-router-dom';
+import UserContext from '../../contexts/UserContext';
 
 const AddVideo = ({ setVideoPage }) => {
-  const [selectedMood, setSelectedMood] = useState(facesData[0].mood);
-  const [height, setHeight] = useState(0);
-  const [weight, setWeight] = useState(0);
+  const { user } = useContext(UserContext);
+  const { kidId } = useParams();
+  const [file, setFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState('');
+  const fileInputRef = useRef(null);
 
-  const handleSelectMood = (mood) => {
-    setSelectedMood(mood);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-  
-    if (value === '') {
-      name === 'height' ? setHeight(value) : setWeight(value);
+  const handleVideoChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile && selectedFile.type.startsWith('video/')) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result);
+      };
+      reader.readAsDataURL(selectedFile);
+      setFile(selectedFile);
     } else {
-      const numValue = parseFloat(value);
-      const limitedValue = Math.max(0, Math.min(numValue, 500));
-  
-      if (name === 'height') {
-        setHeight(String(limitedValue));
-      } else if (name === 'weight') {
-        setWeight(String(limitedValue));
-      }
+      alert('The selected file is not a valid video.');
     }
   };
 
-  const handleInputBlur = (e) => { // Corrected the function name to handleInputBlur
-    const { name, value } = e.target;
-  
-    if (name === 'weight') {
-      const numValue = parseFloat(value);
-      const limitedValue = Math.max(0, Math.min(numValue, 500));
-      setWeight(String(limitedValue.toFixed(1))); // Apply .toFixed(1) formatting after blur
+  const handleVideoUpload = async () => {
+    if (!file) {
+      alert('Please select a video.');
+      return;
+    }
+
+    try {
+      const videoRef = ref(storage, `users/${user.uid}/videos/${file.name}`);
+      const uploadTaskSnapshot = await uploadBytes(videoRef, file);
+      const downloadURL = await getDownloadURL(uploadTaskSnapshot.ref);
+
+      await addDoc(collection(db, `users/${user.uid}/videos`), {
+        url: downloadURL,
+        kidId: kidId,
+        fileName: file.name
+      });
+
+      alert("Video successfully uploaded.");
+      setVideoPage(false); // Navigate back to the video gallery
+    } catch (error) {
+      console.error("Error uploading video:", error);
+      alert('Failed to upload the video. Please try again.');
     }
   };
-  
+
   return (
     <div className="add-video">
       <button className="close" onClick={() => setVideoPage(false)}>
         <RxCross1 />
       </button>
-      <video className="video" src="/kids-videos/video-1.mp4" alt="video-1" controls/>
-
-      <div className="image-data">
-        <div className="height">
-          <p className="title">Ūgis<br /> (CM)</p>
-          <input 
-            className="units" 
-            type="number" 
-            step={1} 
-            min="0" 
-            max="500"
-            name="height"
-            value={height}
-            onChange={handleInputChange} 
-          />
-        </div>
-        <div className="image-mood">
-          {facesData.map((face, index) => (
-            <img
-              className={selectedMood === face.mood ? "face selected" : " face"}
-              src={face.src}
-              alt={face.emotion}
-              key={index}
-              onClick={() => handleSelectMood(face.mood)} 
-            />
-          ))}
-        </div>
-        <div className="weight">
-          <p className="title">Svoris <br /> (KG)</p>
-          <input 
-            className="units" 
-            type="number" 
-            step={0.1} 
-            min="0" 
-            max="500"
-            name="weight"
-            value={weight}
-            onChange={handleInputChange}
-            onBlur={handleInputBlur} // Add onBlur event here
-          />
-        </div>
+      <div className="upload-section">
+        {previewUrl ? (
+          <video className="video-preview" controls src={previewUrl}></video>
+        ) : (
+          <button onClick={() => fileInputRef.current.click()} className="upload-button">
+            <AiOutlineUpload /> Upload Video
+          </button>
+        )}
+        <input
+          ref={fileInputRef}
+          id="file"
+          type="file"
+          name="video"
+          accept="video/*"
+          onChange={handleVideoChange}
+          style={{ display: 'none' }}
+        />
       </div>
-  
-      <div className="button-green" onClick={() => setVideoPage(false)}>Išsaugoti</div>
+      <div className="button-green" onClick={handleVideoUpload}>Save</div>
     </div>
   );
 };

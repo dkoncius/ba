@@ -20,9 +20,10 @@
         padding-bottom: 30px;
     }
 
-    .image, .video {
+    .image, .video-preview {
         width: 100%;
         max-width: 300px;
+        max-height: 450px;
         margin-bottom: 30px;
         border-radius: 30px;
     }

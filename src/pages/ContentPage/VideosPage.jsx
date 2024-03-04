@@ -1,22 +1,15 @@
 import {  useContext, useEffect, useState } from 'react';
 import { BiFilterAlt } from "react-icons/bi";
+import { useParams } from 'react-router-dom';
 import ContentFiltering from '../../components/ContentPage/ContentFiltering';
 import VideoGallery from '../../components/VideosPage/VideoGallery';
 import AddVideo from '../../components/VideosPage/AddVideo';
+import UserContext from '../../contexts/UserContext';
 
 // Firestore
 import { db } from '../../firebase/firebase-config';
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import UserContext from '../../contexts/UserContext';
-import { useParams } from 'react-router-dom';
 
-const videosData = [
-  {id: 0, src: '/kids-videos/video-1.mp4', alt: 'video-1', height: 51, mood: "angry", weight: 5.1},
-  {id: 1, src: '/kids-videos/video-2.mp4', alt: 'video-2', height: 46, mood: "laugh", weight: 4.6},
-  {id: 2, src: '/kids-videos/video-3.mp4', alt: 'video-3', height: 33, mood: "love", weight: 3.3},
-  {id: 3, src: '/kids-videos/video-4.mp4', alt: 'video-4', height: 48, mood: "peace", weight: 4.8},
-  {id: 3, src: '/kids-videos/video-5.mp4', alt: 'video-5', height: 44, mood: "cry", weight: 4.4}
-];
 
 const VideosPage = () => {
   const { user } = useContext(UserContext);
@@ -58,7 +51,7 @@ const VideosPage = () => {
   
       {isFiltering ? 
       <ContentFiltering setIsFiltering={setIsFiltering}/> : 
-      <VideoGallery videosData={videosData}/>}
+      <VideoGallery videosData={videosData} setVideosData={setVideosData}/>}
   
       {videoPage && <AddVideo setVideoPage={setVideoPage}/>}
     </div>

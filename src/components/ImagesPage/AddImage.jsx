@@ -103,7 +103,7 @@ const AddImage = ({ setImagePage }) => {
 
     try {
         const resizedImage = await readAndCompressImage(file, imageConfig);
-        const storageRef = ref(storage, `images/${file.name}`);
+        const storageRef = ref(storage, `users/${user.uid}/images/${file.name}`);
         const uploadTaskSnapshot = await uploadBytes(storageRef, resizedImage);
         const downloadURL = await getDownloadURL(uploadTaskSnapshot.ref);
         
@@ -144,19 +144,19 @@ const AddImage = ({ setImagePage }) => {
         <RxCross1 />
       </button>
       <input
-    id="file"
-    type="file"
-    name="image"
-    onChange={handleImageChange}
-  />
-  <label htmlFor="file" className='file-container'>
-    {/* Display the image preview if available, otherwise show the icon */}
-    {previewUrl ? (
-      <img className="profile-image-preview" src={previewUrl} alt="Selected profile" />
-    ) : (
-      <AiFillPlusCircle className='icon'/>
-    )}
-  </label>
+        id="file"
+        type="file"
+        name="image"
+        onChange={handleImageChange}
+      />
+      <label htmlFor="file" className='file-container'>
+        {/* Display the image preview if available, otherwise show the icon */}
+        {previewUrl ? (
+          <img className="profile-image-preview" src={previewUrl} alt="Selected profile" />
+        ) : (
+          <AiFillPlusCircle className='icon'/>
+        )}
+      </label>
 
       <div className="image-data">
         <div className="height">
