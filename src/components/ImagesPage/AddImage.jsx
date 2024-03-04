@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { RxCross1 } from "react-icons/rx";
 import { AiFillPlusCircle } from 'react-icons/ai';
 import { storage, db } from '../../firebase/firebase-config';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp  } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { readAndCompressImage } from 'browser-image-resizer';
 import { useParams } from 'react-router-dom';
@@ -113,6 +113,7 @@ const AddImage = ({ setImagePage }) => {
             height: numericHeight.toString(), // Ensure stored as string if necessary
             weight: numericWeight.toString(), // Ensure stored as string if necessary
             kidId: kidId,
+            createdAt: serverTimestamp()
         });
 
         console.log("Image successfully uploaded and document created.");

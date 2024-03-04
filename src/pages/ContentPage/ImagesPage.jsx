@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'; // If kidId comes from URL
 import ImageGallery from '../../components/ImagesPage/ImageGallery';
 import AddImage from '../../components/ImagesPage/AddImage';
 import { db } from '../../firebase/firebase-config';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import UserContext from '../../contexts/UserContext';
 
 const ImagesPage = () => {
@@ -20,19 +20,20 @@ const ImagesPage = () => {
   useEffect(() => {
     const fetchImages = async () => {
       if (!user || !kidId) return;
-
+  
       try {
         const imagesRef = collection(db, `users/${user.uid}/images`);
-        const imagesQuery = query(imagesRef, where("kidId", "==", kidId));
+        // Order the results by the 'createdAt' field in descending order to get newest images first
+        const imagesQuery = query(imagesRef, where("kidId", "==", kidId), orderBy("createdAt", "desc"));
         const imagesSnapshot = await getDocs(imagesQuery);
         const imagesList = imagesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  
         setImagesData(imagesList);
-        setData(imagesList)
       } catch (error) {
         console.error("Error fetching images: ", error);
       }
     };
-
+  
     fetchImages();
   }, [user, kidId, imagePage, selectedImage]);
 
