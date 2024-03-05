@@ -2,13 +2,15 @@ import { useContext, useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
-import { db } from '../../firebase/firebase-config';
-import { doc, deleteDoc } from 'firebase/firestore';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import UserContext from '../../contexts/UserContext';
 
+// Firebase
+import { db, storage } from '../../firebase/firebase-config';
+import { doc, deleteDoc } from 'firebase/firestore';
+import { deleteObject, ref } from 'firebase/storage';
 
 const facesData = [
     {src: "/faces/angry.svg", mood: "angry"},
@@ -21,7 +23,7 @@ const facesData = [
 
   const defaultFace = "";
 
-  const SelectedImage = ({ data, selectedImage, setSelectedImage, totalImages, setData }) => {
+  const SelectedImage = ({ imagesData, setImagesData, selectedImage, setSelectedImage, totalImages }) => {
     const {user} = useContext(UserContext);
     const [moodImage, setMoodImage] = useState(defaultFace);
     const [animate, setAnimate] = useState(false);
@@ -31,24 +33,31 @@ const facesData = [
       setMoodImage(face ? face.src : defaultFace);
     }, [selectedImage]);
   
-    if (!data) {
+    if (!imagesData) {
       return null;
     }
 
-    const deleteImage = async () => {
+    const deleteImage = async (selectedImageId, fileName) => {
       // Display a confirmation dialog
       const isConfirmed = window.confirm("Ar tikrai norite ištrintį šią nuotrauką su duomenimis?");
       
       // Proceed with deletion only if the user confirmed
       if (isConfirmed) {
         // Remove the image from the local state in the parent component
-        const updatedImages = data.filter(image => image.id !== selectedImage.id);
+        const updatedImages = imagesData.filter(image => image.id !== selectedImage.id);
         // Assuming you have a function to update the parent component's state
-        setData(updatedImages); // Update the local state
+        setImagesData(updatedImages); // Update the local state
       
         // Delete the image from Firebase
         const imageDocRef = doc(db, 'users', user.uid, 'images', selectedImage.id);
+
+        // Delete image from storage
+        const imageFileRef = ref(storage, `users/${user.uid}/images/${fileName}`);
+
         try {
+          await deleteObject(imageFileRef);
+          console.log("Image file deleted from storage");
+
           await deleteDoc(imageDocRef)
           setSelectedImage(null); // Optionally reset the selected image to null
         } catch (error) {
@@ -70,11 +79,12 @@ const facesData = [
         <Swiper
           navigation
           pagination={{ clickable: true }}
-          initialSlide={data.id}
+          initialSlide={imagesData.id}
           spaceBetween={50}
           slidesPerView={1}
           onSlideChange={(swiper) => {
-            const newSelectedImage = data[swiper.activeIndex];
+            console.log(imagesData)
+            const newSelectedImage = imagesData[swiper.activeIndex];
             setSelectedImage(newSelectedImage); // Update the selected image based on the active index
           }}
         >
@@ -97,7 +107,7 @@ const facesData = [
                     <h2>{selectedImage.weight} KG</h2>
                   </div>
                 </div>
-                <button onClick={deleteImage} className="delete-btn">
+                <button onClick={() => deleteImage(selectedImage.id, selectedImage.fileName)} className="delete-btn">
                   Ištrinti
                 </button>
               </div>

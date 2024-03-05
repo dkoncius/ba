@@ -113,6 +113,7 @@ const AddImage = ({ setImagePage }) => {
             height: numericHeight.toString(), // Ensure stored as string if necessary
             weight: numericWeight.toString(), // Ensure stored as string if necessary
             kidId: kidId,
+            fileName: file.name,
             createdAt: serverTimestamp()
         });
 

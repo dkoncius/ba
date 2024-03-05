@@ -13,7 +13,6 @@ const ImagesPage = () => {
   const [imagesData, setImagesData] = useState([]);
   const [imagePage, setImagePage] = useState(false);
   const [isFiltering, setIsFiltering] = useState(false);
-  const [data, setData] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
 
 
@@ -54,7 +53,7 @@ const ImagesPage = () => {
   
       {isFiltering ? 
         <ContentFiltering setIsFiltering={setIsFiltering}/> : 
-        <ImageGallery imagesData={imagesData} data={data} setData={setData} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>
+        <ImageGallery imagesData={imagesData} setImagesData={setImagesData} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>
       }
   
       {imagePage && <AddImage setImagePage={setImagePage}/>}

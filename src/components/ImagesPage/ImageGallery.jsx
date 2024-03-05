@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import SelectedImage from './SelectedImage';
 import { useState } from "react";
 
-const ImageGallery = ({ imagesData, setData, data, selectedImage, setSelectedImage}) => {
+const ImageGallery = ({ imagesData, setImagesData, selectedImage, setSelectedImage}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleImageClick = (imageId) => {
@@ -50,8 +50,7 @@ const ImageGallery = ({ imagesData, setData, data, selectedImage, setSelectedIma
           setSelectedImage={setSelectedImage}
           totalImages={imagesData.length}
           currentIndex={currentIndex}
-          setData={setData}
-          data={data}
+          setImagesData={setImagesData}
         />
       )}
     </motion.div>
