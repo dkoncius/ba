@@ -7,8 +7,10 @@ import { FaPlay, FaTrashAlt } from "react-icons/fa";
 import { db, storage } from '../../firebase/firebase-config'; // Ensure you have the correct path
 import { deleteDoc, doc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage'; // Import deleteObject method
+import { useParams } from "react-router-dom";
 
 const VideoGallery = ({ videosData, setVideosData }) => {
+  const {kidId} = useParams()
   const { user } = useContext(UserContext);
   const [playingVideoIndex, setPlayingVideoIndex] = useState(null);
 
@@ -23,7 +25,7 @@ const VideoGallery = ({ videosData, setVideosData }) => {
     
     if (isConfirmed) {
       // Correctly use the `storage` instance here
-      const videoFileRef = ref(storage, `users/${user.uid}/videos/${fileName}`);
+      const videoFileRef = ref(storage, `users/${user.uid}/kids/${kidId}/videos/${fileName}`);
     
       try {
         await deleteObject(videoFileRef);
@@ -61,7 +63,7 @@ const VideoGallery = ({ videosData, setVideosData }) => {
     <motion.div variants={animation} initial="hidden" animate="visible" className="gallery">
       {videosData && videosData.map((video, index) => (
       <div className="video-container" key={video.id}>
-        <video src={video.url} alt={`Video ${index}`} controlslist="nofullscreen" controls={playingVideoIndex === index} />
+        <video src={video.url} alt={`Video ${index}`} controlsList="nofullscreen" controls={playingVideoIndex === index} />
         {playingVideoIndex !== index && (
           <div className="video-overlay" onClick={() => handleClick(index)}>
             <div className="play-icon">

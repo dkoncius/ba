@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import Footer from "../../components/General/Footer";
 import ImageUploader from "../../components/LandingPage/ImageUploader";
@@ -16,7 +16,6 @@ const EditKidPage = () => {
   const {kidsData, setKidsData} = useContext(KidsContext)
   const [kidData, setKidData] = useState()
   const navigate = useNavigate()
-  const location = useLocation()
 
   const { kidId } = useParams(); // Assuming kidId is in the URL
 

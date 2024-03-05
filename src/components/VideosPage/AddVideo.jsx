@@ -1,6 +1,6 @@
 import { useContext, useState, useRef } from 'react';
 import { RxCross1 } from "react-icons/rx";
-import { AiOutlineUpload } from 'react-icons/ai'; // Only upload icon is needed now
+import { AiFillPlusCircle } from 'react-icons/ai';
 import { storage, db } from '../../firebase/firebase-config';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -13,6 +13,8 @@ const AddVideo = ({ setVideoPage }) => {
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
   const fileInputRef = useRef(null);
+  const [isUploading, setIsUploading] = useState(false);
+
 
   const handleVideoChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -35,7 +37,8 @@ const AddVideo = ({ setVideoPage }) => {
     }
   
     try {
-      const videoRef = ref(storage, `users/${user.uid}/videos/${file.name}`);
+      setIsUploading(true);
+      const videoRef = ref(storage, `users/${user.uid}/kids/${kidId}/videos/${file.name}`);
       const uploadTaskSnapshot = await uploadBytes(videoRef, file);
       const downloadURL = await getDownloadURL(uploadTaskSnapshot.ref);
   
@@ -51,7 +54,10 @@ const AddVideo = ({ setVideoPage }) => {
     } catch (error) {
       console.error("Error uploading video:", error);
       alert('Failed to upload the video. Please try again.');
+    } finally {
+      setIsUploading(true);
     }
+
   };
 
   return (
@@ -59,12 +65,12 @@ const AddVideo = ({ setVideoPage }) => {
       <button className="close" onClick={() => setVideoPage(false)}>
         <RxCross1 />
       </button>
-      <div className="upload-section">
+      <div className="file-container" onClick={() => fileInputRef.current.click()}>
         {previewUrl ? (
-          <video className="video-preview" controls src={previewUrl}></video>
+          <video className="video-preview" controlsList="nofullscreen" controls src={previewUrl}></video>
         ) : (
-          <button onClick={() => fileInputRef.current.click()} className="upload-button">
-            <AiOutlineUpload /> Upload Video
+          <button>
+            <AiFillPlusCircle className='icon'/>
           </button>
         )}
         <input
@@ -77,7 +83,9 @@ const AddVideo = ({ setVideoPage }) => {
           style={{ display: 'none' }}
         />
       </div>
-      <div className="button-green" onClick={handleVideoUpload}>Save</div>
+      <button className="button-green" onClick={handleVideoUpload} disabled={isUploading}>
+        {isUploading ? 'Išsaugojama...' : 'Išsaugoti'}
+      </button>
     </div>
   );
 };

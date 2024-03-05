@@ -104,12 +104,7 @@ function App() {
       console.error('Error fetching first kid: ', error);
     }
   };
-
-  const handleSelectKid = (kid) => {
-    localStorage.setItem('selectedKidId', kid.id);
-    setSelectedKidData(kid);
-  };
-
+  
   useEffect(() => {
     const init = async () => {
       const savedKidId = localStorage.getItem('selectedKidId');

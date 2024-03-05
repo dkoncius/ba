@@ -11,6 +11,7 @@ import UserContext from '../../contexts/UserContext';
 import { db, storage } from '../../firebase/firebase-config';
 import { doc, deleteDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
+import { useParams } from 'react-router-dom';
 
 const facesData = [
     {src: "/faces/angry.svg", mood: "angry"},
@@ -24,6 +25,7 @@ const facesData = [
   const defaultFace = "";
 
   const SelectedImage = ({ imagesData, setImagesData, selectedImage, setSelectedImage, totalImages }) => {
+    const {kidId} = useParams()
     const {user} = useContext(UserContext);
     const [moodImage, setMoodImage] = useState(defaultFace);
     const [animate, setAnimate] = useState(false);
@@ -52,7 +54,7 @@ const facesData = [
         const imageDocRef = doc(db, 'users', user.uid, 'images', selectedImage.id);
 
         // Delete image from storage
-        const imageFileRef = ref(storage, `users/${user.uid}/images/${fileName}`);
+        const imageFileRef = ref(storage, `users/${user.uid}/kids/${kidId}/images/${fileName}`);
 
         try {
           await deleteObject(imageFileRef);

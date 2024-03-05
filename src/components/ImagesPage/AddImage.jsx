@@ -27,6 +27,7 @@ const AddImage = ({ setImagePage }) => {
   const [weight, setWeight] = useState(0);
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
 
 
   // Image Resize Configuration
@@ -93,17 +94,18 @@ const AddImage = ({ setImagePage }) => {
     const numericHeight = parseFloat(height);
     const numericWeight = parseFloat(weight);
     if (isNaN(numericHeight) || numericHeight <= 0 || numericHeight > 500) {
-        alert('Please enter a valid height between 0 and 500 cm.');
+        alert('Prašome įvesti teisingą ūgį');
         return;
     }
     if (isNaN(numericWeight) || numericWeight <= 0 || numericWeight > 500) {
-        alert('Please enter a valid weight between 0 and 500 kg.');
+      alert('Prašome įvesti teisingą svorį');
         return;
     }
 
     try {
+       setIsUploading(true);
         const resizedImage = await readAndCompressImage(file, imageConfig);
-        const storageRef = ref(storage, `users/${user.uid}/images/${file.name}`);
+        const storageRef = ref(storage, `users/${user.uid}/kids/${kidId}/images/${file.name}`);
         const uploadTaskSnapshot = await uploadBytes(storageRef, resizedImage);
         const downloadURL = await getDownloadURL(uploadTaskSnapshot.ref);
         
@@ -121,6 +123,8 @@ const AddImage = ({ setImagePage }) => {
         setImagePage(false); // Navigate back to the ImageGallery
     } catch (error) {
         console.error("Error uploading file or saving data:", error);
+    } finally {
+      setIsUploading(false);
     }
 };
 
@@ -200,7 +204,9 @@ const AddImage = ({ setImagePage }) => {
           />
         </div>
       </div>
-      <div className="button-green" onClick={saveImageData}>Išsaugoti</div>
+      <button className="button-green" onClick={saveImageData} disabled={isUploading}>
+        {isUploading ? 'Išsaugojama...' : 'Išsaugoti'}
+      </button>
 
     </div>
   );
