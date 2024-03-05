@@ -1,11 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { BiFilterAlt } from "react-icons/bi";
-import { useParams } from 'react-router-dom'; // If kidId comes from URL
 import ImageGallery from '../../components/ImagesPage/ImageGallery';
 import AddImage from '../../components/ImagesPage/AddImage';
+import ContentFiltering from '../../components/ContentPage/ContentFiltering';
+
+import UserContext from '../../contexts/UserContext';
+import { BiFilterAlt } from "react-icons/bi";
+import { useParams } from 'react-router-dom'; // If kidId comes from URL
+
+// Firebase
 import { db } from '../../firebase/firebase-config';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
-import UserContext from '../../contexts/UserContext';
 
 const ImagesPage = () => {
   const { user } = useContext(UserContext);

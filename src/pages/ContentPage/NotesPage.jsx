@@ -5,7 +5,7 @@ import ContentFiltering from '../../components/ContentPage/ContentFiltering';
 import Notes from '../../components/NotesPage/Notes'; // Assuming this component is used to display notes
 import AddNote from '../../components/NotesPage/AddNote';
 import { db } from '../../firebase/firebase-config';
-import { collection, doc, query, getDocs, where } from 'firebase/firestore';
+import { collection, doc, query, getDocs, where, orderBy  } from 'firebase/firestore';
 import UserContext from '../../contexts/UserContext';
 
 const NotesPage = () => {
@@ -18,24 +18,24 @@ const NotesPage = () => {
   let notesRef
 
   useEffect(() => {
-    const fetchNotesData = async () => {
-      if (!user) {
-        return;
-      }
-
+    const fetchNotes = async () => {
+      if (!user || !kidId) return;
+  
       try {
-        notesRef = collection(doc(db, 'users', user.uid), 'notes');
-        const notesQuery = query(notesRef, where("kidId", "==", kidId));
-        const notesDoc = await getDocs(notesQuery);
-        const notesData = notesDoc.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        setNotesData(notesData);
+        const notesRef = collection(db, `users/${user.uid}/notes`);
+        // Order the results by the 'createdAt' field in descending order to get newest notes first
+        const notesQuery = query(notesRef, where("kidId", "==", kidId), orderBy("createdAt", "desc"));
+        const notesSnapshot = await getDocs(notesQuery);
+        const notesList = notesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  
+        setNotesData(notesList);
       } catch (error) {
         console.error("Error fetching notes: ", error);
       }
     };
-
-    fetchNotesData();
-  }, [user, kidId]);
+  
+    fetchNotes();
+  }, [user, kidId, notePage]); 
 
   const handleAddNewNote = (newNote) => {
     setNotesData(prevNotes => [...prevNotes, newNote]);

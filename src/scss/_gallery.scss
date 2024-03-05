@@ -145,6 +145,10 @@
                 margin-bottom: 30px;
             }
 
+            video.fullscreen {
+                object-fit: contain;
+            }
+
             .delete-btn {
                 margin: 50px auto;
             }

@@ -28,7 +28,7 @@ const optionsData = [
   }
 ];
 
-const ContentOptions = ({user, kidId}) => {
+const ContentOptions = () => {
   const [selectedOption, setSelectedOption] = useState(1);
 
   useEffect(() => {

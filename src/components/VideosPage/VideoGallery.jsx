@@ -61,7 +61,7 @@ const VideoGallery = ({ videosData, setVideosData }) => {
     <motion.div variants={animation} initial="hidden" animate="visible" className="gallery">
       {videosData && videosData.map((video, index) => (
       <div className="video-container" key={video.id}>
-        <video src={video.url} alt={`Video ${index}`} controls={playingVideoIndex === index} />
+        <video src={video.url} alt={`Video ${index}`} controlslist="nofullscreen" controls={playingVideoIndex === index} />
         {playingVideoIndex !== index && (
           <div className="video-overlay" onClick={() => handleClick(index)}>
             <div className="play-icon">

@@ -147,7 +147,7 @@ function App() {
             <Route path='kids/:kidId/edit-kid' element={<EditKidPage/>}/>
             <Route path="login" element={<LoginPage/>} />
             <Route path='kids' element={<KidsPage/>}/>
-            <Route path='progress' element={<KidsProgressPage/>}/>
+            <Route path='/:kidId/progress' element={<KidsProgressPage/>}/>
             <Route path='/:kidId/content' element={<ContentPage/>}>
               <Route path="images" element={<ImagesPage/>}/>
               <Route path="videos" element={<VideosPage/>}/>

@@ -30,7 +30,7 @@ const AddVideo = ({ setVideoPage }) => {
 
   const handleVideoUpload = async () => {
     if (!file) {
-      alert('Please select a video.');
+      alert('Prašome pasirinkti vaizdo įrašą');
       return;
     }
   

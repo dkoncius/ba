@@ -1,11 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const ContentHeader = ({selectedKidData}) => {
+  const {kidId} = useParams()
+
   return (
     <div className="container">
       <header className="content-header">
           <div className="content-header-top">
-              <Link to="/progress">
+              <Link to={`/${kidId}/progress`}>
                 <img className="stats-icon" src="/content/stats-icon.svg" alt="stats icon" />
               </Link>
               <Link to="/kids">

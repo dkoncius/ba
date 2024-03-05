@@ -73,6 +73,8 @@ const SelectedNote = ({ selectedNote, setSelectedNote, notesData, setNotesData }
   };
 
   const deleteNote = async () => {
+    const confirmation = confirm("Ar tikrai norite ištrinti įrašą?")
+    if(!confirmation) return
     // Remove the note from the local state
     const updatedNotes = notesData.filter(n => n.id !== note.id);
     setNotesData(updatedNotes); // Update the local state
@@ -88,6 +90,11 @@ const SelectedNote = ({ selectedNote, setSelectedNote, notesData, setNotesData }
     }
   };
 
+  // Convert timestamp to date
+  const dateConverter = (seconds) => {
+    const date = new Date(seconds * 1000)
+    return date.toLocaleDateString("lt")
+  }
 
   return (
     <div className="selected-note">
@@ -108,7 +115,7 @@ const SelectedNote = ({ selectedNote, setSelectedNote, notesData, setNotesData }
           ref={titleRef}
           value={note.title}
         />
-        <p className='note-date'>{note.date}</p>
+        <p className='note-date'>{dateConverter(selectedNote.createdAt.seconds)}</p>
         <textarea
           name='text'
           className='note-text'

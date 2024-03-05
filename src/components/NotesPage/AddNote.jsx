@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { db } from '../../firebase/firebase-config';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp  } from 'firebase/firestore';
 import UserContext from '../../contexts/UserContext';
 import { useParams } from 'react-router-dom';
 
@@ -34,19 +34,20 @@ const AddNote = ({ setNotePage, onAddNewNote }) => {
         kidId,
         title,
         text,
-        date: formattedDate,
+        createdAt: serverTimestamp()
       });
-      // Construct the new note object including the Firestore document ID
+      
+      // This newNote object now uses a client-side timestamp for immediate feedback
+      // Once the note is re-fetched from Firestore, it will have the accurate serverTimestamp
       const newNote = {
         id: docRef.id,
         kidId,
         title,
         text,
-        date: formattedDate,
+        createdAt: serverTimestamp()
       };
-      
-      // Update notesData in NotesPage
-      onAddNewNote(newNote);
+
+      onAddNewNote(newNote); // Update UI immediately with the new note
       setNotePage(false); // Close the add note page
     } catch (error) {
       console.error("Error adding document: ", error);

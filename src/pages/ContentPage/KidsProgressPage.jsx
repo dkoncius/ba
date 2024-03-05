@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from 'react';
 import ProgressFiltering from '../../components/KidsProgressPage/ProgressFiltering';
 import { RxCross1 } from "react-icons/rx";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const facesData = [
   {src: "/faces/angry.svg", mood: "angry"},
@@ -15,6 +15,7 @@ const facesData = [
 
 
 const KidsProgressPage = () => {
+    const {kidId} = useParams()
     const [isFiltering, setIsFiltering] = useState(false)
     const navigate = useNavigate()
 
@@ -33,7 +34,7 @@ const KidsProgressPage = () => {
     });
 
     const goBackToFeed = () => {
-      return navigate('/content/images');
+      return navigate(`/${kidId}/content/images`);
   }
 
   return (
