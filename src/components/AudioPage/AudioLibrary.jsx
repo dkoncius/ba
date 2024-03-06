@@ -135,9 +135,9 @@ const AudioLibrary = ({ recordingsData, setRecordingsData }) => {
           <div className="icon" onClick={() => togglePlay(id)}>
             <img src={currentPlaying === id && !audioRefs.current[id].paused ? "/content/pause.svg" : "/content/play.svg"} alt="Play/Pause" />
           </div>
-          <button onClick={() => deleteAudio(id, fileName)}>
+          <div className="icon deletion-icon" onClick={() => deleteAudio(id, fileName)}>
             <FaTrashAlt />
-          </button>
+          </div>
           <div className="track-content">
             <h3 className='track-fileName'>{fileName}</h3>
             <div>

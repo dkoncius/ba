@@ -15,6 +15,14 @@
     text-align: start;
     cursor: pointer;
     min-width: 200px;
+    position: relative;
+
+    .deletion-icon {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        color: $brown-spot;
+    }
 
     .track-content {
         width: 100%;
