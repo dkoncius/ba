@@ -14,7 +14,7 @@ const AddAudio = ({ setAudioPage }) => {
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [audioChunks, setAudioChunks] = useState([]);
   const [audioUrl, setAudioUrl] = useState(""); // For playback
-  const [title, setTitle] = useState(""); // Title of the recording
+  const [fileName, setFileName] = useState(""); // Title of the recording
   const [elapsedTime, setElapsedTime] = useState(0);
   const [recordingProgress, setRecordingProgress] = useState(0);
   const [lineHeights, setLineHeights] = useState([]);
@@ -127,18 +127,18 @@ useEffect(() => {
   }, [recordingProgress]);
 
  const handleSaveRecording = async () => {
-    if (!audioUrl || !title.trim()) return; // Ensure there's something to save and a title
+    if (!audioUrl || !fileName.trim()) return;
 
     setIsUploading(true);
     try {
       const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
-      const storageRef = ref(storage, `users/${user.uid}/kids/${kidId}/recordings/${title}-${Date.now()}.mp3`);
+      const storageRef = ref(storage, `users/${user.uid}/kids/${kidId}/recordings/${fileName}.mp3`);
       const uploadTaskSnapshot = await uploadBytes(storageRef, audioBlob);
       const downloadURL = await getDownloadURL(uploadTaskSnapshot.ref);
 
       await addDoc(collection(db, `users/${user.uid}/recordings`), {
         url: downloadURL,
-        title: title,
+        fileName: fileName,
         createdAt: serverTimestamp(),
         kidId: kidId
       });
@@ -181,15 +181,15 @@ useEffect(() => {
       <button className="close" onClick={() => setAudioPage(false)}><RxCross1 /></button>
       <h1>{isRecording ? "Įrašinėjama..." : "Pradėti įrašą"}</h1>
 
-        {/* Playback and title input */}
+        {/* Playback and fileName input */}
         {!isRecording && audioUrl && (
            <input 
            id="recordingTitle"
            className="recording-title"
            type="text" 
            placeholder="Įrašo pavadinimas" 
-           value={title} 
-           onChange={(e) => setTitle(e.target.value)} 
+           value={fileName} 
+           onChange={(e) => setFileName(e.target.value)} 
          />
         )}
         <div className="progress">{renderVerticalLines()}</div>
@@ -198,9 +198,8 @@ useEffect(() => {
         {isRecording ? <FaPause /> : <FaMicrophone />}
       </button>
   
-  
-      {/* Save button, now also checks if a title is provided */}
-      {!isRecording && audioUrl && title.trim() && (
+
+      {!isRecording && audioUrl && fileName.trim() && (
         <button 
           className="button-green save-recording" 
           onClick={handleSaveRecording} 

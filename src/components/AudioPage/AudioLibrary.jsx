@@ -1,9 +1,19 @@
 import { motion } from "framer-motion";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import UserContext from "../../contexts/UserContext";
+import { useParams } from "react-router-dom";
+import { FaTrashAlt } from "react-icons/fa";
 
-const AudioLibrary = ({ recordingsData }) => {
+// Firebase
+import { db, storage } from '../../firebase/firebase-config'; // Ensure you have the correct path
+import { deleteDoc, doc } from 'firebase/firestore';
+import { deleteObject, ref } from 'firebase/storage';
+
+const AudioLibrary = ({ recordingsData, setRecordingsData }) => {
+  const { user } = useContext(UserContext);
   const [currentPlaying, setCurrentPlaying] = useState(null);
   const audioRefs = useRef({});
+  const { kidId } = useParams();
   
   const intervalRef = useRef();
   const [progress, setProgress] = useState({});
@@ -17,26 +27,13 @@ const AudioLibrary = ({ recordingsData }) => {
   };
 
   useEffect(() => {
-    // Initialize audio elements and set up metadata loading
     recordingsData.forEach(recording => {
       const audio = new Audio(recording.url);
-      audio.preload = "metadata"; // Suggest loading metadata
-      audioRefs.current[recording.id] = audio;
-  
       audio.onloadedmetadata = () => {
-        // Now correctly using audio.duration
-        setDuration(prev => ({
-          ...prev,
-          [recording.id]: formatTime(audio.duration),
-        }));
-        console.log(`${recording.id} duration:`, audio.duration);
+        audioRefs.current[recording.id] = audio;
       };
     });
-  
-    return () => {
-      // Cleanup: pause all audio elements
-      Object.values(audioRefs.current).forEach(audio => audio.pause());
-    };
+    return () => Object.values(audioRefs.current).forEach(audio => audio && audio.pause());
   }, [recordingsData]);
   
   const onProgressBarClick = (id, e) => {
@@ -97,6 +94,26 @@ const AudioLibrary = ({ recordingsData }) => {
     }, 1000);
   };
 
+  const deleteAudio = async (selectedAudioId, fileName) => {
+    const isConfirmed = window.confirm("Ar tikrai norite ištrinti šį įrašą?");
+    if (isConfirmed) {
+      const audioFileRef = ref(storage, `users/${user.uid}/kids/${kidId}/recordings/${fileName}.mp3`);
+      try {
+        await deleteObject(audioFileRef);
+        console.log("Audio file deleted from storage");
+
+        const audioDocRef = doc(db, `users/${user.uid}/recordings`, selectedAudioId);
+        await deleteDoc(audioDocRef);
+        console.log("Audio document deleted from Firestore");
+
+        const updatedAudios = recordingsData.filter(audio => audio.id !== selectedAudioId);
+        setRecordingsData(updatedAudios);
+      } catch (error) {
+        console.error("Error deleting audio:", error);
+      }
+    }
+  };
+
 
   const animation = { 
     hidden: { opacity: 0, y: 30 },
@@ -113,13 +130,16 @@ const AudioLibrary = ({ recordingsData }) => {
 
   return (
     <motion.div variants={animation} initial="hidden" animate="visible" className="recordings">
-      {recordingsData.map(({ id, createdAt, title }) => (
+      {recordingsData.map(({ id, createdAt, fileName }) => (
         <div className="track" key={id}>
           <div className="icon" onClick={() => togglePlay(id)}>
             <img src={currentPlaying === id && !audioRefs.current[id].paused ? "/content/pause.svg" : "/content/play.svg"} alt="Play/Pause" />
           </div>
+          <button onClick={() => deleteAudio(id, fileName)}>
+            <FaTrashAlt />
+          </button>
           <div className="track-content">
-            <h3 className='track-title'>{title}</h3>
+            <h3 className='track-fileName'>{fileName}</h3>
             <div>
               <div className={currentPlaying === id ? "track-progress-line" : "track-progress-line hidden"} onClick={(e) => onProgressBarClick(id, e)}>
                 <div className="track-progress-fill" style={{ width: `${progress[id] || 0}%` }}></div>
