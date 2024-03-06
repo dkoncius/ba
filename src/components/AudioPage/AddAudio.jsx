@@ -95,32 +95,31 @@ useEffect(() => {
   };
 
   const stopRecording = () => {
-    if (isRecording && mediaRecorder && mediaRecorder.state === "recording") {
+    if (mediaRecorder && mediaRecorder.state === "recording") {
       mediaRecorder.stop();
-      setIsRecording(false);
+      setIsRecording(false); 
     }
   };
 
   useEffect(() => {
-    let interval;
+    let interval = null;
     if (isRecording) {
       interval = setInterval(() => {
-        setElapsedTime(prevTime => {
-          const nextTime = prevTime + 1;
-          if (nextTime <= maxDuration) {
-            setRecordingProgress((nextTime / maxDuration) * 100);
-            return nextTime;
-          } else {
-            stopRecording();
-            return prevTime; // Keep the last valid time
-          }
-        });
+        if (elapsedTime + 1 > maxDuration) {
+          stopRecording(); // Stops the recording
+          clearInterval(interval); // Clears the interval to prevent further updates
+        } else {
+          // Updates the state to reflect the new elapsed time and progress
+          setElapsedTime((prevTime) => prevTime + 1);
+          setRecordingProgress((elapsedTime + 1) / maxDuration * 100);
+        }
       }, 1000);
-    } else if (!isRecording && mediaRecorder && mediaRecorder.state === "inactive") {
-      clearInterval(interval);
     }
+  
+    // Cleanup function to clear the interval if the component unmounts
+    // or if the recording stops before reaching the maxDuration
     return () => clearInterval(interval);
-  }, [isRecording, mediaRecorder]);
+  }, [isRecording, elapsedTime, maxDuration]);
 
   useEffect(() => {
     const numberOfLines = Math.floor(recordingProgress * 2);

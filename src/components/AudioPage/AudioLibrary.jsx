@@ -50,57 +50,52 @@ const AudioLibrary = ({ recordingsData }) => {
   };
 
   const togglePlay = (id) => {
-    // Always clear any existing interval when attempting to play or pause
-    clearInterval(intervalRef.current);
+    clearInterval(intervalRef.current); // Clear existing interval every time a play/pause action is triggered
   
     const audio = audioRefs.current[id];
-    
+  
     if (currentPlaying === id) {
-      // If the clicked audio is already the current playing one, toggle its state
+      // Toggle play/pause for the current audio
       if (audio.paused) {
         audio.play();
-        startTimer(id); // Start or resume the timer for the current audio
+        startTimer(id);
       } else {
         audio.pause();
-        setCurrentPlaying(null); // Reset the currentPlaying state if paused
+        setCurrentPlaying(null);
+        // Reset progress and current time immediately when paused
+        setProgress(prev => ({ ...prev, [id]: 0 }));
+        setCurrentTime(prev => ({ ...prev, [id]: formatTime(0) }));
       }
     } else {
-      // If a different audio is clicked, pause the currently playing (if any) and play the new one
+      // Stop currently playing audio (if any) and play the new one
       if (currentPlaying && audioRefs.current[currentPlaying]) {
-        audioRefs.current[currentPlaying].pause(); // Pause the currently playing audio
+        audioRefs.current[currentPlaying].pause();
+        // Reset progress and current time of the previously playing audio
+        setProgress(prev => ({ ...prev, [currentPlaying]: 0 }));
+        setCurrentTime(prev => ({ ...prev, [currentPlaying]: formatTime(0) }));
       }
-      
+  
       audio.play();
-      setCurrentPlaying(id); // Update the currentPlaying state to the new audio
-      startTimer(id); // Start the timer for the new audio
+      setCurrentPlaying(id);
+      startTimer(id);
     }
   };
   
-const startTimer = (id) => {
-  intervalRef.current = setInterval(() => {
-    const audio = audioRefs.current[id];
-    if (audio.ended) {
-      setCurrentPlaying(null);
-      clearInterval(intervalRef.current);
-    } else {
-      if (isFinite(audio.duration) && (!duration[id] || duration[id] === 'Loading...')) {
-        setDuration(prev => ({
-          ...prev,
-          [id]: formatTime(audio.duration),
-        }));
+  const startTimer = (id) => {
+    intervalRef.current = setInterval(() => {
+      const audio = audioRefs.current[id];
+      if (audio.ended) {
+        setCurrentPlaying(null);
+        // Also reset progress and current time when audio ends
+        setProgress(prev => ({ ...prev, [id]: 0 }));
+        setCurrentTime(prev => ({ ...prev, [id]: formatTime(0) }));
+        clearInterval(intervalRef.current); // Ensure to clear the interval here
+      } else {
+        setProgress(prev => ({ ...prev, [id]: (audio.currentTime / audio.duration) * 100 }));
+        setCurrentTime(prev => ({ ...prev, [id]: formatTime(audio.currentTime) }));
       }
-      setProgress(prev => ({
-        ...prev,
-        [id]: (audio.currentTime / audio.duration) * 100,
-      }));
-      setCurrentTime(prev => ({
-        ...prev,
-        [id]: formatTime(audio.currentTime),
-      }));
-    }
-  }, 1000);
-};
-
+    }, 1000);
+  };
 
 
   const animation = { 
