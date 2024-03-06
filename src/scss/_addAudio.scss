@@ -88,6 +88,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    .recording-title {
+        width: 100%;
+        max-width: 500px;
+        height: 50px;
+        background: $pink-light;
+        border-radius: 30px;
+        margin-bottom: 15px;
+        border: none;
+        text-indent: 20px;
+        outline: none;
+    }
     
     .close {
         align-self: end;
@@ -156,3 +168,4 @@
     }
 
 }
+
