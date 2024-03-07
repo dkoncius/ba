@@ -16,7 +16,6 @@ const ImagesPage = () => {
   const { kidId } = useParams(); // Assuming kidId is part of the URL
   const [imagesData, setImagesData] = useState([]);
   const [imagePage, setImagePage] = useState(false);
-  const [isFiltering, setIsFiltering] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
 
@@ -46,7 +45,6 @@ const ImagesPage = () => {
   return (
     <div className="container">
       <div className="content-filter">
-        <BiFilterAlt className="filter-icon" onClick={() => setIsFiltering(!isFiltering)} />
         <button 
           className="button-green"
           onClick={() => setImagePage(true)}
@@ -55,10 +53,7 @@ const ImagesPage = () => {
         </button>
       </div>
   
-      {isFiltering ? 
-        <ContentFiltering setIsFiltering={setIsFiltering}/> : 
-        <ImageGallery imagesData={imagesData} setImagesData={setImagesData} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>
-      }
+      <ImageGallery imagesData={imagesData} setImagesData={setImagesData} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>
   
       {imagePage && <AddImage setImagePage={setImagePage}/>}
     </div>

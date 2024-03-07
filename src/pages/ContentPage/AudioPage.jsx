@@ -13,7 +13,6 @@ import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 const AudioPage = () => {
   const { user } = useContext(UserContext);
   const { kidId } = useParams();
-  const [isFiltering, setIsFiltering] = useState(false)
   const [audioPage, setAudioPage] = useState(false);
   const [recordingsData, setRecordingsData] = useState([])
 
@@ -40,13 +39,9 @@ const AudioPage = () => {
   return (
     <div className="container">
       <div className="content-filter">
-      <BiFilterAlt className="filter-icon" onClick={() => setIsFiltering(!isFiltering)} />
       <button className="button-green" onClick={() => setAudioPage(true)}>Pridėti garso įrašą +</button>
       </div>
-      {isFiltering ? 
-      <ContentFiltering setIsFiltering={setIsFiltering}/> : 
-        <AudioLibrary recordingsData={recordingsData} setRecordingsData={setRecordingsData}/>
-      }
+      <AudioLibrary recordingsData={recordingsData} setRecordingsData={setRecordingsData}/>
 
       {audioPage && <AddAudio setAudioPage={setAudioPage}/>}
   </div>

@@ -11,7 +11,6 @@ import UserContext from '../../contexts/UserContext';
 const NotesPage = () => {
   const { user } = useContext(UserContext);
   const { kidId } = useParams();
-  const [isFiltering, setIsFiltering] = useState(false);
   const [notePage, setNotePage] = useState(false);
   const [notesData, setNotesData] = useState([]);
 
@@ -45,16 +44,13 @@ const NotesPage = () => {
     <>
       <div className="container">
         <div className="content-filter">
-          <BiFilterAlt className="filter-icon" onClick={() => setIsFiltering(!isFiltering)} />
           <button 
             className="button-green"
             onClick={() => setNotePage(true)}
           >Pridėti teksto įrašą +</button>
         </div>
       </div>
-      {isFiltering ? 
-        <ContentFiltering setIsFiltering={setIsFiltering}/> : <Notes notesData={notesData} setNotesData={setNotesData}/>
-      }
+      <Notes notesData={notesData} setNotesData={setNotesData}/>
       {notePage && <AddNote setNotePage={setNotePage} onAddNewNote={handleAddNewNote}/>}
     </>
   );

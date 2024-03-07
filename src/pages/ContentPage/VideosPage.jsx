@@ -41,16 +41,13 @@ const VideosPage = () => {
   return (
     <div className="container">
       <div className="content-filter">
-          <BiFilterAlt className="filter-icon" onClick={() => setIsFiltering(!isFiltering)} />
           <button 
           className="button-green"
           onClick={() => setVideoPage(true)}
           >Pridėti video +</button>
       </div>
   
-      {isFiltering ? 
-      <ContentFiltering setIsFiltering={setIsFiltering}/> : 
-      <VideoGallery videosData={videosData} setVideosData={setVideosData}/>}
+      <VideoGallery videosData={videosData} setVideosData={setVideosData}/>
   
       {videoPage && <AddVideo setVideoPage={setVideoPage}/>}
     </div>
