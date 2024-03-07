@@ -3,7 +3,7 @@ import { LuMountain } from "react-icons/lu";
 import { BsCameraVideo } from "react-icons/bs";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { IoMicOutline } from "react-icons/io5";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 
 const optionsData = [
   {
@@ -29,21 +29,33 @@ const optionsData = [
 ];
 
 const ContentOptions = () => {
+  const {kidId} = useParams()
   const [selectedOption, setSelectedOption] = useState(1);
+  const navigate = useNavigate()
 
   useEffect(() => {
-    // Retrieve the selected option from localStorage on component mount
-    const storedSelectedOption = localStorage.getItem("selectedOption");
-    if (storedSelectedOption) {
-      setSelectedOption(parseInt(storedSelectedOption));
+    const stored = localStorage.getItem("selectedOption");
+
+    if (stored) {
+      const storedData = JSON.parse(stored);
+
+      setSelectedOption(storedData.id);
+      // Conditionally navigate based on the app's current route to avoid unwanted redirections
+      navigate(`/${kidId}/content/${storedData.contentType}`);
+      console.log(storedData.contentType)
     }
-  }, []);
+  }, [navigate]);
 
   const handleOptionClick = (id) => {
+    const selectedContent = optionsData.find(option => option.id === id);
     setSelectedOption(id);
-    // Store the selected option in localStorage
-    localStorage.setItem("selectedOption", id.toString());
+  
+    const contentType = selectedContent ? selectedContent.to : 'unknown';
+  
+    // Save the selected option ID and content type
+    localStorage.setItem("selectedOption", JSON.stringify({ id, contentType }));
   };
+  
 
   return (
     <> 

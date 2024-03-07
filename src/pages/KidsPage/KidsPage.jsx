@@ -19,14 +19,22 @@ const KidsPage = () => {
     } catch (error) {
       console.error('Error signing out: ', error);
     } finally {
+      localStorage.removeItem('selectedOption'); // Clear the selection on sign out
       navigate('/login');
     }
   };
 
   const goBackToFeed = () => {
-    if(!kidsData.length) return 
-    navigate(`/${kidsData[0].id}/content/images`);
-  }
+    if (!kidsData.length) return;
+    const lastSelectedContent = JSON.parse(localStorage.getItem('selectedOption'));
+    if (lastSelectedContent) {
+      navigate(`/${lastSelectedContent.contentType}`);
+    } else {
+      // Default navigation if no last selected content found
+      navigate('/');
+    }
+  };
+
 
   const handleAddKid = () => {
     navigate('/new-kid');
