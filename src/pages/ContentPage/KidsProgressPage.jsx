@@ -157,11 +157,8 @@ const processFetchedData = (fetchedData) => {
               <div className="stats moods">
                 {moodEntries.map((entry, index) => (
                     <div key={index} className="mood">
-                        {entry.src ? (
-                            <img src={entry.src} alt={entry.mood} className="face" />
-                        ) : (
-                            <div className="no-face"></div> // Placeholder for days without a specific mood
-                        )}
+                          <span>{index + 1}</span>
+                         <img src={entry.src} alt={entry.mood} className="face" />
                     </div>
                 ))}
               </div>

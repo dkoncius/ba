@@ -78,6 +78,9 @@
 
         .mood {
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            font-weight: 600;
         }
         
         .no-face, .face {
