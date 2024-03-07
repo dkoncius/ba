@@ -13,7 +13,8 @@ import ImagesPage from "./pages/ContentPage/ImagesPage";
 import VideosPage from "./pages/ContentPage/VideosPage";
 
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { auth} from './firebase/firebase-config'
+import { collection, doc, query, getDocs } from "firebase/firestore";
+import { auth, db} from './firebase/firebase-config'
 import { useContext, useEffect, useState } from "react";
 import UserContext from "./contexts/UserContext";
 import KidsContext from "./contexts/KidsContext";
@@ -23,6 +24,32 @@ function App() {
   const [user, setUser] = useState(null);
   const [kidsData, setKidsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(''); // Define an error state
+
+
+  // Load kids to context
+  useEffect(() => {
+    const fetchKids = async () => {
+      try {
+        if (!user) {
+          return;
+        }
+
+        const kidsRef = collection(doc(db, 'users', user.uid), 'kids'); // We'll use the provided 'user' prop directly here.
+        const kidsQuery = query(kidsRef);
+        const kidDocs = await getDocs(kidsQuery);
+
+        const kidsData = kidDocs.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setKidsData(kidsData);
+      } catch (error) {
+        console.error('Error fetching kids:', error);
+        setError('Failed to fetch kids data, please try again later.');
+      }
+    };
+
+    fetchKids();
+  }, [user]);
+
 
   useEffect(() => {
     // Firebase auth state change listener

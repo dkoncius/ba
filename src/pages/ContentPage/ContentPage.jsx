@@ -5,6 +5,7 @@ import ContentOptions from "../../components/ContentPage/ContentOptions";
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../contexts/UserContext";
+import Footer from "../../components/General/Footer";
 
 const ContentPage = () => {
   const {user} = useContext(UserContext);
@@ -35,6 +36,8 @@ const ContentPage = () => {
      {selectedKidData && <ContentHeader selectedKidData={selectedKidData}/>}
     
     <ContentOptions/>
+
+    <Footer/>
     </>
   )
 }

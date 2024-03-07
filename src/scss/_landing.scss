@@ -1,9 +1,9 @@
+a {
+    text-decoration: none
+}
+
 .landing-header {
     background: $pink-spot;
-
-    a {
-        text-decoration: none;
-    }
 
     h1 {
         max-width: 450px;
@@ -101,11 +101,4 @@
         margin: 0;
         margin-bottom: 30px;;
     }
-}
-
-footer {
-    display: flex;
-    justify-content: center;
-    padding: 30px;
-    background: $pink-spot;
 }
