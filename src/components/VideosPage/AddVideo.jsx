@@ -15,49 +15,59 @@ const AddVideo = ({ setVideoPage }) => {
   const fileInputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
 
-
   const handleVideoChange = (e) => {
     const selectedFile = e.target.files[0];
-    if (selectedFile && selectedFile.type.startsWith('video/')) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result);
-      };
-      reader.readAsDataURL(selectedFile);
-      setFile(selectedFile);
-    } else {
-      alert('The selected file is not a valid video.');
+    if (!selectedFile) {
+      alert('No file selected.');
+      return;
     }
+  
+    if (!selectedFile.type.startsWith('video/')) {
+      alert('The selected file is not a valid video.');
+      return;
+    }
+  
+    // Check the file size (25 MB limit)
+    if (selectedFile.size > 25 * 1024 * 1024) {
+      alert('Pasirinkite vaizdo įrašą mažesni nei 25 mb.');
+      return; // Exit the function if the file is too large
+    }
+  
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewUrl(reader.result);
+    };
+    reader.readAsDataURL(selectedFile);
+    setFile(selectedFile);
   };
 
   const handleVideoUpload = async () => {
     if (!file) {
-      alert('Prašome pasirinkti vaizdo įrašą');
+      alert('Please select a video.');
       return;
     }
-  
+
     try {
       setIsUploading(true);
       const videoRef = ref(storage, `users/${user.uid}/kids/${kidId}/videos/${file.name}`);
       const uploadTaskSnapshot = await uploadBytes(videoRef, file);
       const downloadURL = await getDownloadURL(uploadTaskSnapshot.ref);
-  
+
       await addDoc(collection(db, `users/${user.uid}/videos`), {
         url: downloadURL,
         kidId: kidId,
         fileName: file.name, // Ensure you're capturing the file name if needed for deletion or reference
         createdAt: serverTimestamp() // Include a timestamp for when the video is uploaded
       });
-  
+
       alert("Video successfully uploaded.");
       setVideoPage(false); // Navigate back to the video gallery
     } catch (error) {
       console.error("Error uploading video:", error);
       alert('Failed to upload the video. Please try again.');
     } finally {
-      setIsUploading(true);
+      setIsUploading(false); // Correctly set isUploading to false after the upload process is finished
     }
-
   };
 
   return (
@@ -84,7 +94,7 @@ const AddVideo = ({ setVideoPage }) => {
         />
       </div>
       <button className="button-green" onClick={handleVideoUpload} disabled={isUploading}>
-        {isUploading ? 'Išsaugojama...' : 'Išsaugoti'}
+        {isUploading ? 'Uploading...' : 'Upload'}
       </button>
     </div>
   );

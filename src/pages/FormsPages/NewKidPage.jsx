@@ -104,8 +104,6 @@ const NewKidPage = () => {
       // Update local state to reflect the new data including the kidId
       setKidsData((prevKidsData) => [...prevKidsData, { ...newKidData, id: kidId }]);
   
-      console.log('Data and image saved successfully.');
-  
       // Clear form data and local storage
       setKidData({
         name: '',
@@ -139,7 +137,6 @@ const NewKidPage = () => {
 
   const handleImageChange = (e) => {
     const selectedFile = e.target.files[0];
-    console.log('Selected file:', selectedFile);
   
     if (selectedFile && selectedFile instanceof Blob && selectedFile.type.startsWith('image/')) {
       const reader = new FileReader();

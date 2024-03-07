@@ -28,7 +28,6 @@ const VideosPage = () => {
         const videosQuery = query(videosRef, where("kidId", "==", kidId), orderBy("createdAt", "desc"));
         const videosSnapshot = await getDocs(videosQuery);
         const videosList = videosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        console.log(videosList)
         setVideosData(videosList);
       } catch (error) {
         console.error("Error fetching images: ", error);

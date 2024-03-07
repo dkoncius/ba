@@ -85,7 +85,6 @@ const facesData = [
           spaceBetween={50}
           slidesPerView={1}
           onSlideChange={(swiper) => {
-            console.log(imagesData)
             const newSelectedImage = imagesData[swiper.activeIndex];
             setSelectedImage(newSelectedImage); // Update the selected image based on the active index
           }}

@@ -12,11 +12,9 @@ import KidsProgressPage from "./pages/ContentPage/KidsProgressPage";
 import ImagesPage from "./pages/ContentPage/ImagesPage";
 import VideosPage from "./pages/ContentPage/VideosPage";
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { doc, collection, query, getDocs, getFirestore, limit } from 'firebase/firestore';
-import { auth, db } from './firebase/firebase-config'
-import { getAuth } from 'firebase/auth';;
-import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { auth} from './firebase/firebase-config'
+import { useContext, useEffect, useState } from "react";
 import UserContext from "./contexts/UserContext";
 import KidsContext from "./contexts/KidsContext";
 
@@ -24,137 +22,61 @@ import KidsContext from "./contexts/KidsContext";
 function App() {
   const [user, setUser] = useState(null);
   const [kidsData, setKidsData] = useState([]);
-  const [selectedKidData, setSelectedKidData] = useState(null);
-  const [hasKids, setHasKids] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-
-  // Load kids to context
   useEffect(() => {
-    const fetchKids = async () => {
-      try {
-        if (!user) {
-          return;
-        }
-
-        const kidsRef = collection(doc(db, 'users', user.uid), 'kids'); // We'll use the provided 'user' prop directly here.
-        const kidsQuery = query(kidsRef);
-        const kidDocs = await getDocs(kidsQuery);
-
-        const kidsData = kidDocs.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        setKidsData(kidsData);
-      } catch (error) {
-        console.error('Error fetching kids:', error);
-        setError('Failed to fetch kids data, please try again later.');
-      }
-    };
-
-    fetchKids();
-  }, [user]);
-
-
-  // Check if user has kids
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+    // Firebase auth state change listener
+    const unsubscribe = auth.onAuthStateChanged(user => {
       setUser(user);
-      if (user) {
-        const hasKidsStatus = await checkIfUserHasKids(user.uid);
-        setHasKids(hasKidsStatus);
-      }
       setIsLoading(false);
     });
-
-    return () => unsubscribe();
+    return () => unsubscribe(); // Cleanup subscription
   }, []);
 
-  const checkIfUserHasKids = async (userId) => {
-    try {
-      const userDocRef = doc(db, 'users', userId);
-      const kidsCollection = collection(userDocRef, 'kids');
-      const q = query(kidsCollection);
-      const querySnapshot = await getDocs(q);
-      
-      return !querySnapshot.empty;
-    } catch (error) {
-      console.error('Error checking if user has kids:', error);
-      return false;
+  const ProtectedRouteWrapper = ({ redirectTo }) => {
+    const { user, isLoading } = useContext(UserContext);
+
+    if (isLoading) {
+      return <div className="loader"></div>; // Show loading indicator
     }
-  }; 
 
-
-  // Load first or selected kid
-  const fetchFirstKid = async () => {
-    try {
-      if (!user) return;
-      const db = getFirestore();
-      const currentUser = getAuth().currentUser;
-      const userRef = doc(db, 'users', currentUser.uid);
-      const kidsRef = collection(userRef, 'kids');
-      const kidsQuery = query(kidsRef, limit(1));
-      const kidDocs = await getDocs(kidsQuery);
-
-      if (!kidDocs.empty) {
-        const firstKidData = { id: kidDocs.docs[0].id, ...kidDocs.docs[0].data() };
-        setSelectedKidData(firstKidData);
-        // fetchMemories(firstKidData.id);
-      } else {
-        console.log('No kids data found');
-      }
-    } catch (error) {
-      console.error('Error fetching first kid: ', error);
+    if (!user) {
+      return <Navigate to={redirectTo} replace />;
     }
+
+    return <Outlet />;
   };
-  
-  useEffect(() => {
-    const init = async () => {
-      const savedKidId = localStorage.getItem('selectedKidId');
-      if(savedKidId) {
-        await fetchKidById(savedKidId);
-      } else if(user) {
-        await fetchFirstKid();
-      }
-    };
-  
-    init();
-  }, [user]); // Removed selectedKidData from dependencies
-
-//   function ProtectedRouteWrapper({ component: Component, redirectTo, ...props }) {
-//     if (isLoading) {
-//         return null; // or return a loading spinner/component
-//     }
-
-//     return (
-//         user 
-//             ? (hasKids ? <Component {...props} /> : <Navigate to="/new-kid" replace />)
-//             : <Navigate to={redirectTo} replace />
-//     );
-// }
 
   return (
-    <>
-    <UserContext.Provider value={{user, setUser}}>
-      <KidsContext.Provider value={{kidsData, setKidsData}}>
+    <UserContext.Provider value={{ user, setUser, isLoading }}>
+      <KidsContext.Provider value={{ kidsData, setKidsData }}>
         <BrowserRouter>
           <Routes>
-            <Route index element={<LandingPage/>}/>
-            <Route path='new-user' element={<NewUserPage/>}/>
-            <Route path='new-kid' element={<NewKidPage/>}/>
-            <Route path='kids/:kidId/edit-kid' element={<EditKidPage/>}/>
-            <Route path="login" element={<LoginPage/>} />
-            <Route path='kids' element={<KidsPage/>}/>
-            <Route path='/:kidId/progress' element={<KidsProgressPage/>}/>
-            <Route path='/:kidId/content' element={<ContentPage/>}>
-              <Route path="images" element={<ImagesPage/>}/>
-              <Route path="videos" element={<VideosPage/>}/>
-              <Route path="notes" element={<NotesPage/>}/>
-              <Route path="recordings" element={<AudioPage/>}/>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/new-user" element={<NewUserPage />} />
+            <Route path="/new-kid" element={<NewKidPage />} />
+            <Route path="/" element={<LandingPage />} /> {/* Landing Page as a publicly accessible route */}
+
+            {/* Protected Routes */}
+            <Route element={<ProtectedRouteWrapper redirectTo="/" />}>
+              <Route path="/kids" element={<KidsPage />} />
+              <Route path="/kids/:kidId/edit-kid" element={<EditKidPage />} />
+              <Route path="/:kidId/progress" element={<KidsProgressPage />} />
+              <Route path="/:kidId/content" element={<ContentPage />}>
+                <Route path="images" element={<ImagesPage />} />
+                <Route path="videos" element={<VideosPage />} />
+                <Route path="notes" element={<NotesPage />} />
+                <Route path="recordings" element={<AudioPage />} />
+              </Route>
             </Route>
+
+            {/* Redirect any non-matching route to the landing page */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
       </KidsContext.Provider>
     </UserContext.Provider>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;
