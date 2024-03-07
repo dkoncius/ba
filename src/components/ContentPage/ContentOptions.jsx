@@ -42,7 +42,6 @@ const ContentOptions = () => {
       setSelectedOption(storedData.id);
       // Conditionally navigate based on the app's current route to avoid unwanted redirections
       navigate(`/${kidId}/content/${storedData.contentType}`);
-      console.log(storedData.contentType)
     }
   }, [navigate]);
 
