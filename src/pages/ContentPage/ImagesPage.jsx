@@ -52,8 +52,7 @@ const ImagesPage = () => {
           Pridėti nuotrauką +
         </button>
       </div>
-  
-      <ImageGallery imagesData={imagesData} setImagesData={setImagesData} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>
+      {!imagePage && <ImageGallery imagesData={imagesData} setImagesData={setImagesData} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>}
   
       {imagePage && <AddImage setImagePage={setImagePage}/>}
     </div>

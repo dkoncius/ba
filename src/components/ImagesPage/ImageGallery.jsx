@@ -32,7 +32,7 @@ const ImageGallery = ({ imagesData, setImagesData, selectedImage, setSelectedIma
       initial="hidden"
       animate="visible"
       className="gallery">
-      {imagesData && imagesData.map((image, index) => ( // Add index parameter
+      {selectedImage == null && imagesData && imagesData.map((image, index) => (
         <img
           className='image'
           key={image.id}

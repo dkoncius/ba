@@ -46,8 +46,9 @@ const VideosPage = () => {
           onClick={() => setVideoPage(true)}
           >Pridėti video +</button>
       </div>
-  
-      <VideoGallery videosData={videosData} setVideosData={setVideosData}/>
+    
+      {!videoPage && <VideoGallery videosData={videosData} setVideosData={setVideosData}/>}
+     
   
       {videoPage && <AddVideo setVideoPage={setVideoPage}/>}
     </div>

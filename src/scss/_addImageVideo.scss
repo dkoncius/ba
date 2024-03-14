@@ -1,12 +1,4 @@
 .add-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    min-height: 100vh;
-    background-color: $pink-bright;
-    text-align: start;
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -130,12 +122,6 @@
 
 
 .add-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    min-height: 100vh;
     background-color: $pink-bright;
     text-align: start;
     padding: 30px;
