@@ -40,33 +40,38 @@ const facesData = [
     }
 
     const deleteImage = async (selectedImageId, fileName) => {
-      // Display a confirmation dialog
+      console.log(selectedImageId)
       const isConfirmed = window.confirm("Ar tikrai norite ištrintį šią nuotrauką su duomenimis?");
+
       
-      // Proceed with deletion only if the user confirmed
       if (isConfirmed) {
-        // Remove the image from the local state in the parent component
         const updatedImages = imagesData.filter(image => image.id !== selectedImage.id);
-        // Assuming you have a function to update the parent component's state
-        setImagesData(updatedImages); // Update the local state
-      
-        // Delete the image from Firebase
-        const imageDocRef = doc(db, 'users', user.uid, 'images', selectedImage.id);
-
-        // Delete image from storage
+        setImagesData(updatedImages);
+        
+        const imageDocRef = doc(db, 'users', user.uid, 'images', selectedImageId);
         const imageFileRef = ref(storage, `users/${user.uid}/kids/${kidId}/images/${fileName}`);
-
+        
+        // Attempt to delete the image file from storage
         try {
           await deleteObject(imageFileRef);
           console.log("Image file deleted from storage");
-
-          await deleteDoc(imageDocRef)
-          setSelectedImage(null); // Optionally reset the selected image to null
         } catch (error) {
-          console.error("Error deleting image from Firebase:", error);
+          console.error("Error deleting image from Firebase Storage:", error);
+          // Optionally handle the not-found error specifically
+          if (error.code === 'storage/object-not-found') {
+            console.log("Image file not found in storage, proceeding with Firestore document deletion.");
+          }
+        }
+    
+        // Proceed to delete the Firestore document regardless of Storage deletion outcome
+        try {
+          await deleteDoc(imageDocRef);
+          console.log("Image document deleted from Firestore");
+          setSelectedImage(null);
+        } catch (error) {
+          console.error("Error deleting image document from Firestore:", error);
         }
       } else {
-        // User clicked 'Cancel', do not delete the image
         console.log("Image deletion canceled");
       }
     };
