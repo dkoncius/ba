@@ -72,6 +72,7 @@ const LandingPage = () => {
                  duration: 0.5,
                  ease: easeIn
                }}
+                className="hero"
             >
               <h1>Brangiausios akimirkos su vaiku - vienoje vietoje</h1>
               <Link to="/new-user" className="button-brown">Registruotis</Link>
