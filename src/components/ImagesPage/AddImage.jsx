@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { RxCross1 } from "react-icons/rx";
 import { AiFillPlusCircle } from 'react-icons/ai';
 import { storage, db } from '../../firebase/firebase-config';
@@ -19,7 +19,7 @@ const facesData = [
   {src: "/faces/wow.svg", mood: "wow"},
 ];
 
-const AddImage = ({ setImagePage }) => {
+const AddImage = ({ setImagePage, imagesData }) => {
   const {user} = useContext(UserContext);
   const { kidId } = useParams();
   const [selectedMood, setSelectedMood] = useState(facesData[0].mood);
@@ -28,6 +28,13 @@ const AddImage = ({ setImagePage }) => {
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
   const [isUploading, setIsUploading] = useState(false);
+
+  // Load last image data
+  useEffect(() => {
+    const lastImageData = imagesData[0]
+    setHeight(lastImageData.height)
+    setWeight(lastImageData.weight)
+  }, [imagesData])
 
 
   // Image Resize Configuration

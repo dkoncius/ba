@@ -54,7 +54,7 @@ const ImagesPage = () => {
       </div>
       {!imagePage && <ImageGallery imagesData={imagesData} setImagesData={setImagesData} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>}
   
-      {imagePage && <AddImage setImagePage={setImagePage}/>}
+      {imagePage && <AddImage imagesData={imagesData} setImagePage={setImagePage}/>}
     </div>
   );
 };
