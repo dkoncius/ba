@@ -93,7 +93,7 @@ const AddImage = ({ setImagePage, imagesData }) => {
   const saveImageData = async () => {
     // Basic validation checks
     if (!file) {
-        alert('Please select an image.');
+        alert('Prašome pasirinkti nuotrauką :)');
         return;
     }
 
