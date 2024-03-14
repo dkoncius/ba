@@ -43,6 +43,10 @@ h1 {
     max-width: 800px;
     width: 90%;
     margin: auto;
+    
+    @media(max-width: 469px){
+        width: 100%;
+    }
 
     &:hover .kid {
         cursor: pointer;
