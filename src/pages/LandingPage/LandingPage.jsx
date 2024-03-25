@@ -74,7 +74,7 @@ const LandingPage = () => {
                }}
                 className="hero"
             >
-              <h1>Brangiausios akimirkos su vaiku - vienoje vietoje</h1>
+              <h1>Brangiausios vaiko akimirkos - vienoje vietoje!</h1>
               <Link to="/new-user" className="button-brown">Registruotis</Link>
             </motion.div>
           </div>

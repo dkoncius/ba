@@ -31,9 +31,16 @@ const AddImage = ({ setImagePage, imagesData }) => {
 
   // Load last image data
   useEffect(() => {
-    const lastImageData = imagesData[0]
-    setHeight(lastImageData.height)
-    setWeight(lastImageData.weight)
+    // Preload data
+    const loadData = () => {
+      const lastImageData = imagesData[0]
+      setHeight(lastImageData.height)
+      setWeight(lastImageData.weight)
+    }
+
+    if(imagesData[0]) {
+      loadData()
+    }
   }, [imagesData])
 
 

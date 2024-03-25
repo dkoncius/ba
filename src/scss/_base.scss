@@ -47,7 +47,7 @@ h3 {
     color: $brown-spot;
 }
 
-p {
+p, li {
     font-size: 14px;
 }
 
@@ -159,9 +159,22 @@ footer {
     padding: 30px;
     background: $pink-spot;
 
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
     @media (max-width: 768px){
         flex-direction: column;
         gap: 10px;
+        text-align: left;
+
+        p {
+            max-width: 350px;
+        }
+    }
+
+    @media (max-width: 468px){
         text-align: center;
 
         p {

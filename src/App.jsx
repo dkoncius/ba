@@ -18,6 +18,7 @@ import { auth, db} from './firebase/firebase-config'
 import { useContext, useEffect, useState } from "react";
 import UserContext from "./contexts/UserContext";
 import KidsContext from "./contexts/KidsContext";
+import PolicyPage from "./pages/PrivacyPage/PolicyPage";
 
 
 function App() {
@@ -82,7 +83,8 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/new-user" element={<NewUserPage />} />
             <Route path="/new-kid" element={<NewKidPage />} />
-            <Route path="/" element={<LandingPage />} /> {/* Landing Page as a publicly accessible route */}
+            <Route path="/policy" element={<PolicyPage />} />
+            <Route path="/" element={<LandingPage />} />
 
             {/* Protected Routes */}
             <Route element={<ProtectedRouteWrapper redirectTo="/" />}>
